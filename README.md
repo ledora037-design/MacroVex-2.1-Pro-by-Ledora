@@ -214,4 +214,4 @@ $$\text{Capital At Risk} = \text{Quantity} \times |\text{Entry} - \text{Stop Los
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+N/A
