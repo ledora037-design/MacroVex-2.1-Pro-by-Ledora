@@ -7,7 +7,7 @@
 [![Express](https://img.shields.io/badge/Express-4.21-lightgrey?logo=express)](https://expressjs.com/)
 [![Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Flash-8E75B2?logo=google)](https://ai.google.dev/)
 [![Bitget MCP](https://img.shields.io/badge/Bitget-MCP_Server-00F0FF)](https://www.bitget.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 
 **MACROVEX 2.1 PRO** is an institutional-grade, full-stack cryptocurrency and cross-asset trading terminal designed with an AI-driven market intelligence core, **Bitget Model Context Protocol (MCP)** integration, and a **deterministic 20-Gate Risk Engine** that strictly governs all order proposals, margin allocations, and execution workflows.
 
