@@ -152,8 +152,8 @@ $$\text{Capital At Risk} = \text{Quantity} \times |\text{Entry} - \text{Stop Los
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/macrovex-2.1-pro.git
-   cd macrovex-2.1-pro
+   git clone https://github.com/ledora037-design/MacroVex-2.1-Pro-by-Ledora.git
+cd MacroVex-2.1-Pro-by-Ledora
    ```
 
 2. **Install dependencies:**
