@@ -1,5 +1,5 @@
 # MACROVEX 2.1 PRO ⚡
-### Cross-Asset AI Trading & Institutional Market Intelligence Terminal
+ AI Powered Cross Asset Trading & Market Intelligence Terminal
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19.0-61DAFB?logo=react)](https://react.dev/)
