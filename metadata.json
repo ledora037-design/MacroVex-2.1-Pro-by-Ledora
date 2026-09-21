@@ -1,0 +1,6 @@
+{
+  "name": "MACROVEX 2.1 PRO",
+  "description": "Cross-Asset AI Trading & Market Intelligence Terminal with Bitget MCP authoritative live data, Smart Money Concepts charting workspace, deterministic 20-rule risk engine, and autonomous execution.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

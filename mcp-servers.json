@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "bitget": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "bitget-mcp-server",
+        "--modules",
+        "all",
+        "--read-only"
+      ],
+      "env": {
+        "BITGET_API_KEY": "${BITGET_API_KEY}",
+        "BITGET_SECRET_KEY": "${BITGET_SECRET_KEY}",
+        "BITGET_PASSPHRASE": "${BITGET_PASSPHRASE}",
+        "BITGET_API_BASE_URL": "https://api.bitget.com",
+        "BITGET_TIMEOUT_MS": "15000"
+      }
+    }
+  }
+}

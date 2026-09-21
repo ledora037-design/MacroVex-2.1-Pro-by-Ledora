@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Global error shield for cross-origin iframe security errors and React re-entrancy
+      window.addEventListener('error', function(e) {
+        var msg = (e && e.message) || '';
+        if (
+          msg.indexOf('Blocked a frame') !== -1 ||
+          msg.indexOf('cross-origin frame') !== -1 ||
+          msg.indexOf('SecurityError') !== -1 ||
+          msg.indexOf('Should not already be working') !== -1
+        ) {
+          if (e.preventDefault) e.preventDefault();
+          if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+          return true;
+        }
+      }, true);
+
+      window.addEventListener('unhandledrejection', function(e) {
+        var msg = (e && e.reason && (e.reason.message || e.reason)) || '';
+        if (typeof msg === 'string' && (
+          msg.indexOf('Blocked a frame') !== -1 ||
+          msg.indexOf('cross-origin frame') !== -1 ||
+          msg.indexOf('SecurityError') !== -1 ||
+          msg.indexOf('Should not already be working') !== -1
+        )) {
+          if (e.preventDefault) e.preventDefault();
+          if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+        }
+      }, true);
+    </script>
+    <title>MACROVEX 2.1 PRO — Cross-Asset AI Trading & Market Intelligence</title>
+    <meta name="description" content="Cross-Asset AI Trading & Market Intelligence Terminal with Bitget MCP authoritative live data, Smart Money Concepts charting workspace, deterministic 20-rule risk engine, and autonomous execution." />
+    <meta property="og:title" content="MACROVEX 2.1 PRO — Cross-Asset AI Trading & Market Intelligence" />
+    <meta property="og:description" content="Cross-Asset AI Trading & Market Intelligence Terminal with Bitget MCP authoritative live data, Smart Money Concepts charting workspace, deterministic 20-rule risk engine, and autonomous execution." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('macromind_theme') || localStorage.getItem('macrovex_theme');
+          var theme = saved === 'light' ? 'light' : 'dark';
+          document.documentElement.classList.remove('dark', 'light');
+          document.documentElement.classList.add(theme);
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="antialiased selection:bg-[#00e5ff]/20 selection:text-[#00e5ff] overflow-x-hidden min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
