@@ -296,13 +296,23 @@ export async function run30MinAutonomousCycle(): Promise<void> {
 
   // Filter for valid setups:
   // Requirement 4: "Never force a trade. If no valid setup exists, WAIT."
-  const actionableCandidates = scannerState.rankedOpportunities.filter(
-    (opp) =>
-      opp.action !== 'WAIT' &&
-      opp.rankScore >= 70 &&
-      opp.rr >= 1.5 &&
-      !state.openPositions.some((p) => p.asset === opp.asset)
-  );
+  const nowTs = Date.now();
+  const actionableCandidates = scannerState.rankedOpportunities.filter((opp) => {
+    if (opp.action === 'WAIT' || opp.rankScore < 70 || opp.rr < 1.5) return false;
+    // Cannot already be held
+    if (state.openPositions.some((p) => p.asset === opp.asset)) return false;
+    // Anti-churn cooldown: Never immediately re-enter an asset manually closed within 15 minutes
+    const recentManualClose = state.closedTrades.find(
+      (ct) => ct.asset === opp.asset && ct.exitReason === 'MANUAL_CLOSE' && nowTs - ct.closedAt < 900000
+    );
+    if (recentManualClose) return false;
+    // Anti-revenge cooldown: 3 minutes after stop out
+    const recentStop = state.closedTrades.find(
+      (ct) => ct.asset === opp.asset && ct.exitReason === 'STOP_LOSS' && nowTs - ct.closedAt < 180000
+    );
+    if (recentStop) return false;
+    return true;
+  });
 
   if (actionableCandidates.length === 0) {
     state.agentState.state = 'WAITING';
@@ -415,19 +425,29 @@ export async function run30MinAutonomousCycle(): Promise<void> {
  */
 async function triggerDynamicRecyclingScan(): Promise<void> {
   const state = getState();
-  if (state.openPositions.length >= 5) return;
-
-  console.log('[AUTONOMOUS AGENT] Executing dynamic slot recycling scan...');
-  const scannerState = await scanAndRankOpportunities();
   const availableSlots = Math.max(0, 5 - state.openPositions.length);
+  if (availableSlots <= 0) return;
 
-  const actionable = scannerState.rankedOpportunities.filter(
-    (opp) =>
-      opp.action !== 'WAIT' &&
-      opp.rankScore >= 70 &&
-      opp.rr >= 1.5 &&
-      !state.openPositions.some((p) => p.asset === opp.asset)
-  );
+  console.log(`[AUTONOMOUS AGENT] Executing dynamic slot recycling scan (available slots: ${availableSlots}/5)...`);
+  const scannerState = await scanAndRankOpportunities();
+
+  const nowTs = Date.now();
+  const actionable = scannerState.rankedOpportunities.filter((opp) => {
+    if (opp.action === 'WAIT' || opp.rankScore < 70 || opp.rr < 1.5) return false;
+    // Cannot already be held
+    if (state.openPositions.some((p) => p.asset === opp.asset)) return false;
+    // Anti-churn cooldown: Never immediately re-enter an asset manually closed within 15 minutes
+    const recentManualClose = state.closedTrades.find(
+      (ct) => ct.asset === opp.asset && ct.exitReason === 'MANUAL_CLOSE' && nowTs - ct.closedAt < 900000
+    );
+    if (recentManualClose) return false;
+    // Anti-revenge cooldown: 3 minutes after stop out
+    const recentStop = state.closedTrades.find(
+      (ct) => ct.asset === opp.asset && ct.exitReason === 'STOP_LOSS' && nowTs - ct.closedAt < 180000
+    );
+    if (recentStop) return false;
+    return true;
+  });
 
   if (actionable.length === 0) {
     console.log('[AUTONOMOUS AGENT] Dynamic recycling scan found no setups meeting threshold. Waiting for next 30-min cycle.');

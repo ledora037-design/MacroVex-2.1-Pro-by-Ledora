@@ -261,7 +261,7 @@ export interface Position {
   openingTimestamp?: number;
   entryExecutionTimestamp?: number;
   lastCheckedAt: number;
-  status: 'OPEN' | 'CLOSED';
+  status: 'PENDING' | 'OPEN' | 'PARTIALLY_CLOSED' | 'CLOSED';
   partialProfitTaken?: boolean;
   highestPriceSeen?: number;
   lowestPriceSeen?: number;

@@ -395,6 +395,72 @@ app.post('/api/trades/manual', async (req, res) => {
   }
 });
 
+// 11b. Opportunity Scanner Scalp Execution
+app.post('/api/trades/execute', async (req, res) => {
+  const { asset, direction, action, entry, stop_loss, take_profit, leverage, risk_percent, confidence, isManual, manualMargin, margin } = req.body;
+  const symbol = (asset || '').toUpperCase() as InstrumentId;
+
+  if (!INSTRUMENTS[symbol]) {
+    res.status(400).json({ approved: false, reason: `Unknown instrument: ${symbol}` });
+    return;
+  }
+
+  const state = getState();
+  if (state.openPositions.length >= 5) {
+    res.status(400).json({ approved: false, reason: 'Portfolio at maximum 5 concurrent open positions ceiling.' });
+    return;
+  }
+
+  if (state.openPositions.some((p) => p.asset === symbol)) {
+    res.status(400).json({ approved: false, reason: `Position on ${symbol} is already active.` });
+    return;
+  }
+
+  try {
+    const rawMargin = manualMargin !== undefined ? manualMargin : margin;
+    const parsedMargin = rawMargin !== undefined && rawMargin !== null && rawMargin !== '' ? parseFloat(rawMargin) : undefined;
+
+    const proposed = {
+      asset: symbol,
+      direction: direction === 'SHORT' ? 'SHORT' : 'LONG' as 'LONG' | 'SHORT',
+      action: (action || (direction === 'SHORT' ? 'SELL' : 'BUY')) as 'BUY' | 'SELL',
+      entry: parseFloat(entry),
+      stop_loss: parseFloat(stop_loss),
+      take_profit: parseFloat(take_profit),
+      leverage: parseInt(leverage, 10) || 5,
+      risk_percent: parseFloat(risk_percent) || 1.5,
+      confidence: parseInt(confidence, 10) || 82,
+      isManual: Boolean(isManual),
+      manualMargin: parsedMargin && parsedMargin > 0 ? parsedMargin : undefined,
+    };
+
+    const riskResult = await evaluateRisk(proposed);
+    if (!riskResult.approved) {
+      res.status(400).json({
+        approved: false,
+        reason: riskResult.reason,
+        checks: riskResult.checks,
+      });
+      return;
+    }
+
+    const position = await executePaperTrade(
+      proposed,
+      riskResult,
+      'Opportunity Scanner Execution',
+      'High-conviction scalp executed via Opportunity Scanner Deck'
+    );
+
+    res.json({
+      approved: true,
+      position,
+      riskResult,
+    });
+  } catch (err: any) {
+    res.status(500).json({ approved: false, reason: err.message });
+  }
+});
+
 // 12. Manual Close Position
 app.post('/api/trades/close/:id', async (req, res) => {
   const positionId = req.params.id;

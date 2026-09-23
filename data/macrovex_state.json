@@ -1,23 +1,23 @@
 {
   "portfolio": {
-    "equity": 99760.09,
+    "equity": 108858.67,
     "initialCapital": 100000,
-    "cash": 99760.09,
-    "availableMargin": 63172.11,
-    "usedMargin": 36587.979999999996,
-    "unrealizedPnl": -165.43,
-    "realizedPnl": -239.91,
-    "dailyPnl": -239.91,
+    "cash": 108858.67,
+    "availableMargin": 105658.67,
+    "usedMargin": 3200,
+    "unrealizedPnl": -0.16,
+    "realizedPnl": 8858.67,
+    "dailyPnl": 8858.67,
     "weeklyPnl": 0,
-    "peakEquity": 101488.91,
+    "peakEquity": 108861.97,
     "maxDrawdownPercent": 1.75,
-    "currentDrawdownPercent": 1.7,
-    "exposureNotional": 217994.01,
+    "currentDrawdownPercent": 0,
+    "exposureNotional": 16000,
     "exposurePercent": 0,
-    "openRiskAmount": 2992.04,
-    "openRiskPercent": 2.999235465806015,
-    "openPositionsCount": 2,
-    "todayTradesCount": 9,
+    "openRiskAmount": 191.97,
+    "openRiskPercent": 0.18,
+    "openPositionsCount": 4,
+    "todayTradesCount": 14,
     "maxDailyTrades": 5,
     "equityHistory": [
       {
@@ -74,6 +74,21 @@
         "timestamp": 1789939907837,
         "equity": 99760.09,
         "cash": 99760.09
+      },
+      {
+        "timestamp": 1790109332105,
+        "equity": 106986.41,
+        "cash": 106986.41
+      },
+      {
+        "timestamp": 1790109358413,
+        "equity": 108861.97,
+        "cash": 108861.97
+      },
+      {
+        "timestamp": 1790110561375,
+        "equity": 108858.67,
+        "cash": 108858.67
       }
     ],
     "drawdownHistory": [
@@ -146,67 +161,413 @@
       {
         "date": "2026-09-20",
         "pnl": -8.07
+      },
+      {
+        "date": "2026-09-22",
+        "pnl": 4135.3
       }
     ]
   },
   "openPositions": [
     {
-      "id": "pos-TRD-MUAA6ASE-2QF8",
-      "tradeId": "TRD-MUAA6ASE-2QF8",
-      "asset": "BTC",
+      "id": "pos-TRD-MUD4YAJX-X03O",
+      "tradeId": "TRD-MUD4YAJX-X03O",
+      "asset": "AAPL",
       "direction": "LONG",
-      "entry": 81092.1,
-      "currentPrice": 80894.9,
-      "stopLoss": 79794.63,
-      "takeProfit": 83881.67,
-      "quantity": 1.1527,
-      "notional": 93477.67,
-      "leverage": 8,
-      "margin": 11684.71,
-      "riskAmount": 1495.64,
-      "riskPercent": 1.5,
+      "entry": 339.94,
+      "currentPrice": 340.12,
+      "stopLoss": 335.86,
+      "takeProfit": 348.71,
+      "quantity": 11.7668,
+      "notional": 4000,
+      "leverage": 5,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 48.01,
+      "signalStrength": "VERY STRONG",
+      "riskAmount": 48.01,
+      "riskPercent": 0.044,
       "rr": 2.15,
-      "unrealizedPnl": -227.31,
-      "unrealizedPnlPercent": -1.95,
-      "fees": 46.738835,
-      "slippage": 18.695534000000002,
-      "strategyId": "MACROVEX-EVENT-TA",
-      "strategyVersion": "V2.1",
-      "macroCatalyst": "Full-Market Scalper: ALIGNED MTF & Macro NEUTRAL",
-      "openedAt": 1789936832030,
-      "lastCheckedAt": 1789941576792,
+      "unrealizedPnl": 2.12,
+      "unrealizedPnlPercent": 0.27,
+      "fees": 2,
+      "funding": 0,
+      "slippage": 0.8,
+      "strategyId": "MACROMIND-EVENT-TA",
+      "strategyVersion": "2.0",
+      "macroCatalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+      "openedAt": 1790109458925,
+      "openingTime": "2026-09-22 20:37:38 UTC",
+      "openingTimestamp": 1790109458925,
+      "entryExecutionTimestamp": 1790109458925,
+      "lastCheckedAt": 1790110564972,
       "status": "OPEN",
-      "highestPriceSeen": 81190,
-      "lowestPriceSeen": 80582.1
+      "modifications": [],
+      "aiDecision": {
+        "action": "BUY",
+        "confidence": 90,
+        "entry": 339.94,
+        "stop_loss": 335.86,
+        "take_profit": 348.71,
+        "reasoning": "SMC Analysis: HH BOS_BULL BULL_OB | FVG: NONE | Sweep: YES",
+        "catalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)"
+      },
+      "riskDecision": {
+        "approved": true,
+        "reason": "All 20 deterministic risk checks passed successfully.",
+        "checksPassed": 20,
+        "totalChecks": 20
+      },
+      "marketSnapshot": {
+        "entryPrice": 339.94,
+        "fundingRate": 0.0001,
+        "spreadBps": 2,
+        "regime": "RISK-ON",
+        "mtfBias": "ALIGNED",
+        "source": "BITGET AGENT HUB MCP (LIVE)"
+      },
+      "highestPriceSeen": 340.12,
+      "lowestPriceSeen": 339.94
     },
     {
-      "id": "pos-TRD-MUAC0A47-WQ23",
+      "id": "pos-TRD-MUD4YAM7-XZ14",
+      "tradeId": "TRD-MUD4YAM7-XZ14",
+      "asset": "MSFT",
+      "direction": "LONG",
+      "entry": 498.18,
+      "currentPrice": 498.08,
+      "stopLoss": 492.2,
+      "takeProfit": 511.03,
+      "quantity": 8.0292,
+      "notional": 4000,
+      "leverage": 5,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 48.01,
+      "signalStrength": "VERY STRONG",
+      "riskAmount": 48.01,
+      "riskPercent": 0.044,
+      "rr": 2.15,
+      "unrealizedPnl": -0.8,
+      "unrealizedPnlPercent": -0.1,
+      "fees": 2,
+      "funding": 0,
+      "slippage": 0.8,
+      "strategyId": "MACROMIND-EVENT-TA",
+      "strategyVersion": "2.0",
+      "macroCatalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+      "openedAt": 1790109459007,
+      "openingTime": "2026-09-22 20:37:39 UTC",
+      "openingTimestamp": 1790109459007,
+      "entryExecutionTimestamp": 1790109459007,
+      "lastCheckedAt": 1790110565101,
+      "status": "OPEN",
+      "modifications": [],
+      "aiDecision": {
+        "action": "BUY",
+        "confidence": 80,
+        "entry": 498.18,
+        "stop_loss": 492.2,
+        "take_profit": 511.03,
+        "reasoning": "SMC Analysis: HH NONE BULL_OB | FVG: BULL_FVG | Sweep: YES",
+        "catalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)"
+      },
+      "riskDecision": {
+        "approved": true,
+        "reason": "All 20 deterministic risk checks passed successfully.",
+        "checksPassed": 20,
+        "totalChecks": 20
+      },
+      "marketSnapshot": {
+        "entryPrice": 498.18,
+        "fundingRate": 0.0001,
+        "spreadBps": 2,
+        "regime": "RISK-ON",
+        "mtfBias": "ALIGNED",
+        "source": "BITGET AGENT HUB MCP (LIVE)"
+      },
+      "highestPriceSeen": 498.34,
+      "lowestPriceSeen": 498.08
+    },
+    {
+      "id": "pos-TRD-MUD4YAOH-UBJO",
+      "tradeId": "TRD-MUD4YAOH-UBJO",
+      "asset": "AMZN",
+      "direction": "LONG",
+      "entry": 255.29,
+      "currentPrice": 255.15,
+      "stopLoss": 252.23,
+      "takeProfit": 261.88,
+      "quantity": 15.6685,
+      "notional": 4000,
+      "leverage": 5,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 47.95,
+      "signalStrength": "VERY STRONG",
+      "riskAmount": 47.95,
+      "riskPercent": 0.044,
+      "rr": 2.15,
+      "unrealizedPnl": -2.19,
+      "unrealizedPnlPercent": -0.27,
+      "fees": 2,
+      "funding": 0,
+      "slippage": 0.8,
+      "strategyId": "MACROMIND-EVENT-TA",
+      "strategyVersion": "2.0",
+      "macroCatalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+      "openedAt": 1790109459089,
+      "openingTime": "2026-09-22 20:37:39 UTC",
+      "openingTimestamp": 1790109459089,
+      "entryExecutionTimestamp": 1790109459089,
+      "lastCheckedAt": 1790110565185,
+      "status": "OPEN",
+      "modifications": [],
+      "aiDecision": {
+        "action": "BUY",
+        "confidence": 80,
+        "entry": 255.29,
+        "stop_loss": 252.23,
+        "take_profit": 261.88,
+        "reasoning": "SMC Analysis: HH NONE BULL_OB | FVG: NONE | Sweep: YES",
+        "catalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)"
+      },
+      "riskDecision": {
+        "approved": true,
+        "reason": "All 20 deterministic risk checks passed successfully.",
+        "checksPassed": 20,
+        "totalChecks": 20
+      },
+      "marketSnapshot": {
+        "entryPrice": 255.29,
+        "fundingRate": 0.0001,
+        "spreadBps": 2,
+        "regime": "RISK-ON",
+        "mtfBias": "ALIGNED",
+        "source": "BITGET AGENT HUB MCP (LIVE)"
+      },
+      "highestPriceSeen": 255.29,
+      "lowestPriceSeen": 255.1
+    },
+    {
+      "id": "pos-TRD-MUD4YAQR-8I8J",
+      "tradeId": "TRD-MUD4YAQR-8I8J",
+      "asset": "META",
+      "direction": "LONG",
+      "entry": 737.52,
+      "currentPrice": 737.65,
+      "stopLoss": 728.67,
+      "takeProfit": 756.55,
+      "quantity": 5.4236,
+      "notional": 4000,
+      "leverage": 5,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 48,
+      "signalStrength": "VERY STRONG",
+      "riskAmount": 48,
+      "riskPercent": 0.044,
+      "rr": 2.15,
+      "unrealizedPnl": 0.71,
+      "unrealizedPnlPercent": 0.09,
+      "fees": 2,
+      "funding": 0,
+      "slippage": 0.8,
+      "strategyId": "MACROMIND-EVENT-TA",
+      "strategyVersion": "2.0",
+      "macroCatalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+      "openedAt": 1790109459171,
+      "openingTime": "2026-09-22 20:37:39 UTC",
+      "openingTimestamp": 1790109459171,
+      "entryExecutionTimestamp": 1790109459171,
+      "lastCheckedAt": 1790110565268,
+      "status": "OPEN",
+      "modifications": [],
+      "aiDecision": {
+        "action": "BUY",
+        "confidence": 82,
+        "entry": 737.52,
+        "stop_loss": 728.67,
+        "take_profit": 756.55,
+        "reasoning": "SMC Analysis: HH BOS_BULL NONE | FVG: NONE | Sweep: YES",
+        "catalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)"
+      },
+      "riskDecision": {
+        "approved": true,
+        "reason": "All 20 deterministic risk checks passed successfully.",
+        "checksPassed": 20,
+        "totalChecks": 20
+      },
+      "marketSnapshot": {
+        "entryPrice": 737.52,
+        "fundingRate": 0.0001,
+        "spreadBps": 2,
+        "regime": "RISK-ON",
+        "mtfBias": "ALIGNED",
+        "source": "BITGET AGENT HUB MCP (LIVE)"
+      },
+      "highestPriceSeen": 737.83,
+      "lowestPriceSeen": 736.8
+    }
+  ],
+  "closedTrades": [
+    {
+      "id": "closed-TRD-MUD4W8C0-3JC7",
+      "tradeId": "TRD-MUD4W8C0-3JC7",
+      "asset": "NVDA",
+      "direction": "LONG",
+      "entry": 228.34,
+      "exit": 228.38,
+      "quantity": 17.5177,
+      "notional": 4000,
+      "leverage": 5,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 48,
+      "signalStrength": "VERY STRONG",
+      "risk": 48,
+      "sl": 225.6,
+      "tp": 234.23,
+      "rr": 2.15,
+      "pnl": -3.3,
+      "rMultiple": -0.07,
+      "fees": 4,
+      "funding": 0,
+      "slippage": 0.8,
+      "durationSeconds": 1199,
+      "durationFormatted": "00:19:59",
+      "strategy": "MACROMIND-EVENT-TA",
+      "strategyVersion": "2.0",
+      "aiConfidence": 82,
+      "regime": "RISK-ON",
+      "catalyst": "Dynamic Recycled Scalp: EQUITIES Opportunity",
+      "exitReason": "MANUAL_CLOSE",
+      "openedAt": 1790109362736,
+      "openingTime": "2026-09-22 20:36:02 UTC",
+      "openingTimestamp": 1790109362736,
+      "closedAt": 1790110561375,
+      "closingTime": "2026-09-22 20:56:01 UTC",
+      "closingTimestamp": 1790110561375,
+      "status": "CLOSED",
+      "modifications": [],
+      "aiDecision": {
+        "action": "BUY",
+        "confidence": 82,
+        "entry": 228.34,
+        "stop_loss": 225.6,
+        "take_profit": 234.23,
+        "reasoning": "Instantly recycled position slot upon trade close. R:R: 2.15:1.",
+        "catalyst": "Dynamic Recycled Scalp: EQUITIES Opportunity"
+      },
+      "riskDecision": {
+        "approved": true,
+        "reason": "All 20 deterministic risk checks passed successfully.",
+        "checksPassed": 20,
+        "totalChecks": 20
+      },
+      "marketSnapshot": {
+        "entryPrice": 228.34,
+        "exitPrice": 228.38,
+        "fundingRate": 0.0001,
+        "spreadBps": 2,
+        "regime": "RISK-ON",
+        "source": "BITGET AGENT HUB MCP (LIVE)"
+      }
+    },
+    {
+      "id": "closed-TRD-MUAC0A47-WQ23",
       "tradeId": "TRD-MUAC0A47-WQ23",
       "asset": "NVDA",
       "direction": "LONG",
       "entry": 221.34,
-      "currentPrice": 221.45,
-      "stopLoss": 218.68,
-      "takeProfit": 227.05,
-      "quantity": 562.5569,
-      "notional": 124516.34,
+      "exit": 228.34,
+      "quantity": 281.2785,
+      "notional": 62258.17,
       "leverage": 5,
-      "margin": 24903.27,
-      "riskAmount": 1496.4,
-      "riskPercent": 1.5,
+      "margin": 12451.64,
+      "marginUsed": 12451.64,
+      "positionNotional": 62258.17,
+      "capitalAtRisk": 748.2,
+      "risk": 748.2,
+      "sl": 225.6,
+      "tp": 230.46,
       "rr": 2.15,
-      "unrealizedPnl": 61.88,
-      "unrealizedPnlPercent": 0.25,
-      "fees": 62.25817,
+      "pnl": 1875.56,
+      "rMultiple": 2.51,
+      "fees": 93.39,
       "funding": 0,
       "slippage": 24.903268,
-      "strategyId": "MACROMIND-EVENT-TA",
+      "durationSeconds": 169448,
+      "durationFormatted": "47:04:08",
+      "strategy": "MACROMIND-EVENT-TA",
       "strategyVersion": "2.0",
-      "macroCatalyst": "Dynamic Recycled Scalp: EQUITIES Opportunity",
+      "aiConfidence": 82,
+      "regime": "RISK-ON",
+      "catalyst": "Dynamic Recycled Scalp: EQUITIES Opportunity",
+      "exitReason": "MANUAL_CLOSE",
       "openedAt": 1789939910455,
-      "lastCheckedAt": 1789941576844,
-      "status": "OPEN",
-      "modifications": [],
+      "openingTime": "2026-09-20 21:31:50 UTC",
+      "openingTimestamp": 1789939910455,
+      "closedAt": 1790109358413,
+      "closingTime": "2026-09-22 20:35:58 UTC",
+      "closingTimestamp": 1790109358413,
+      "status": "CLOSED",
+      "modifications": [
+        {
+          "id": "mod-1790109332080-30m-ptp",
+          "timestamp": 1790109332080,
+          "timeFormatted": "2026-09-22 20:35:32 UTC",
+          "type": "PARTIAL_TAKE_PROFIT",
+          "oldPrice": 228.33,
+          "newPrice": 228.33,
+          "executionPrice": 228.33,
+          "quantityAffected": 281.27845,
+          "quantity": 281.27845,
+          "percentageClosed": 50,
+          "remainingQuantity": 281.2785,
+          "realizedPnl": 1966.14,
+          "reason": "30-Minute Cycle: Position achieved +15.79% profit. Locked in 50% gain (+$1966.14) at 2026-09-22 20:35:32 UTC. Remaining: 281.2785 units."
+        },
+        {
+          "id": "mod-1790109332080-30m-be",
+          "timestamp": 1790109332080,
+          "timeFormatted": "2026-09-22 20:35:32 UTC",
+          "type": "BREAKEVEN_SL",
+          "oldPrice": 218.68,
+          "newPrice": 221.34,
+          "executionPrice": 221.34,
+          "reason": "30-Minute Cycle: Moved SL from $218.68 to breakeven $221.34 at 2026-09-22 20:35:32 UTC. Position is completely de-risked."
+        },
+        {
+          "id": "mod-1790109332089-30m-sl",
+          "timestamp": 1790109332089,
+          "type": "SL_MODIFIED",
+          "oldPrice": 221.34,
+          "newPrice": 225.59,
+          "reason": "30-Min Cycle: Trailed SL upward from $221.34 to $225.59 to lock in profit."
+        },
+        {
+          "id": "mod-1790109332097-30m-tp",
+          "timestamp": 1790109332097,
+          "type": "TP_MODIFIED",
+          "oldPrice": 227.05,
+          "newPrice": 230.46,
+          "reason": "30-Min Cycle: Market structure shows strong continuation (Score 78). Expanded TP to $230.46."
+        },
+        {
+          "id": "mod-1790109340305-trail",
+          "timestamp": 1790109340305,
+          "type": "TRAILING_SL",
+          "oldPrice": 225.59,
+          "newPrice": 225.6,
+          "reason": "Trailing SL advanced to $225.60 to protect accumulated gain."
+        }
+      ],
       "aiDecision": {
         "action": "BUY",
         "confidence": 82,
@@ -224,17 +585,103 @@
       },
       "marketSnapshot": {
         "entryPrice": 221.34,
+        "exitPrice": 228.34,
         "fundingRate": 0.0001,
         "spreadBps": 2,
         "regime": "RISK-ON",
-        "mtfBias": "ALIGNED",
         "source": "BITGET AGENT HUB MCP (LIVE)"
-      },
-      "highestPriceSeen": 221.45,
-      "lowestPriceSeen": 221.29
-    }
-  ],
-  "closedTrades": [
+      }
+    },
+    {
+      "id": "closed-TRD-MUAA6ASE-2QF8",
+      "tradeId": "TRD-MUAA6ASE-2QF8",
+      "asset": "BTC",
+      "direction": "LONG",
+      "entry": 81092.1,
+      "exit": 85139.9,
+      "quantity": 0.5764,
+      "notional": 46738.83,
+      "leverage": 8,
+      "margin": 5842.35,
+      "marginUsed": 5842.35,
+      "positionNotional": 46738.83,
+      "capitalAtRisk": 747.82,
+      "risk": 747.82,
+      "sl": 85256.79,
+      "tp": 85139.9,
+      "rr": 2.15,
+      "pnl": 2263.04,
+      "rMultiple": 3.03,
+      "fees": 70.11,
+      "funding": 0,
+      "slippage": 18.695534000000002,
+      "durationSeconds": 172500,
+      "durationFormatted": "47:55:00",
+      "strategy": "MACROVEX-EVENT-TA",
+      "strategyVersion": "V2.1",
+      "aiConfidence": 85,
+      "regime": "RISK-ON",
+      "catalyst": "Full-Market Scalper: ALIGNED MTF & Macro NEUTRAL",
+      "exitReason": "TAKE_PROFIT",
+      "openedAt": 1789936832030,
+      "openingTime": "2026-09-20 20:40:32 UTC",
+      "openingTimestamp": 1789936832030,
+      "closedAt": 1790109332105,
+      "closingTime": "2026-09-22 20:35:32 UTC",
+      "closingTimestamp": 1790109332105,
+      "status": "CLOSED",
+      "modifications": [
+        {
+          "id": "mod-1790109331831-30m-ptp",
+          "timestamp": 1790109331831,
+          "timeFormatted": "2026-09-22 20:35:31 UTC",
+          "type": "PARTIAL_TAKE_PROFIT",
+          "oldPrice": 86292.3,
+          "newPrice": 86292.3,
+          "executionPrice": 86292.3,
+          "quantityAffected": 0.57635,
+          "quantity": 0.57635,
+          "percentageClosed": 50,
+          "remainingQuantity": 0.5764,
+          "realizedPnl": 2997.14,
+          "reason": "30-Minute Cycle: Position achieved +51.3% profit. Locked in 50% gain (+$2997.14) at 2026-09-22 20:35:31 UTC. Remaining: 0.5764 units."
+        },
+        {
+          "id": "mod-1790109331831-30m-be",
+          "timestamp": 1790109331831,
+          "timeFormatted": "2026-09-22 20:35:31 UTC",
+          "type": "BREAKEVEN_SL",
+          "oldPrice": 79794.63,
+          "newPrice": 81092.1,
+          "executionPrice": 81092.1,
+          "reason": "30-Minute Cycle: Moved SL from $79794.63 to breakeven $81092.10 at 2026-09-22 20:35:31 UTC. Position is completely de-risked."
+        },
+        {
+          "id": "mod-1790109331840-30m-sl",
+          "timestamp": 1790109331840,
+          "type": "SL_MODIFIED",
+          "oldPrice": 81092.1,
+          "newPrice": 85256.79,
+          "reason": "30-Min Cycle: Trailed SL upward from $81092.10 to $85256.79 to lock in profit."
+        },
+        {
+          "id": "mod-1790109331849-30m-tp",
+          "timestamp": 1790109331849,
+          "type": "TP_MODIFIED",
+          "oldPrice": 83881.67,
+          "newPrice": 85139.9,
+          "reason": "30-Min Cycle: Market structure shows strong continuation (Score 86). Expanded TP to $85139.90."
+        }
+      ],
+      "marketSnapshot": {
+        "entryPrice": 81092.1,
+        "exitPrice": 85139.9,
+        "fundingRate": 0.0001,
+        "spreadBps": 2,
+        "regime": "RISK-ON",
+        "source": "BITGET AGENT HUB MCP (LIVE)"
+      }
+    },
     {
       "id": "closed-TRD-MUAAJVXX-Y7O6",
       "tradeId": "TRD-MUAAJVXX-Y7O6",
@@ -272,7 +719,16 @@
         "spreadBps": 2,
         "regime": "RISK-ON",
         "source": "BITGET AGENT HUB MCP (LIVE)"
-      }
+      },
+      "openingTimestamp": 1789937465973,
+      "closingTimestamp": 1789939907837,
+      "openingTime": "2026-09-20 20:51:05 UTC",
+      "closingTime": "2026-09-20 21:31:47 UTC",
+      "durationFormatted": "00:40:42",
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 94438.89,
+      "capitalAtRisk": 1495.64
     },
     {
       "id": "closed-TRD-MUAA2Y94-N0ET",
@@ -301,7 +757,16 @@
       "exitReason": "MANUAL_CLOSE",
       "openedAt": 1789936675816,
       "closedAt": 1789936829655,
-      "status": "CLOSED"
+      "status": "CLOSED",
+      "openingTimestamp": 1789936675816,
+      "closingTimestamp": 1789936829655,
+      "openingTime": "2026-09-20 20:37:55 UTC",
+      "closingTime": "2026-09-20 20:40:29 UTC",
+      "durationFormatted": "00:02:34",
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 93532.91,
+      "capitalAtRisk": 1496.52
     },
     {
       "id": "closed-TRD-MU6UC8QL-HAVM",
@@ -330,7 +795,16 @@
       "exitReason": "MANUAL_CLOSE",
       "openedAt": 1789728836925,
       "closedAt": 1789813069492,
-      "status": "CLOSED"
+      "status": "CLOSED",
+      "openingTimestamp": 1789728836925,
+      "closingTimestamp": 1789813069492,
+      "openingTime": "2026-09-18 10:53:56 UTC",
+      "closingTime": "2026-09-19 10:17:49 UTC",
+      "durationFormatted": "23:23:53",
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 92291.21,
+      "capitalAtRisk": 1476.11
     },
     {
       "id": "closed-TRD-MU86IOJ9-03ZL",
@@ -359,7 +833,16 @@
       "exitReason": "MANUAL_CLOSE",
       "openedAt": 1789809758901,
       "closedAt": 1789813067728,
-      "status": "CLOSED"
+      "status": "CLOSED",
+      "openingTimestamp": 1789809758901,
+      "closingTimestamp": 1789813067728,
+      "openingTime": "2026-09-19 09:22:38 UTC",
+      "closingTime": "2026-09-19 10:17:47 UTC",
+      "durationFormatted": "00:55:09",
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 95136.58,
+      "capitalAtRisk": 1522.22
     },
     {
       "id": "closed-TRD-MU86FJXE-HT9K",
@@ -388,7 +871,16 @@
       "exitReason": "MANUAL_CLOSE",
       "openedAt": 1789809612962,
       "closedAt": 1789809747197,
-      "status": "CLOSED"
+      "status": "CLOSED",
+      "openingTimestamp": 1789809612962,
+      "closingTimestamp": 1789809747197,
+      "openingTime": "2026-09-19 09:20:12 UTC",
+      "closingTime": "2026-09-19 09:22:27 UTC",
+      "durationFormatted": "00:02:14",
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 95145.79,
+      "capitalAtRisk": 1522.33
     },
     {
       "id": "closed-TRD-MU6U9U6D-YWRM",
@@ -417,7 +909,16 @@
       "exitReason": "TAKE_PROFIT",
       "openedAt": 1789728724741,
       "closedAt": 1789809608768,
-      "status": "CLOSED"
+      "status": "CLOSED",
+      "openingTimestamp": 1789728724741,
+      "closingTimestamp": 1789809608768,
+      "openingTime": "2026-09-18 10:52:04 UTC",
+      "closingTime": "2026-09-19 09:20:08 UTC",
+      "durationFormatted": "22:28:04",
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 92256.62,
+      "capitalAtRisk": 1476.11
     },
     {
       "id": "closed-TRD-MU4N2XF7-M5PV",
@@ -446,10 +947,159 @@
       "exitReason": "STOP_LOSS",
       "openedAt": 1789595712691,
       "closedAt": 1789728703102,
-      "status": "CLOSED"
+      "status": "CLOSED",
+      "openingTimestamp": 1789595712691,
+      "closingTimestamp": 1789728703102,
+      "openingTime": "2026-09-16 21:55:12 UTC",
+      "closingTime": "2026-09-18 10:51:43 UTC",
+      "durationFormatted": "36:56:30",
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 92534.48,
+      "capitalAtRisk": 1500
     }
   ],
   "aiDecisions": [
+    {
+      "id": "dec-1790109965562-2i2tw-BTC",
+      "timestamp": 1790109965562,
+      "asset": "BTC",
+      "direction": "LONG",
+      "action": "WAIT",
+      "entry": 86231.2,
+      "stop_loss": 84851.5,
+      "take_profit": 89197.55,
+      "leverage": 5,
+      "position_size": 1,
+      "risk_percent": 1.5,
+      "rr": 2.15,
+      "confidence": 90,
+      "macro_catalyst": "Federal Open Market Committee (FOMC) Monetary Policy Decision & Rate Outlook (Federal Reserve Board)",
+      "technical_reasoning": "Confirmed LONG setup on 1H: EMA20 aligned with HL structure and recent order block rejection.",
+      "cross_asset_reasoning": "Supported by cross-asset regime (NEUTRAL) and favorable equity-crypto correlation.",
+      "regime": "NEUTRAL",
+      "invalidation": "Price breaking structural pivot at $84851.50 on volume.",
+      "holding_horizon": "8H - 24H",
+      "strategy_id": "MACROVEX-EVENT-TA",
+      "strategy_version": "V2.1",
+      "risk_decision": {
+        "approved": false,
+        "reason": "Maximum concurrent open positions reached (5/5). No new scalp authorized until an existing trade closes.",
+        "checks": {
+          "1_data_freshness": true,
+          "2_instrument_availability": true,
+          "3_direction_validity": true,
+          "4_entry_validity": true,
+          "5_sl_geometry_validity": true,
+          "6_tp_geometry_validity": true,
+          "7_minimum_rr": true,
+          "8_confidence_threshold": true,
+          "9_position_risk_limit": false,
+          "10_portfolio_exposure_limit": false,
+          "11_correlated_exposure_limit": false,
+          "12_max_open_positions": false,
+          "13_daily_trade_limit": false,
+          "14_daily_loss_limit": false,
+          "15_max_drawdown_limit": false,
+          "16_volatility_spread_safety": true,
+          "17_leverage_limit": false,
+          "18_margin_availability": false,
+          "19_stop_distance_validation": true,
+          "20_duplicate_position_check": false
+        },
+        "calculatedSize": {
+          "quantity": 0,
+          "notional": 0,
+          "margin": 0,
+          "marginUsed": 0,
+          "positionNotional": 0,
+          "capitalAtRisk": 0,
+          "riskAmount": 0,
+          "riskPercent": 0,
+          "rr": 2.15,
+          "leverage": 5,
+          "signalStrength": "REJECTED"
+        }
+      },
+      "marginUsed": 0,
+      "margin_used": 0,
+      "positionNotional": 0,
+      "position_notional": 0,
+      "capitalAtRisk": 0,
+      "capital_at_risk": 0,
+      "signalStrength": "REJECTED",
+      "signal_strength": "REJECTED"
+    },
+    {
+      "id": "dec-1790109380391-wtkzy-BTC",
+      "timestamp": 1790109380391,
+      "asset": "BTC",
+      "direction": "LONG",
+      "action": "BUY",
+      "entry": 86294,
+      "stop_loss": 84913.3,
+      "take_profit": 89262.51,
+      "leverage": 5,
+      "position_size": 1,
+      "risk_percent": 1.5,
+      "rr": 2.15,
+      "confidence": 90,
+      "macro_catalyst": "Federal Open Market Committee (FOMC) Monetary Policy Decision & Rate Outlook (Federal Reserve Board)",
+      "technical_reasoning": "Confirmed LONG setup on 1H: EMA20 aligned with HL structure and recent order block rejection.",
+      "cross_asset_reasoning": "Supported by cross-asset regime (NEUTRAL) and favorable equity-crypto correlation.",
+      "regime": "NEUTRAL",
+      "invalidation": "Price breaking structural pivot at $84913.30 on volume.",
+      "holding_horizon": "8H - 24H",
+      "strategy_id": "MACROVEX-EVENT-TA",
+      "strategy_version": "V2.1",
+      "risk_decision": {
+        "approved": true,
+        "reason": "All 20 deterministic risk checks passed successfully.",
+        "checks": {
+          "1_data_freshness": true,
+          "2_instrument_availability": true,
+          "3_direction_validity": true,
+          "4_entry_validity": true,
+          "5_sl_geometry_validity": true,
+          "6_tp_geometry_validity": true,
+          "7_minimum_rr": true,
+          "8_confidence_threshold": true,
+          "9_position_risk_limit": true,
+          "10_portfolio_exposure_limit": true,
+          "11_correlated_exposure_limit": true,
+          "12_max_open_positions": true,
+          "13_daily_trade_limit": true,
+          "14_daily_loss_limit": true,
+          "15_max_drawdown_limit": true,
+          "16_volatility_spread_safety": true,
+          "17_leverage_limit": true,
+          "18_margin_availability": true,
+          "19_stop_distance_validation": true,
+          "20_duplicate_position_check": true
+        },
+        "calculatedSize": {
+          "quantity": 0.0464,
+          "notional": 4000,
+          "margin": 800,
+          "marginUsed": 800,
+          "positionNotional": 4000,
+          "capitalAtRisk": 64,
+          "riskAmount": 64,
+          "riskPercent": 0.059,
+          "rr": 2.15,
+          "leverage": 5,
+          "signalStrength": "VERY STRONG"
+        }
+      },
+      "marginUsed": 800,
+      "margin_used": 800,
+      "positionNotional": 4000,
+      "position_notional": 4000,
+      "capitalAtRisk": 64,
+      "capital_at_risk": 64,
+      "signalStrength": "VERY STRONG",
+      "signal_strength": "VERY STRONG"
+    },
     {
       "id": "dec-1789940321564-XAU",
       "timestamp": 1789940321564,
@@ -2359,418 +3009,6 @@
           "20_duplicate_position_check": false
         }
       }
-    },
-    {
-      "id": "dec-1789812669966-ETH",
-      "timestamp": 1789812669966,
-      "asset": "ETH",
-      "direction": "LONG",
-      "action": "BUY",
-      "entry": 2639.3,
-      "stop_loss": 2597.07,
-      "take_profit": 2730.09,
-      "leverage": 5,
-      "position_size": 1,
-      "risk_percent": 1.5,
-      "rr": 2.15,
-      "confidence": 82,
-      "macro_catalyst": "Bureau of Labor Statistics: Consumer Price Index (CPI) Disinflation Trajectory (Bureau of Labor Statistics (BLS))",
-      "technical_reasoning": "Confirmed LONG setup on 1H: EMA20 aligned with HH structure and recent order block rejection.",
-      "cross_asset_reasoning": "Supported by cross-asset regime (RISK-ON) and favorable equity-crypto correlation.",
-      "regime": "RISK-ON",
-      "invalidation": "Price breaking structural pivot at $2597.07 on volume.",
-      "holding_horizon": "8H - 24H",
-      "strategy_id": "MACROVEX-EVENT-TA",
-      "strategy_version": "V2.1",
-      "risk_decision": {
-        "approved": false,
-        "reason": "Daily trade cap reached: 5 / 5 trades today",
-        "checks": {
-          "1_data_freshness": true,
-          "2_instrument_availability": true,
-          "3_direction_validity": true,
-          "4_entry_validity": true,
-          "5_sl_geometry_validity": true,
-          "6_tp_geometry_validity": true,
-          "7_minimum_rr": true,
-          "8_confidence_threshold": true,
-          "9_position_risk_limit": false,
-          "10_portfolio_exposure_limit": false,
-          "11_correlated_exposure_limit": false,
-          "12_max_open_positions": false,
-          "13_daily_trade_limit": false,
-          "14_daily_loss_limit": false,
-          "15_max_drawdown_limit": false,
-          "16_volatility_spread_safety": true,
-          "17_leverage_limit": false,
-          "18_margin_availability": false,
-          "19_stop_distance_validation": true,
-          "20_duplicate_position_check": false
-        }
-      }
-    },
-    {
-      "id": "dec-1789812649256-BTC",
-      "timestamp": 1789812649256,
-      "asset": "BTC",
-      "direction": "LONG",
-      "action": "BUY",
-      "entry": 81241.6,
-      "stop_loss": 79941.73,
-      "take_profit": 84036.31,
-      "leverage": 5,
-      "position_size": 1,
-      "risk_percent": 1.5,
-      "rr": 2.15,
-      "confidence": 82,
-      "macro_catalyst": "Federal Open Market Committee (FOMC) Monetary Policy Decision & Rate Outlook (Federal Reserve Board)",
-      "technical_reasoning": "Confirmed LONG setup on 1H: EMA20 aligned with HH structure and recent order block rejection.",
-      "cross_asset_reasoning": "Supported by cross-asset regime (RISK-ON) and favorable equity-crypto correlation.",
-      "regime": "RISK-ON",
-      "invalidation": "Price breaking structural pivot at $79941.73 on volume.",
-      "holding_horizon": "8H - 24H",
-      "strategy_id": "MACROVEX-EVENT-TA",
-      "strategy_version": "V2.1",
-      "risk_decision": {
-        "approved": false,
-        "reason": "Daily trade cap reached: 5 / 5 trades today",
-        "checks": {
-          "1_data_freshness": true,
-          "2_instrument_availability": true,
-          "3_direction_validity": true,
-          "4_entry_validity": true,
-          "5_sl_geometry_validity": true,
-          "6_tp_geometry_validity": true,
-          "7_minimum_rr": true,
-          "8_confidence_threshold": true,
-          "9_position_risk_limit": false,
-          "10_portfolio_exposure_limit": false,
-          "11_correlated_exposure_limit": false,
-          "12_max_open_positions": false,
-          "13_daily_trade_limit": false,
-          "14_daily_loss_limit": false,
-          "15_max_drawdown_limit": false,
-          "16_volatility_spread_safety": true,
-          "17_leverage_limit": false,
-          "18_margin_availability": false,
-          "19_stop_distance_validation": true,
-          "20_duplicate_position_check": false
-        }
-      }
-    },
-    {
-      "id": "dec-1789812636464-BTC",
-      "timestamp": 1789812636464,
-      "asset": "BTC",
-      "direction": "LONG",
-      "action": "BUY",
-      "entry": 81241.6,
-      "stop_loss": 79941.73,
-      "take_profit": 84036.31,
-      "leverage": 5,
-      "position_size": 1,
-      "risk_percent": 1.5,
-      "rr": 2.15,
-      "confidence": 82,
-      "macro_catalyst": "Federal Open Market Committee (FOMC) Monetary Policy Decision & Rate Outlook (Federal Reserve Board)",
-      "technical_reasoning": "Confirmed LONG setup on 1H: EMA20 aligned with HH structure and recent order block rejection.",
-      "cross_asset_reasoning": "Supported by cross-asset regime (RISK-ON) and favorable equity-crypto correlation.",
-      "regime": "RISK-ON",
-      "invalidation": "Price breaking structural pivot at $79941.73 on volume.",
-      "holding_horizon": "8H - 24H",
-      "strategy_id": "MACROVEX-EVENT-TA",
-      "strategy_version": "V2.1",
-      "risk_decision": {
-        "approved": false,
-        "reason": "Daily trade cap reached: 5 / 5 trades today",
-        "checks": {
-          "1_data_freshness": true,
-          "2_instrument_availability": true,
-          "3_direction_validity": true,
-          "4_entry_validity": true,
-          "5_sl_geometry_validity": true,
-          "6_tp_geometry_validity": true,
-          "7_minimum_rr": true,
-          "8_confidence_threshold": true,
-          "9_position_risk_limit": false,
-          "10_portfolio_exposure_limit": false,
-          "11_correlated_exposure_limit": false,
-          "12_max_open_positions": false,
-          "13_daily_trade_limit": false,
-          "14_daily_loss_limit": false,
-          "15_max_drawdown_limit": false,
-          "16_volatility_spread_safety": true,
-          "17_leverage_limit": false,
-          "18_margin_availability": false,
-          "19_stop_distance_validation": true,
-          "20_duplicate_position_check": false
-        }
-      }
-    },
-    {
-      "id": "dec-1789812624957-SPY",
-      "timestamp": 1789812624957,
-      "asset": "SPY",
-      "direction": "LONG",
-      "action": "WAIT",
-      "entry": 761.69,
-      "stop_loss": 750.26,
-      "take_profit": 786.06,
-      "leverage": 5,
-      "position_size": 0,
-      "risk_percent": 1.5,
-      "rr": 2.13,
-      "confidence": 62,
-      "macro_catalyst": "FOMC Interest Rate Decision & Monetary Policy Statement (Federal Reserve Board)",
-      "technical_reasoning": "Opportunity score (58/100) below execution threshold; market structure HH in consolidation.",
-      "cross_asset_reasoning": "Cross-asset regime is RISK-ON; no directional edge verified.",
-      "regime": "RISK-ON",
-      "invalidation": "Consolidation breakout above local swing pivot required.",
-      "holding_horizon": "INACTIVE",
-      "strategy_id": "MACROVEX-EVENT-TA",
-      "strategy_version": "V2.1"
-    },
-    {
-      "id": "dec-1789812603006-QQQ",
-      "timestamp": 1789812603006,
-      "asset": "QQQ",
-      "direction": "LONG",
-      "action": "BUY",
-      "entry": 722.05,
-      "stop_loss": 710.5,
-      "take_profit": 746.89,
-      "leverage": 5,
-      "position_size": 1,
-      "risk_percent": 1.5,
-      "rr": 2.15,
-      "confidence": 82,
-      "macro_catalyst": "FOMC Interest Rate Decision & Monetary Policy Statement (Federal Reserve Board)",
-      "technical_reasoning": "Confirmed LONG setup on 1H: EMA20 aligned with HH structure and recent order block rejection.",
-      "cross_asset_reasoning": "Supported by cross-asset regime (RISK-ON) and favorable equity-crypto correlation.",
-      "regime": "RISK-ON",
-      "invalidation": "Price breaking structural pivot at $710.50 on volume.",
-      "holding_horizon": "8H - 24H",
-      "strategy_id": "MACROVEX-EVENT-TA",
-      "strategy_version": "V2.1",
-      "risk_decision": {
-        "approved": false,
-        "reason": "Daily trade cap reached: 5 / 5 trades today",
-        "checks": {
-          "1_data_freshness": true,
-          "2_instrument_availability": true,
-          "3_direction_validity": true,
-          "4_entry_validity": true,
-          "5_sl_geometry_validity": true,
-          "6_tp_geometry_validity": true,
-          "7_minimum_rr": true,
-          "8_confidence_threshold": true,
-          "9_position_risk_limit": false,
-          "10_portfolio_exposure_limit": false,
-          "11_correlated_exposure_limit": false,
-          "12_max_open_positions": false,
-          "13_daily_trade_limit": false,
-          "14_daily_loss_limit": false,
-          "15_max_drawdown_limit": false,
-          "16_volatility_spread_safety": true,
-          "17_leverage_limit": false,
-          "18_margin_availability": false,
-          "19_stop_distance_validation": true,
-          "20_duplicate_position_check": false
-        }
-      }
-    },
-    {
-      "id": "dec-1789812580970-CL",
-      "timestamp": 1789812580970,
-      "asset": "CL",
-      "direction": "LONG",
-      "action": "WAIT",
-      "entry": 96.143,
-      "stop_loss": 94.7,
-      "take_profit": 99.22,
-      "leverage": 5,
-      "position_size": 0,
-      "risk_percent": 1.5,
-      "rr": 2.13,
-      "confidence": 66,
-      "macro_catalyst": "US Non-Farm Payrolls & Unemployment Rate Release (US Department of Labor)",
-      "technical_reasoning": "Opportunity score (62/100) below execution threshold; market structure HL in consolidation.",
-      "cross_asset_reasoning": "Cross-asset regime is RISK-ON; no directional edge verified.",
-      "regime": "RISK-ON",
-      "invalidation": "Consolidation breakout above local swing pivot required.",
-      "holding_horizon": "INACTIVE",
-      "strategy_id": "MACROVEX-EVENT-TA",
-      "strategy_version": "V2.1"
-    },
-    {
-      "id": "dec-1789812559636-XAG",
-      "timestamp": 1789812559636,
-      "asset": "XAG",
-      "direction": "LONG",
-      "action": "BUY",
-      "entry": 66.44,
-      "stop_loss": 65.38,
-      "take_profit": 68.73,
-      "leverage": 5,
-      "position_size": 1,
-      "risk_percent": 1.5,
-      "rr": 2.15,
-      "confidence": 90,
-      "macro_catalyst": "FOMC Interest Rate Decision & Monetary Policy Statement (Federal Reserve Board)",
-      "technical_reasoning": "Confirmed LONG setup on 1H: EMA20 aligned with HL structure and recent order block rejection.",
-      "cross_asset_reasoning": "Supported by cross-asset regime (RISK-ON) and favorable equity-crypto correlation.",
-      "regime": "RISK-ON",
-      "invalidation": "Price breaking structural pivot at $65.38 on volume.",
-      "holding_horizon": "8H - 24H",
-      "strategy_id": "MACROVEX-EVENT-TA",
-      "strategy_version": "V2.1",
-      "risk_decision": {
-        "approved": false,
-        "reason": "Daily trade cap reached: 5 / 5 trades today",
-        "checks": {
-          "1_data_freshness": true,
-          "2_instrument_availability": true,
-          "3_direction_validity": true,
-          "4_entry_validity": true,
-          "5_sl_geometry_validity": true,
-          "6_tp_geometry_validity": true,
-          "7_minimum_rr": true,
-          "8_confidence_threshold": true,
-          "9_position_risk_limit": false,
-          "10_portfolio_exposure_limit": false,
-          "11_correlated_exposure_limit": false,
-          "12_max_open_positions": false,
-          "13_daily_trade_limit": false,
-          "14_daily_loss_limit": false,
-          "15_max_drawdown_limit": false,
-          "16_volatility_spread_safety": true,
-          "17_leverage_limit": false,
-          "18_margin_availability": false,
-          "19_stop_distance_validation": true,
-          "20_duplicate_position_check": false
-        }
-      }
-    },
-    {
-      "id": "dec-1789812538846-XAU",
-      "timestamp": 1789812538846,
-      "asset": "XAU",
-      "direction": "LONG",
-      "action": "BUY",
-      "entry": 4381.64,
-      "stop_loss": 4311.53,
-      "take_profit": 4532.37,
-      "leverage": 5,
-      "position_size": 1,
-      "risk_percent": 1.5,
-      "rr": 2.15,
-      "confidence": 90,
-      "macro_catalyst": "FOMC Interest Rate Decision & Monetary Policy Statement (Federal Reserve Board)",
-      "technical_reasoning": "Confirmed LONG setup on 1H: EMA20 aligned with HL structure and recent order block rejection.",
-      "cross_asset_reasoning": "Supported by cross-asset regime (RISK-ON) and favorable equity-crypto correlation.",
-      "regime": "RISK-ON",
-      "invalidation": "Price breaking structural pivot at $4311.53 on volume.",
-      "holding_horizon": "8H - 24H",
-      "strategy_id": "MACROVEX-EVENT-TA",
-      "strategy_version": "V2.1",
-      "risk_decision": {
-        "approved": false,
-        "reason": "Daily trade cap reached: 5 / 5 trades today",
-        "checks": {
-          "1_data_freshness": true,
-          "2_instrument_availability": true,
-          "3_direction_validity": true,
-          "4_entry_validity": true,
-          "5_sl_geometry_validity": true,
-          "6_tp_geometry_validity": true,
-          "7_minimum_rr": true,
-          "8_confidence_threshold": true,
-          "9_position_risk_limit": false,
-          "10_portfolio_exposure_limit": false,
-          "11_correlated_exposure_limit": false,
-          "12_max_open_positions": false,
-          "13_daily_trade_limit": false,
-          "14_daily_loss_limit": false,
-          "15_max_drawdown_limit": false,
-          "16_volatility_spread_safety": true,
-          "17_leverage_limit": false,
-          "18_margin_availability": false,
-          "19_stop_distance_validation": true,
-          "20_duplicate_position_check": false
-        }
-      }
-    },
-    {
-      "id": "dec-1789812517407-GOOGL",
-      "timestamp": 1789812517407,
-      "asset": "GOOGL",
-      "direction": "LONG",
-      "action": "BUY",
-      "entry": 350.83,
-      "stop_loss": 345.22,
-      "take_profit": 362.9,
-      "leverage": 5,
-      "position_size": 1,
-      "risk_percent": 1.5,
-      "rr": 2.15,
-      "confidence": 90,
-      "macro_catalyst": "FOMC Interest Rate Decision & Monetary Policy Statement (Federal Reserve Board)",
-      "technical_reasoning": "Confirmed LONG setup on 1H: EMA20 aligned with HH structure and recent order block rejection.",
-      "cross_asset_reasoning": "Supported by cross-asset regime (RISK-ON) and favorable equity-crypto correlation.",
-      "regime": "RISK-ON",
-      "invalidation": "Price breaking structural pivot at $345.22 on volume.",
-      "holding_horizon": "8H - 24H",
-      "strategy_id": "MACROVEX-EVENT-TA",
-      "strategy_version": "V2.1",
-      "risk_decision": {
-        "approved": false,
-        "reason": "Daily trade cap reached: 5 / 5 trades today",
-        "checks": {
-          "1_data_freshness": true,
-          "2_instrument_availability": true,
-          "3_direction_validity": true,
-          "4_entry_validity": true,
-          "5_sl_geometry_validity": true,
-          "6_tp_geometry_validity": true,
-          "7_minimum_rr": true,
-          "8_confidence_threshold": true,
-          "9_position_risk_limit": false,
-          "10_portfolio_exposure_limit": false,
-          "11_correlated_exposure_limit": false,
-          "12_max_open_positions": false,
-          "13_daily_trade_limit": false,
-          "14_daily_loss_limit": false,
-          "15_max_drawdown_limit": false,
-          "16_volatility_spread_safety": true,
-          "17_leverage_limit": false,
-          "18_margin_availability": false,
-          "19_stop_distance_validation": true,
-          "20_duplicate_position_check": false
-        }
-      }
-    },
-    {
-      "id": "dec-1789812495527-AVGO",
-      "timestamp": 1789812495527,
-      "asset": "AVGO",
-      "direction": "LONG",
-      "action": "WAIT",
-      "entry": 356.9649,
-      "stop_loss": 351.61,
-      "take_profit": 368.39,
-      "leverage": 5,
-      "position_size": 0,
-      "risk_percent": 1.5,
-      "rr": 2.13,
-      "confidence": 55,
-      "macro_catalyst": "FOMC Interest Rate Decision & Monetary Policy Statement (Federal Reserve Board)",
-      "technical_reasoning": "Opportunity score (50/100) below execution threshold; market structure HH in consolidation.",
-      "cross_asset_reasoning": "Cross-asset regime is RISK-ON; no directional edge verified.",
-      "regime": "RISK-ON",
-      "invalidation": "Consolidation breakout above local swing pivot required.",
-      "holding_horizon": "INACTIVE",
-      "strategy_id": "MACROVEX-EVENT-TA",
-      "strategy_version": "V2.1"
     }
   ],
   "tradeJournals": {
@@ -2801,55 +3039,64 @@
           "label": "Macro Catalyst Detected",
           "timestamp": 1789595682691,
           "detail": "Manual Trader Execution via Asset Intelligence Desk",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-16 21:54:42 UTC"
         },
         {
           "step": "AI_ANALYSIS",
           "label": "AI Transmission & Technical Analysis",
           "timestamp": 1789595697691,
           "detail": "Discretionary order validated through deterministic Risk Engine",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-16 21:54:57 UTC"
         },
         {
           "step": "RISK_CHECK",
           "label": "Deterministic Risk Gate (20/20 Checks)",
           "timestamp": 1789595707691,
           "detail": "Risk Engine approved $1500 risk (1.5%) at 5x leverage.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-16 21:55:07 UTC"
         },
         {
           "step": "EXECUTION",
           "label": "Paper Order Executed",
           "timestamp": 1789595712691,
           "detail": "Filled 1.0345 units of BTC at $89450 in PAPER mode.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-16 21:55:12 UTC"
         },
         {
           "step": "MONITORING",
           "label": "Continuous Active Position Monitoring",
           "timestamp": 1789595712691,
           "detail": "Tracking live quote against TP ($92600) and SL ($88000).",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-16 21:55:12 UTC"
         },
         {
           "step": "EXIT",
           "label": "Exit Triggered: STOP_LOSS",
           "timestamp": 1789728703102,
           "detail": "Closed at $88000 via STOP_LOSS. Duration: 2217m.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:51:43 UTC"
         },
         {
           "step": "RESULT",
           "label": "Loss Controlled (-1.06R)",
           "timestamp": 1789728703102,
           "detail": "Realized P&L: $-1592.56 | Net Return: -1.59%",
-          "status": "FAILED"
+          "status": "FAILED",
+          "timeFormatted": "2026-09-18 10:51:43 UTC"
         }
       ],
       "closedAt": 1789728703102,
       "exitReason": "STOP_LOSS",
       "resultPnl": -1592.56,
-      "rMultiple": -1.06
+      "rMultiple": -1.06,
+      "openingTime": "2026-09-16 21:55:12 UTC",
+      "closingTime": "2026-09-18 10:51:43 UTC"
     },
     "TRD-MU6U9U6D-YWRM": {
       "tradeId": "TRD-MU6U9U6D-YWRM",
@@ -2878,55 +3125,64 @@
           "label": "Macro Catalyst Detected",
           "timestamp": 1789728694741,
           "detail": "FOMC Interest Rate Decision & Monetary Policy Statement (Federal Reserve Board)",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:51:34 UTC"
         },
         {
           "step": "AI_ANALYSIS",
           "label": "AI Transmission & Technical Analysis",
           "timestamp": 1789728709741,
           "detail": "Confirmed LONG setup on 1H: EMA20 aligned with HH structure and recent order block rejection.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:51:49 UTC"
         },
         {
           "step": "RISK_CHECK",
           "label": "Deterministic Risk Gate (20/20 Checks)",
           "timestamp": 1789728719741,
           "detail": "Risk Engine approved $1476 risk (1.5%) at 5x leverage.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:51:59 UTC"
         },
         {
           "step": "EXECUTION",
           "label": "Paper Order Executed",
           "timestamp": 1789728724741,
           "detail": "Filled 1.179 units of BTC at $78252.2 in PAPER mode.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:52:04 UTC"
         },
         {
           "step": "MONITORING",
           "label": "Continuous Active Position Monitoring",
           "timestamp": 1789728724741,
           "detail": "Tracking live quote against TP ($80944.08) and SL ($77000.16).",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:52:04 UTC"
         },
         {
           "step": "EXIT",
           "label": "Exit Triggered: TAKE_PROFIT",
           "timestamp": 1789809608768,
           "detail": "Closed at $80944.08 via TAKE_PROFIT. Duration: 1348m.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:20:08 UTC"
         },
         {
           "step": "RESULT",
           "label": "Profitable Close (+2.09R)",
           "timestamp": 1789809608768,
           "detail": "Realized P&L: +$3081.47 | Net Return: 3.08%",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:20:08 UTC"
         }
       ],
       "closedAt": 1789809608768,
       "exitReason": "TAKE_PROFIT",
       "resultPnl": 3081.47,
-      "rMultiple": 2.09
+      "rMultiple": 2.09,
+      "openingTime": "2026-09-18 10:52:04 UTC",
+      "closingTime": "2026-09-19 09:20:08 UTC"
     },
     "TRD-MU6UC8QL-HAVM": {
       "tradeId": "TRD-MU6UC8QL-HAVM",
@@ -2955,55 +3211,64 @@
           "label": "Macro Catalyst Detected",
           "timestamp": 1789728806925,
           "detail": "FOMC Interest Rate Decision & Monetary Policy Statement (Federal Reserve Board)",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:53:26 UTC"
         },
         {
           "step": "AI_ANALYSIS",
           "label": "AI Transmission & Technical Analysis",
           "timestamp": 1789728821925,
           "detail": "Confirmed LONG setup on 1H: EMA20 aligned with HH structure and recent order block rejection.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:53:41 UTC"
         },
         {
           "step": "RISK_CHECK",
           "label": "Deterministic Risk Gate (20/20 Checks)",
           "timestamp": 1789728831925,
           "detail": "Risk Engine approved $1476 risk (1.5%) at 5x leverage.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:53:51 UTC"
         },
         {
           "step": "EXECUTION",
           "label": "Paper Order Executed",
           "timestamp": 1789728836925,
           "detail": "Filled 273.8612 units of AAPL at $337 in PAPER mode.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:53:56 UTC"
         },
         {
           "step": "MONITORING",
           "label": "Continuous Active Position Monitoring",
           "timestamp": 1789728836925,
           "detail": "Tracking live quote against TP ($348.59) and SL ($331.61).",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-18 10:53:56 UTC"
         },
         {
           "step": "EXIT",
           "label": "Exit Triggered: MANUAL_CLOSE",
           "timestamp": 1789813069492,
           "detail": "Closed at $334.8 via MANUAL_CLOSE. Duration: 1404m.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 10:17:49 UTC"
         },
         {
           "step": "RESULT",
           "label": "Loss Controlled (-0.47R)",
           "timestamp": 1789813069492,
           "detail": "Realized P&L: $-694.79 | Net Return: -0.69%",
-          "status": "FAILED"
+          "status": "FAILED",
+          "timeFormatted": "2026-09-19 10:17:49 UTC"
         }
       ],
       "closedAt": 1789813069492,
       "exitReason": "MANUAL_CLOSE",
       "resultPnl": -694.79,
-      "rMultiple": -0.47
+      "rMultiple": -0.47,
+      "openingTime": "2026-09-18 10:53:56 UTC",
+      "closingTime": "2026-09-19 10:17:49 UTC"
     },
     "TRD-MU86FJXE-HT9K": {
       "tradeId": "TRD-MU86FJXE-HT9K",
@@ -3032,55 +3297,64 @@
           "label": "Macro Catalyst Detected",
           "timestamp": 1789809582962,
           "detail": "FOMC Interest Rate Decision & Monetary Policy Statement (Federal Reserve Board)",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:19:42 UTC"
         },
         {
           "step": "AI_ANALYSIS",
           "label": "AI Transmission & Technical Analysis",
           "timestamp": 1789809597962,
           "detail": "Confirmed LONG setup on 1H: EMA20 aligned with HH structure and recent order block rejection.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:19:57 UTC"
         },
         {
           "step": "RISK_CHECK",
           "label": "Deterministic Risk Gate (20/20 Checks)",
           "timestamp": 1789809607962,
           "detail": "Risk Engine approved $1522 risk (1.5%) at 5x leverage.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:20:07 UTC"
         },
         {
           "step": "EXECUTION",
           "label": "Paper Order Executed",
           "timestamp": 1789809612962,
           "detail": "Filled 1.1689 units of BTC at $81396.2 in PAPER mode.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:20:12 UTC"
         },
         {
           "step": "MONITORING",
           "label": "Continuous Active Position Monitoring",
           "timestamp": 1789809612962,
           "detail": "Tracking live quote against TP ($84196.23) and SL ($80093.86).",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:20:12 UTC"
         },
         {
           "step": "EXIT",
           "label": "Exit Triggered: MANUAL_CLOSE",
           "timestamp": 1789809747197,
           "detail": "Closed at $81471.1 via MANUAL_CLOSE. Duration: 2m.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:22:27 UTC"
         },
         {
           "step": "RESULT",
           "label": "Loss Controlled (0R)",
           "timestamp": 1789809747197,
           "detail": "Realized P&L: $-7.60 | Net Return: -0.01%",
-          "status": "FAILED"
+          "status": "FAILED",
+          "timeFormatted": "2026-09-19 09:22:27 UTC"
         }
       ],
       "closedAt": 1789809747197,
       "exitReason": "MANUAL_CLOSE",
       "resultPnl": -7.6,
-      "rMultiple": 0
+      "rMultiple": 0,
+      "openingTime": "2026-09-19 09:20:12 UTC",
+      "closingTime": "2026-09-19 09:22:27 UTC"
     },
     "TRD-MU86IOJ9-03ZL": {
       "tradeId": "TRD-MU86IOJ9-03ZL",
@@ -3109,55 +3383,64 @@
           "label": "Macro Catalyst Detected",
           "timestamp": 1789809728901,
           "detail": "FOMC Interest Rate Decision & Monetary Policy Statement (Federal Reserve Board)",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:22:08 UTC"
         },
         {
           "step": "AI_ANALYSIS",
           "label": "AI Transmission & Technical Analysis",
           "timestamp": 1789809743901,
           "detail": "Confirmed LONG setup on 1H: EMA20 aligned with HL structure and recent order block rejection.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:22:23 UTC"
         },
         {
           "step": "RISK_CHECK",
           "label": "Deterministic Risk Gate (20/20 Checks)",
           "timestamp": 1789809753901,
           "detail": "Risk Engine approved $1522 risk (1.5%) at 5x leverage.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:22:33 UTC"
         },
         {
           "step": "EXECUTION",
           "label": "Paper Order Executed",
           "timestamp": 1789809758901,
           "detail": "Filled 21.5003 units of XAU at $4424.9 in PAPER mode.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:22:38 UTC"
         },
         {
           "step": "MONITORING",
           "label": "Continuous Active Position Monitoring",
           "timestamp": 1789809758901,
           "detail": "Tracking live quote against TP ($4577.12) and SL ($4354.1).",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 09:22:38 UTC"
         },
         {
           "step": "EXIT",
           "label": "Exit Triggered: MANUAL_CLOSE",
           "timestamp": 1789813067728,
           "detail": "Closed at $4381.96 via MANUAL_CLOSE. Duration: 55m.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-19 10:17:47 UTC"
         },
         {
           "step": "RESULT",
           "label": "Loss Controlled (-0.67R)",
           "timestamp": 1789813067728,
           "detail": "Realized P&L: $-1018.36 | Net Return: -1.02%",
-          "status": "FAILED"
+          "status": "FAILED",
+          "timeFormatted": "2026-09-19 10:17:47 UTC"
         }
       ],
       "closedAt": 1789813067728,
       "exitReason": "MANUAL_CLOSE",
       "resultPnl": -1018.36,
-      "rMultiple": -0.67
+      "rMultiple": -0.67,
+      "openingTime": "2026-09-19 09:22:38 UTC",
+      "closingTime": "2026-09-19 10:17:47 UTC"
     },
     "TRD-MUAA2Y94-N0ET": {
       "tradeId": "TRD-MUAA2Y94-N0ET",
@@ -3186,55 +3469,64 @@
           "label": "Macro Catalyst Detected",
           "timestamp": 1789936645816,
           "detail": "Full-Market Scalper: ALIGNED MTF & Macro NEUTRAL",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:37:25 UTC"
         },
         {
           "step": "AI_ANALYSIS",
           "label": "AI Transmission & Technical Analysis",
           "timestamp": 1789936660816,
           "detail": "SMC Setup: HL NONE NONE | FVG: BULL_FVG | Sweep: YES",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:37:40 UTC"
         },
         {
           "step": "RISK_CHECK",
           "label": "Deterministic Risk Gate (20/20 Checks)",
           "timestamp": 1789936670816,
           "detail": "Risk Engine approved $1497 risk (1.5%) at 8x leverage.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:37:50 UTC"
         },
         {
           "step": "EXECUTION",
           "label": "Paper Order Executed",
           "timestamp": 1789936675816,
           "detail": "Filled 1.1538 units of BTC at $81062.1 in PAPER mode.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:37:55 UTC"
         },
         {
           "step": "MONITORING",
           "label": "Continuous Active Position Monitoring",
           "timestamp": 1789936675816,
           "detail": "Tracking live quote against TP ($83850.64) and SL ($79765.11).",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:37:55 UTC"
         },
         {
           "step": "EXIT",
           "label": "Exit Triggered: MANUAL_CLOSE",
           "timestamp": 1789936829655,
           "detail": "Closed at $81092.1 via MANUAL_CLOSE. Duration: 3m.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:40:29 UTC"
         },
         {
           "step": "RESULT",
           "label": "Loss Controlled (-0.04R)",
           "timestamp": 1789936829655,
           "detail": "Realized P&L: $-58.92 | Net Return: -0.06%",
-          "status": "FAILED"
+          "status": "FAILED",
+          "timeFormatted": "2026-09-20 20:40:29 UTC"
         }
       ],
       "closedAt": 1789936829655,
       "exitReason": "MANUAL_CLOSE",
       "resultPnl": -58.92,
-      "rMultiple": -0.04
+      "rMultiple": -0.04,
+      "openingTime": "2026-09-20 20:37:55 UTC",
+      "closingTime": "2026-09-20 20:40:29 UTC"
     },
     "TRD-MUAA6ASE-2QF8": {
       "tradeId": "TRD-MUAA6ASE-2QF8",
@@ -3263,37 +3555,74 @@
           "label": "Macro Catalyst Detected",
           "timestamp": 1789936802030,
           "detail": "Full-Market Scalper: ALIGNED MTF & Macro NEUTRAL",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:40:02 UTC"
         },
         {
           "step": "AI_ANALYSIS",
           "label": "AI Transmission & Technical Analysis",
           "timestamp": 1789936817030,
           "detail": "SMC Setup: HL NONE NONE | FVG: BULL_FVG | Sweep: YES",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:40:17 UTC"
         },
         {
           "step": "RISK_CHECK",
           "label": "Deterministic Risk Gate (20/20 Checks)",
           "timestamp": 1789936827030,
           "detail": "Risk Engine approved $1496 risk (1.5%) at 8x leverage.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:40:27 UTC"
         },
         {
           "step": "EXECUTION",
           "label": "Paper Order Executed",
           "timestamp": 1789936832030,
           "detail": "Filled 1.1527 units of BTC at $81092.1 in PAPER mode.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:40:32 UTC"
         },
         {
           "step": "MONITORING",
           "label": "Continuous Active Position Monitoring",
           "timestamp": 1789936832030,
           "detail": "Tracking live quote against TP ($83881.67) and SL ($79794.63).",
-          "status": "ACTIVE"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:40:32 UTC"
+        },
+        {
+          "step": "MONITORING",
+          "label": "30-Min Management: Partial Exit & Breakeven SL (2026-09-22 20:35:31 UTC)",
+          "timestamp": 1790109331831,
+          "timeFormatted": "2026-09-22 20:35:31 UTC",
+          "detail": "2026-09-22 20:35:31 UTC Locked in 50% partial profit (+$2997.14). Remaining: 0.5764 units. SL: $81092.10.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "EXIT",
+          "label": "Exit Triggered: TAKE_PROFIT",
+          "timestamp": 1790109332105,
+          "timeFormatted": "2026-09-22 20:35:32 UTC",
+          "detail": "Closed at $85139.9 via TAKE_PROFIT. Opened: 2026-09-20 20:40:32 UTC | Closed: 2026-09-22 20:35:32 UTC | Duration: 47:55:00.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "RESULT",
+          "label": "Profitable Close (+3.03R)",
+          "timestamp": 1790109332105,
+          "timeFormatted": "2026-09-22 20:35:32 UTC",
+          "detail": "Realized P&L: +$2263.04 | Net Return: 2.26% | Total Holding: 47:55:00",
+          "status": "COMPLETED"
         }
-      ]
+      ],
+      "openingTime": "2026-09-20 20:40:32 UTC",
+      "closedAt": 1790109332105,
+      "closingTime": "2026-09-22 20:35:32 UTC",
+      "durationSeconds": 172500,
+      "durationFormatted": "47:55:00",
+      "exitReason": "TAKE_PROFIT",
+      "resultPnl": 2263.04,
+      "rMultiple": 3.03
     },
     "TRD-MUAAJVXX-Y7O6": {
       "tradeId": "TRD-MUAAJVXX-Y7O6",
@@ -3322,55 +3651,64 @@
           "label": "Macro Catalyst Detected",
           "timestamp": 1789937435973,
           "detail": "Manual Trader Execution via Asset Intelligence Desk",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:50:35 UTC"
         },
         {
           "step": "AI_ANALYSIS",
           "label": "AI Transmission & Technical Analysis",
           "timestamp": 1789937450973,
           "detail": "Discretionary order validated through deterministic Risk Engine",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:50:50 UTC"
         },
         {
           "step": "RISK_CHECK",
           "label": "Deterministic Risk Gate (20/20 Checks)",
           "timestamp": 1789937460973,
           "detail": "Risk Engine approved $1496 risk (1.5%) at 3x leverage.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:51:00 UTC"
         },
         {
           "step": "EXECUTION",
           "label": "Paper Order Executed",
           "timestamp": 1789937465973,
           "detail": "Filled 427.3253 units of NVDA at $221 in PAPER mode.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:51:05 UTC"
         },
         {
           "step": "MONITORING",
           "label": "Continuous Active Position Monitoring",
           "timestamp": 1789937465973,
           "detail": "Tracking live quote against TP ($228.7) and SL ($217.5).",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 20:51:05 UTC"
         },
         {
           "step": "EXIT",
           "label": "Exit Triggered: MANUAL_CLOSE",
           "timestamp": 1789939907837,
           "detail": "Closed at $221.34 via MANUAL_CLOSE. Duration: 41m.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 21:31:47 UTC"
         },
         {
           "step": "RESULT",
           "label": "Profitable Close (+0.03R)",
           "timestamp": 1789939907837,
           "detail": "Realized P&L: +$50.85 | Net Return: 0.05%",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 21:31:47 UTC"
         }
       ],
       "closedAt": 1789939907837,
       "exitReason": "MANUAL_CLOSE",
       "resultPnl": 50.85,
-      "rMultiple": 0.03
+      "rMultiple": 0.03,
+      "openingTime": "2026-09-20 20:51:05 UTC",
+      "closingTime": "2026-09-20 21:31:47 UTC"
     },
     "TRD-MUAC0A47-WQ23": {
       "tradeId": "TRD-MUAC0A47-WQ23",
@@ -3399,40 +3737,983 @@
           "label": "Macro Catalyst Detected",
           "timestamp": 1789939880455,
           "detail": "Dynamic Recycled Scalp: EQUITIES Opportunity",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 21:31:20 UTC"
         },
         {
           "step": "AI_ANALYSIS",
           "label": "AI Transmission & Technical Analysis",
           "timestamp": 1789939895455,
           "detail": "Instantly recycled position slot upon trade close. R:R: 2.15:1.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 21:31:35 UTC"
         },
         {
           "step": "RISK_CHECK",
           "label": "Deterministic Risk Gate (20/20 Checks)",
           "timestamp": 1789939905455,
           "detail": "Risk Engine approved $1496 risk (1.5%) at 5x leverage.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 21:31:45 UTC"
         },
         {
           "step": "EXECUTION",
           "label": "Paper Order Executed",
           "timestamp": 1789939910455,
           "detail": "Filled 562.5569 units of NVDA at $221.34 in PAPER mode.",
-          "status": "COMPLETED"
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 21:31:50 UTC"
         },
         {
           "step": "MONITORING",
           "label": "Continuous Active Position Monitoring",
           "timestamp": 1789939910455,
           "detail": "Tracking live quote against TP ($227.05) and SL ($218.68).",
+          "status": "COMPLETED",
+          "timeFormatted": "2026-09-20 21:31:50 UTC"
+        },
+        {
+          "step": "MONITORING",
+          "label": "30-Min Management: Partial Exit & Breakeven SL (2026-09-22 20:35:32 UTC)",
+          "timestamp": 1790109332080,
+          "timeFormatted": "2026-09-22 20:35:32 UTC",
+          "detail": "2026-09-22 20:35:32 UTC Locked in 50% partial profit (+$1966.14). Remaining: 281.2785 units. SL: $221.34.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "EXIT",
+          "label": "Exit Triggered: MANUAL_CLOSE",
+          "timestamp": 1790109358413,
+          "timeFormatted": "2026-09-22 20:35:58 UTC",
+          "detail": "Closed at $228.34 via MANUAL_CLOSE. Opened: 2026-09-20 21:31:50 UTC | Closed: 2026-09-22 20:35:58 UTC | Duration: 47:04:08.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "RESULT",
+          "label": "Profitable Close (+2.51R)",
+          "timestamp": 1790109358413,
+          "timeFormatted": "2026-09-22 20:35:58 UTC",
+          "detail": "Realized P&L: +$1875.56 | Net Return: 1.88% | Total Holding: 47:04:08",
+          "status": "COMPLETED"
+        }
+      ],
+      "openingTime": "2026-09-20 21:31:50 UTC",
+      "closedAt": 1790109358413,
+      "closingTime": "2026-09-22 20:35:58 UTC",
+      "durationSeconds": 169448,
+      "durationFormatted": "47:04:08",
+      "exitReason": "MANUAL_CLOSE",
+      "resultPnl": 1875.56,
+      "rMultiple": 2.51
+    },
+    "TRD-MUD4W8C0-3JC7": {
+      "tradeId": "TRD-MUD4W8C0-3JC7",
+      "asset": "NVDA",
+      "direction": "LONG",
+      "openedAt": 1790109362736,
+      "openingTime": "2026-09-22 20:36:02 UTC",
+      "macroCatalyst": "Dynamic Recycled Scalp: EQUITIES Opportunity",
+      "technicalSetup": "Entry: $228.34 | SL: $225.6 | TP: $234.23 (R:R 2.15:1)",
+      "crossAssetConfirmation": "Yield and index momentum confirmed risk profile.",
+      "regime": "RISK-ON",
+      "aiReasoning": "Instantly recycled position slot upon trade close. R:R: 2.15:1.",
+      "riskDecision": {
+        "approved": true,
+        "checksPassed": 20,
+        "totalChecks": 20,
+        "summary": "Passed all 20 deterministic checks including daily caps and max exposure."
+      },
+      "entry": 228.34,
+      "sl": 225.6,
+      "tp": 234.23,
+      "leverage": 5,
+      "positionSize": 17.5177,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 48,
+      "signalStrength": "VERY STRONG",
+      "timeline": [
+        {
+          "step": "EVENT",
+          "label": "Macro Catalyst Detected",
+          "timestamp": 1790109332736,
+          "timeFormatted": "2026-09-22 20:35:32 UTC",
+          "detail": "Dynamic Recycled Scalp: EQUITIES Opportunity",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "AI_ANALYSIS",
+          "label": "AI Transmission & Technical Analysis",
+          "timestamp": 1790109347736,
+          "timeFormatted": "2026-09-22 20:35:47 UTC",
+          "detail": "Instantly recycled position slot upon trade close. R:R: 2.15:1.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "RISK_CHECK",
+          "label": "Deterministic Risk Gate (20/20 Checks)",
+          "timestamp": 1790109357736,
+          "timeFormatted": "2026-09-22 20:35:57 UTC",
+          "detail": "Risk Engine approved $48 risk (0.044%) at 5x leverage.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "EXECUTION",
+          "label": "Paper Order Executed",
+          "timestamp": 1790109362736,
+          "timeFormatted": "2026-09-22 20:36:02 UTC",
+          "detail": "Filled 17.5177 units of NVDA at $228.34 in PAPER mode. Opening: 2026-09-22 20:36:02 UTC",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "MONITORING",
+          "label": "Continuous Active Position Monitoring",
+          "timestamp": 1790109362736,
+          "timeFormatted": "2026-09-22 20:36:02 UTC",
+          "detail": "Tracking live quote against TP ($234.23) and SL ($225.6).",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "EXIT",
+          "label": "Exit Triggered: MANUAL_CLOSE",
+          "timestamp": 1790110561375,
+          "timeFormatted": "2026-09-22 20:56:01 UTC",
+          "detail": "Closed at $228.38 via MANUAL_CLOSE. Opened: 2026-09-22 20:36:02 UTC | Closed: 2026-09-22 20:56:01 UTC | Duration: 00:19:59.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "RESULT",
+          "label": "Loss Controlled (-0.07R)",
+          "timestamp": 1790110561375,
+          "timeFormatted": "2026-09-22 20:56:01 UTC",
+          "detail": "Realized P&L: $-3.30 | Net Return: -0.00% | Total Holding: 00:19:59",
+          "status": "FAILED"
+        }
+      ],
+      "closedAt": 1790110561375,
+      "closingTime": "2026-09-22 20:56:01 UTC",
+      "durationSeconds": 1199,
+      "durationFormatted": "00:19:59",
+      "exitReason": "MANUAL_CLOSE",
+      "resultPnl": -3.3,
+      "rMultiple": -0.07
+    },
+    "TRD-MUD4YAJX-X03O": {
+      "tradeId": "TRD-MUD4YAJX-X03O",
+      "asset": "AAPL",
+      "direction": "LONG",
+      "openedAt": 1790109458925,
+      "openingTime": "2026-09-22 20:37:38 UTC",
+      "macroCatalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+      "technicalSetup": "Entry: $339.94 | SL: $335.86 | TP: $348.71 (R:R 2.15:1)",
+      "crossAssetConfirmation": "Yield and index momentum confirmed risk profile.",
+      "regime": "RISK-ON",
+      "aiReasoning": "SMC Analysis: HH BOS_BULL BULL_OB | FVG: NONE | Sweep: YES",
+      "riskDecision": {
+        "approved": true,
+        "checksPassed": 20,
+        "totalChecks": 20,
+        "summary": "Passed all 20 deterministic checks including daily caps and max exposure."
+      },
+      "entry": 339.94,
+      "sl": 335.86,
+      "tp": 348.71,
+      "leverage": 5,
+      "positionSize": 11.7668,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 48.01,
+      "signalStrength": "VERY STRONG",
+      "timeline": [
+        {
+          "step": "EVENT",
+          "label": "Macro Catalyst Detected",
+          "timestamp": 1790109428925,
+          "timeFormatted": "2026-09-22 20:37:08 UTC",
+          "detail": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "AI_ANALYSIS",
+          "label": "AI Transmission & Technical Analysis",
+          "timestamp": 1790109443925,
+          "timeFormatted": "2026-09-22 20:37:23 UTC",
+          "detail": "SMC Analysis: HH BOS_BULL BULL_OB | FVG: NONE | Sweep: YES",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "RISK_CHECK",
+          "label": "Deterministic Risk Gate (20/20 Checks)",
+          "timestamp": 1790109453925,
+          "timeFormatted": "2026-09-22 20:37:33 UTC",
+          "detail": "Risk Engine approved $48 risk (0.044%) at 5x leverage.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "EXECUTION",
+          "label": "Paper Order Executed",
+          "timestamp": 1790109458925,
+          "timeFormatted": "2026-09-22 20:37:38 UTC",
+          "detail": "Filled 11.7668 units of AAPL at $339.94 in PAPER mode. Opening: 2026-09-22 20:37:38 UTC",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "MONITORING",
+          "label": "Continuous Active Position Monitoring",
+          "timestamp": 1790109458925,
+          "timeFormatted": "2026-09-22 20:37:38 UTC",
+          "detail": "Tracking live quote against TP ($348.71) and SL ($335.86).",
+          "status": "ACTIVE"
+        }
+      ]
+    },
+    "TRD-MUD4YAM7-XZ14": {
+      "tradeId": "TRD-MUD4YAM7-XZ14",
+      "asset": "MSFT",
+      "direction": "LONG",
+      "openedAt": 1790109459007,
+      "openingTime": "2026-09-22 20:37:39 UTC",
+      "macroCatalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+      "technicalSetup": "Entry: $498.18 | SL: $492.2 | TP: $511.03 (R:R 2.15:1)",
+      "crossAssetConfirmation": "Yield and index momentum confirmed risk profile.",
+      "regime": "RISK-ON",
+      "aiReasoning": "SMC Analysis: HH NONE BULL_OB | FVG: BULL_FVG | Sweep: YES",
+      "riskDecision": {
+        "approved": true,
+        "checksPassed": 20,
+        "totalChecks": 20,
+        "summary": "Passed all 20 deterministic checks including daily caps and max exposure."
+      },
+      "entry": 498.18,
+      "sl": 492.2,
+      "tp": 511.03,
+      "leverage": 5,
+      "positionSize": 8.0292,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 48.01,
+      "signalStrength": "VERY STRONG",
+      "timeline": [
+        {
+          "step": "EVENT",
+          "label": "Macro Catalyst Detected",
+          "timestamp": 1790109429007,
+          "timeFormatted": "2026-09-22 20:37:09 UTC",
+          "detail": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "AI_ANALYSIS",
+          "label": "AI Transmission & Technical Analysis",
+          "timestamp": 1790109444007,
+          "timeFormatted": "2026-09-22 20:37:24 UTC",
+          "detail": "SMC Analysis: HH NONE BULL_OB | FVG: BULL_FVG | Sweep: YES",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "RISK_CHECK",
+          "label": "Deterministic Risk Gate (20/20 Checks)",
+          "timestamp": 1790109454007,
+          "timeFormatted": "2026-09-22 20:37:34 UTC",
+          "detail": "Risk Engine approved $48 risk (0.044%) at 5x leverage.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "EXECUTION",
+          "label": "Paper Order Executed",
+          "timestamp": 1790109459007,
+          "timeFormatted": "2026-09-22 20:37:39 UTC",
+          "detail": "Filled 8.0292 units of MSFT at $498.18 in PAPER mode. Opening: 2026-09-22 20:37:39 UTC",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "MONITORING",
+          "label": "Continuous Active Position Monitoring",
+          "timestamp": 1790109459007,
+          "timeFormatted": "2026-09-22 20:37:39 UTC",
+          "detail": "Tracking live quote against TP ($511.03) and SL ($492.2).",
+          "status": "ACTIVE"
+        }
+      ]
+    },
+    "TRD-MUD4YAOH-UBJO": {
+      "tradeId": "TRD-MUD4YAOH-UBJO",
+      "asset": "AMZN",
+      "direction": "LONG",
+      "openedAt": 1790109459089,
+      "openingTime": "2026-09-22 20:37:39 UTC",
+      "macroCatalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+      "technicalSetup": "Entry: $255.29 | SL: $252.23 | TP: $261.88 (R:R 2.15:1)",
+      "crossAssetConfirmation": "Yield and index momentum confirmed risk profile.",
+      "regime": "RISK-ON",
+      "aiReasoning": "SMC Analysis: HH NONE BULL_OB | FVG: NONE | Sweep: YES",
+      "riskDecision": {
+        "approved": true,
+        "checksPassed": 20,
+        "totalChecks": 20,
+        "summary": "Passed all 20 deterministic checks including daily caps and max exposure."
+      },
+      "entry": 255.29,
+      "sl": 252.23,
+      "tp": 261.88,
+      "leverage": 5,
+      "positionSize": 15.6685,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 47.95,
+      "signalStrength": "VERY STRONG",
+      "timeline": [
+        {
+          "step": "EVENT",
+          "label": "Macro Catalyst Detected",
+          "timestamp": 1790109429089,
+          "timeFormatted": "2026-09-22 20:37:09 UTC",
+          "detail": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "AI_ANALYSIS",
+          "label": "AI Transmission & Technical Analysis",
+          "timestamp": 1790109444089,
+          "timeFormatted": "2026-09-22 20:37:24 UTC",
+          "detail": "SMC Analysis: HH NONE BULL_OB | FVG: NONE | Sweep: YES",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "RISK_CHECK",
+          "label": "Deterministic Risk Gate (20/20 Checks)",
+          "timestamp": 1790109454089,
+          "timeFormatted": "2026-09-22 20:37:34 UTC",
+          "detail": "Risk Engine approved $48 risk (0.044%) at 5x leverage.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "EXECUTION",
+          "label": "Paper Order Executed",
+          "timestamp": 1790109459089,
+          "timeFormatted": "2026-09-22 20:37:39 UTC",
+          "detail": "Filled 15.6685 units of AMZN at $255.29 in PAPER mode. Opening: 2026-09-22 20:37:39 UTC",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "MONITORING",
+          "label": "Continuous Active Position Monitoring",
+          "timestamp": 1790109459089,
+          "timeFormatted": "2026-09-22 20:37:39 UTC",
+          "detail": "Tracking live quote against TP ($261.88) and SL ($252.23).",
+          "status": "ACTIVE"
+        }
+      ]
+    },
+    "TRD-MUD4YAQR-8I8J": {
+      "tradeId": "TRD-MUD4YAQR-8I8J",
+      "asset": "META",
+      "direction": "LONG",
+      "openedAt": 1790109459171,
+      "openingTime": "2026-09-22 20:37:39 UTC",
+      "macroCatalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+      "technicalSetup": "Entry: $737.52 | SL: $728.67 | TP: $756.55 (R:R 2.15:1)",
+      "crossAssetConfirmation": "Yield and index momentum confirmed risk profile.",
+      "regime": "RISK-ON",
+      "aiReasoning": "SMC Analysis: HH BOS_BULL NONE | FVG: NONE | Sweep: YES",
+      "riskDecision": {
+        "approved": true,
+        "checksPassed": 20,
+        "totalChecks": 20,
+        "summary": "Passed all 20 deterministic checks including daily caps and max exposure."
+      },
+      "entry": 737.52,
+      "sl": 728.67,
+      "tp": 756.55,
+      "leverage": 5,
+      "positionSize": 5.4236,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 48,
+      "signalStrength": "VERY STRONG",
+      "timeline": [
+        {
+          "step": "EVENT",
+          "label": "Macro Catalyst Detected",
+          "timestamp": 1790109429171,
+          "timeFormatted": "2026-09-22 20:37:09 UTC",
+          "detail": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "AI_ANALYSIS",
+          "label": "AI Transmission & Technical Analysis",
+          "timestamp": 1790109444171,
+          "timeFormatted": "2026-09-22 20:37:24 UTC",
+          "detail": "SMC Analysis: HH BOS_BULL NONE | FVG: NONE | Sweep: YES",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "RISK_CHECK",
+          "label": "Deterministic Risk Gate (20/20 Checks)",
+          "timestamp": 1790109454171,
+          "timeFormatted": "2026-09-22 20:37:34 UTC",
+          "detail": "Risk Engine approved $48 risk (0.044%) at 5x leverage.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "EXECUTION",
+          "label": "Paper Order Executed",
+          "timestamp": 1790109459171,
+          "timeFormatted": "2026-09-22 20:37:39 UTC",
+          "detail": "Filled 5.4236 units of META at $737.52 in PAPER mode. Opening: 2026-09-22 20:37:39 UTC",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "MONITORING",
+          "label": "Continuous Active Position Monitoring",
+          "timestamp": 1790109459171,
+          "timeFormatted": "2026-09-22 20:37:39 UTC",
+          "detail": "Tracking live quote against TP ($756.55) and SL ($728.67).",
+          "status": "ACTIVE"
+        }
+      ]
+    },
+    "TRD-MUD5M65J-CMS8": {
+      "tradeId": "TRD-MUD5M65J-CMS8",
+      "asset": "TSLA",
+      "direction": "LONG",
+      "openedAt": 1790110572967,
+      "openingTime": "2026-09-22 20:56:12 UTC",
+      "macroCatalyst": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+      "technicalSetup": "Entry: $378.65 | SL: $374.11 | TP: $388.42 (R:R 2.15:1)",
+      "crossAssetConfirmation": "Yield and index momentum confirmed risk profile.",
+      "regime": "RISK-ON",
+      "aiReasoning": "SMC Analysis: HH BOS_BULL BULL_OB | FVG: BULL_FVG | Sweep: YES",
+      "riskDecision": {
+        "approved": true,
+        "checksPassed": 20,
+        "totalChecks": 20,
+        "summary": "Passed all 20 deterministic checks including daily caps and max exposure."
+      },
+      "entry": 378.65,
+      "sl": 374.11,
+      "tp": 388.42,
+      "leverage": 5,
+      "positionSize": 10.5638,
+      "margin": 800,
+      "marginUsed": 800,
+      "positionNotional": 4000,
+      "capitalAtRisk": 47.96,
+      "signalStrength": "VERY STRONG",
+      "timeline": [
+        {
+          "step": "EVENT",
+          "label": "Macro Catalyst Detected",
+          "timestamp": 1790110542967,
+          "timeFormatted": "2026-09-22 20:55:42 UTC",
+          "detail": "Autonomous 30-Min Cycle: EQUITIES Priority Setup (ALIGNED MTF)",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "AI_ANALYSIS",
+          "label": "AI Transmission & Technical Analysis",
+          "timestamp": 1790110557967,
+          "timeFormatted": "2026-09-22 20:55:57 UTC",
+          "detail": "SMC Analysis: HH BOS_BULL BULL_OB | FVG: BULL_FVG | Sweep: YES",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "RISK_CHECK",
+          "label": "Deterministic Risk Gate (20/20 Checks)",
+          "timestamp": 1790110567967,
+          "timeFormatted": "2026-09-22 20:56:07 UTC",
+          "detail": "Risk Engine approved $48 risk (0.044%) at 5x leverage. Margin: $800 USDT.",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "EXECUTION",
+          "label": "Paper Order Executed",
+          "timestamp": 1790110572967,
+          "timeFormatted": "2026-09-22 20:56:12 UTC",
+          "detail": "Filled 10.5638 units of TSLA at $378.65 in PAPER mode. Opening: 2026-09-22 20:56:12 UTC",
+          "status": "COMPLETED"
+        },
+        {
+          "step": "MONITORING",
+          "label": "Continuous Active Position Monitoring",
+          "timestamp": 1790110572967,
+          "timeFormatted": "2026-09-22 20:56:12 UTC",
+          "detail": "Tracking live quote against TP ($388.42) and SL ($374.11).",
           "status": "ACTIVE"
         }
       ]
     }
   },
   "activities": [
+    {
+      "id": "act-1790110561376-ql9r",
+      "timestamp": 1790110561376,
+      "type": "EXIT",
+      "event": "POSITION CLOSED",
+      "tradeId": "TRD-MUD4W8C0-3JC7",
+      "asset": "NVDA",
+      "status": "CLOSED",
+      "title": "POSITION CLOSED: LONG NVDA (MANUAL_CLOSE)",
+      "detail": "Exit Price: $228.38 | Realized P&L: $-3.30 (-0.07R) | Opened: 2026-09-22 20:36:02 UTC | Closed: 2026-09-22 20:56:01 UTC | Duration: 00:19:59"
+    },
+    {
+      "id": "act-1790110554832-ikem",
+      "timestamp": 1790110554832,
+      "type": "MONITOR",
+      "title": "AUTONOMOUS ENGINE RECOVERY COMPLETED",
+      "detail": "Portfolio equity: $108861.97 | Active Positions: 5/5 | Scheduler: 30-Min Authoritative."
+    },
+    {
+      "id": "act-1790110554333-d7m5",
+      "timestamp": 1790110554333,
+      "type": "MONITOR",
+      "title": "AUTONOMOUS ENGINE RECOVERY INITIATED",
+      "detail": "Restoring 5 open positions, verifying Bitget live connection, and initializing 30-minute scheduler."
+    },
+    {
+      "id": "act-1790109459199-9g5n",
+      "timestamp": 1790109459199,
+      "type": "MONITOR",
+      "event": "POSITION OPENED",
+      "tradeId": "TRD-MUD4YAQR-8I8J",
+      "asset": "META",
+      "status": "OPEN",
+      "title": "POSITION OPENED: LONG META",
+      "detail": "Entry: $737.52 | SL: $728.67 | TP: $756.55 | Opened: 2026-09-22 20:37:39 UTC"
+    },
+    {
+      "id": "act-1790109459190-bmky",
+      "timestamp": 1790109459190,
+      "type": "EXECUTE",
+      "event": "PAPER EXECUTED",
+      "tradeId": "TRD-MUD4YAQR-8I8J",
+      "asset": "META",
+      "status": "FILLED",
+      "title": "PAPER EXECUTED: LONG META",
+      "detail": "Order filled at $737.52 | Qty: 5.4236 | Notional: $4000.00 | Opening Time: 2026-09-22 20:37:39 UTC"
+    },
+    {
+      "id": "act-1790109459180-kmfz",
+      "timestamp": 1790109459180,
+      "type": "RISK_PASS",
+      "event": "RISK APPROVED",
+      "tradeId": "TRD-MUD4YAQR-8I8J",
+      "asset": "META",
+      "status": "APPROVED",
+      "title": "RISK APPROVED: LONG META",
+      "detail": "Passed all 20 deterministic gates | Position Size: 5.4236 | Leverage: 5x | Risk: $48 (0.044%)"
+    },
+    {
+      "id": "act-1790109459171-n04k",
+      "timestamp": 1790109459171,
+      "type": "ANALYSIS",
+      "event": "AI DECISION",
+      "tradeId": "TRD-MUD4YAQR-8I8J",
+      "asset": "META",
+      "status": "BUY",
+      "title": "AI DECISION: BUY LONG META",
+      "detail": "Setup Score: 82% | Target: $756.55 | Invalidation: $728.67"
+    },
+    {
+      "id": "act-1790109459161-iwx2",
+      "timestamp": 1790109459161,
+      "type": "RISK_PASS",
+      "title": "RISK ENGINE APPROVED: LONG META",
+      "detail": "All 20 deterministic checks passed. Executing paper trade on real Bitget market feed.",
+      "asset": "META"
+    },
+    {
+      "id": "act-1790109459143-7sj6",
+      "timestamp": 1790109459143,
+      "type": "ANALYSIS",
+      "title": "30-MIN SCAN CANDIDATE: LONG META [EQUITIES]",
+      "detail": "Score: 99/100 | R:R: 2.15:1 | MTF: ALIGNED | SMC: BOS_BULL NONE. Submitting to Deterministic 20-Gate Risk Engine.",
+      "asset": "META"
+    },
+    {
+      "id": "act-1790109459116-wndr",
+      "timestamp": 1790109459116,
+      "type": "MONITOR",
+      "event": "POSITION OPENED",
+      "tradeId": "TRD-MUD4YAOH-UBJO",
+      "asset": "AMZN",
+      "status": "OPEN",
+      "title": "POSITION OPENED: LONG AMZN",
+      "detail": "Entry: $255.29 | SL: $252.23 | TP: $261.88 | Opened: 2026-09-22 20:37:39 UTC"
+    },
+    {
+      "id": "act-1790109459107-timl",
+      "timestamp": 1790109459107,
+      "type": "EXECUTE",
+      "event": "PAPER EXECUTED",
+      "tradeId": "TRD-MUD4YAOH-UBJO",
+      "asset": "AMZN",
+      "status": "FILLED",
+      "title": "PAPER EXECUTED: LONG AMZN",
+      "detail": "Order filled at $255.29 | Qty: 15.6685 | Notional: $4000.00 | Opening Time: 2026-09-22 20:37:39 UTC"
+    },
+    {
+      "id": "act-1790109459098-eskf",
+      "timestamp": 1790109459098,
+      "type": "RISK_PASS",
+      "event": "RISK APPROVED",
+      "tradeId": "TRD-MUD4YAOH-UBJO",
+      "asset": "AMZN",
+      "status": "APPROVED",
+      "title": "RISK APPROVED: LONG AMZN",
+      "detail": "Passed all 20 deterministic gates | Position Size: 15.6685 | Leverage: 5x | Risk: $48 (0.044%)"
+    },
+    {
+      "id": "act-1790109459089-vgke",
+      "timestamp": 1790109459089,
+      "type": "ANALYSIS",
+      "event": "AI DECISION",
+      "tradeId": "TRD-MUD4YAOH-UBJO",
+      "asset": "AMZN",
+      "status": "BUY",
+      "title": "AI DECISION: BUY LONG AMZN",
+      "detail": "Setup Score: 80% | Target: $261.88 | Invalidation: $252.23"
+    },
+    {
+      "id": "act-1790109459079-iyvp",
+      "timestamp": 1790109459079,
+      "type": "RISK_PASS",
+      "title": "RISK ENGINE APPROVED: LONG AMZN",
+      "detail": "All 20 deterministic checks passed. Executing paper trade on real Bitget market feed.",
+      "asset": "AMZN"
+    },
+    {
+      "id": "act-1790109459061-1iya",
+      "timestamp": 1790109459061,
+      "type": "ANALYSIS",
+      "title": "30-MIN SCAN CANDIDATE: LONG AMZN [EQUITIES]",
+      "detail": "Score: 99/100 | R:R: 2.15:1 | MTF: ALIGNED | SMC: NONE BULL_OB. Submitting to Deterministic 20-Gate Risk Engine.",
+      "asset": "AMZN"
+    },
+    {
+      "id": "act-1790109459034-hjgj",
+      "timestamp": 1790109459034,
+      "type": "MONITOR",
+      "event": "POSITION OPENED",
+      "tradeId": "TRD-MUD4YAM7-XZ14",
+      "asset": "MSFT",
+      "status": "OPEN",
+      "title": "POSITION OPENED: LONG MSFT",
+      "detail": "Entry: $498.18 | SL: $492.2 | TP: $511.03 | Opened: 2026-09-22 20:37:39 UTC"
+    },
+    {
+      "id": "act-1790109459025-3sjo",
+      "timestamp": 1790109459025,
+      "type": "EXECUTE",
+      "event": "PAPER EXECUTED",
+      "tradeId": "TRD-MUD4YAM7-XZ14",
+      "asset": "MSFT",
+      "status": "FILLED",
+      "title": "PAPER EXECUTED: LONG MSFT",
+      "detail": "Order filled at $498.18 | Qty: 8.0292 | Notional: $4000.00 | Opening Time: 2026-09-22 20:37:39 UTC"
+    },
+    {
+      "id": "act-1790109459016-j8qx",
+      "timestamp": 1790109459016,
+      "type": "RISK_PASS",
+      "event": "RISK APPROVED",
+      "tradeId": "TRD-MUD4YAM7-XZ14",
+      "asset": "MSFT",
+      "status": "APPROVED",
+      "title": "RISK APPROVED: LONG MSFT",
+      "detail": "Passed all 20 deterministic gates | Position Size: 8.0292 | Leverage: 5x | Risk: $48 (0.044%)"
+    },
+    {
+      "id": "act-1790109459007-edwa",
+      "timestamp": 1790109459007,
+      "type": "ANALYSIS",
+      "event": "AI DECISION",
+      "tradeId": "TRD-MUD4YAM7-XZ14",
+      "asset": "MSFT",
+      "status": "BUY",
+      "title": "AI DECISION: BUY LONG MSFT",
+      "detail": "Setup Score: 80% | Target: $511.03 | Invalidation: $492.2"
+    },
+    {
+      "id": "act-1790109458998-zlgu",
+      "timestamp": 1790109458998,
+      "type": "RISK_PASS",
+      "title": "RISK ENGINE APPROVED: LONG MSFT",
+      "detail": "All 20 deterministic checks passed. Executing paper trade on real Bitget market feed.",
+      "asset": "MSFT"
+    },
+    {
+      "id": "act-1790109458979-21uf",
+      "timestamp": 1790109458979,
+      "type": "ANALYSIS",
+      "title": "30-MIN SCAN CANDIDATE: LONG MSFT [EQUITIES]",
+      "detail": "Score: 99/100 | R:R: 2.15:1 | MTF: ALIGNED | SMC: NONE BULL_OB. Submitting to Deterministic 20-Gate Risk Engine.",
+      "asset": "MSFT"
+    },
+    {
+      "id": "act-1790109458952-ojza",
+      "timestamp": 1790109458952,
+      "type": "MONITOR",
+      "event": "POSITION OPENED",
+      "tradeId": "TRD-MUD4YAJX-X03O",
+      "asset": "AAPL",
+      "status": "OPEN",
+      "title": "POSITION OPENED: LONG AAPL",
+      "detail": "Entry: $339.94 | SL: $335.86 | TP: $348.71 | Opened: 2026-09-22 20:37:38 UTC"
+    },
+    {
+      "id": "act-1790109458943-e8lt",
+      "timestamp": 1790109458943,
+      "type": "EXECUTE",
+      "event": "PAPER EXECUTED",
+      "tradeId": "TRD-MUD4YAJX-X03O",
+      "asset": "AAPL",
+      "status": "FILLED",
+      "title": "PAPER EXECUTED: LONG AAPL",
+      "detail": "Order filled at $339.94 | Qty: 11.7668 | Notional: $4000.00 | Opening Time: 2026-09-22 20:37:38 UTC"
+    },
+    {
+      "id": "act-1790109458934-w0p1",
+      "timestamp": 1790109458934,
+      "type": "RISK_PASS",
+      "event": "RISK APPROVED",
+      "tradeId": "TRD-MUD4YAJX-X03O",
+      "asset": "AAPL",
+      "status": "APPROVED",
+      "title": "RISK APPROVED: LONG AAPL",
+      "detail": "Passed all 20 deterministic gates | Position Size: 11.7668 | Leverage: 5x | Risk: $48 (0.044%)"
+    },
+    {
+      "id": "act-1790109458926-dev1",
+      "timestamp": 1790109458926,
+      "type": "ANALYSIS",
+      "event": "AI DECISION",
+      "tradeId": "TRD-MUD4YAJX-X03O",
+      "asset": "AAPL",
+      "status": "BUY",
+      "title": "AI DECISION: BUY LONG AAPL",
+      "detail": "Setup Score: 90% | Target: $348.71 | Invalidation: $335.86"
+    },
+    {
+      "id": "act-1790109458916-hky2",
+      "timestamp": 1790109458916,
+      "type": "RISK_PASS",
+      "title": "RISK ENGINE APPROVED: LONG AAPL",
+      "detail": "All 20 deterministic checks passed. Executing paper trade on real Bitget market feed.",
+      "asset": "AAPL"
+    },
+    {
+      "id": "act-1790109458898-140n",
+      "timestamp": 1790109458899,
+      "type": "ANALYSIS",
+      "title": "30-MIN SCAN CANDIDATE: LONG AAPL [EQUITIES]",
+      "detail": "Score: 99/100 | R:R: 2.15:1 | MTF: ALIGNED | SMC: BOS_BULL BULL_OB. Submitting to Deterministic 20-Gate Risk Engine.",
+      "asset": "AAPL"
+    },
+    {
+      "id": "act-1790109362765-1lld",
+      "timestamp": 1790109362765,
+      "type": "MONITOR",
+      "event": "POSITION OPENED",
+      "tradeId": "TRD-MUD4W8C0-3JC7",
+      "asset": "NVDA",
+      "status": "OPEN",
+      "title": "POSITION OPENED: LONG NVDA",
+      "detail": "Entry: $228.34 | SL: $225.6 | TP: $234.23 | Opened: 2026-09-22 20:36:02 UTC"
+    },
+    {
+      "id": "act-1790109362756-ikai",
+      "timestamp": 1790109362756,
+      "type": "EXECUTE",
+      "event": "PAPER EXECUTED",
+      "tradeId": "TRD-MUD4W8C0-3JC7",
+      "asset": "NVDA",
+      "status": "FILLED",
+      "title": "PAPER EXECUTED: LONG NVDA",
+      "detail": "Order filled at $228.34 | Qty: 17.5177 | Notional: $4000.00 | Opening Time: 2026-09-22 20:36:02 UTC"
+    },
+    {
+      "id": "act-1790109362746-cjc7",
+      "timestamp": 1790109362746,
+      "type": "RISK_PASS",
+      "event": "RISK APPROVED",
+      "tradeId": "TRD-MUD4W8C0-3JC7",
+      "asset": "NVDA",
+      "status": "APPROVED",
+      "title": "RISK APPROVED: LONG NVDA",
+      "detail": "Passed all 20 deterministic gates | Position Size: 17.5177 | Leverage: 5x | Risk: $48 (0.044%)"
+    },
+    {
+      "id": "act-1790109362737-711m",
+      "timestamp": 1790109362737,
+      "type": "ANALYSIS",
+      "event": "AI DECISION",
+      "tradeId": "TRD-MUD4W8C0-3JC7",
+      "asset": "NVDA",
+      "status": "BUY",
+      "title": "AI DECISION: BUY LONG NVDA",
+      "detail": "Setup Score: 82% | Target: $234.23 | Invalidation: $225.6"
+    },
+    {
+      "id": "act-1790109358413-53qf",
+      "timestamp": 1790109358413,
+      "type": "EXIT",
+      "event": "POSITION CLOSED",
+      "tradeId": "TRD-MUAC0A47-WQ23",
+      "asset": "NVDA",
+      "status": "CLOSED",
+      "title": "POSITION CLOSED: LONG NVDA (MANUAL_CLOSE)",
+      "detail": "Exit Price: $228.34 | Realized P&L: +$1875.56 (2.51R) | Opened: 2026-09-20 21:31:50 UTC | Closed: 2026-09-22 20:35:58 UTC | Duration: 47:04:08"
+    },
+    {
+      "id": "act-1790109338858-5u47",
+      "timestamp": 1790109338858,
+      "type": "RISK_REJECT",
+      "title": "RISK ENGINE REJECTED: LONG META",
+      "detail": "Gate failed: Total portfolio margin cap reached ($12452/$10699 USDT used across 1 positions). Margin headroom exhausted.. Trade aborted.",
+      "asset": "META"
+    },
+    {
+      "id": "act-1790109338845-jpy0",
+      "timestamp": 1790109338845,
+      "type": "ANALYSIS",
+      "title": "30-MIN SCAN CANDIDATE: LONG META [EQUITIES]",
+      "detail": "Score: 99/100 | R:R: 2.15:1 | MTF: ALIGNED | SMC: BOS_BULL NONE. Submitting to Deterministic 20-Gate Risk Engine.",
+      "asset": "META"
+    },
+    {
+      "id": "act-1790109338828-57pt",
+      "timestamp": 1790109338828,
+      "type": "RISK_REJECT",
+      "title": "RISK ENGINE REJECTED: LONG AMZN",
+      "detail": "Gate failed: Total portfolio margin cap reached ($12452/$10699 USDT used across 1 positions). Margin headroom exhausted.. Trade aborted.",
+      "asset": "AMZN"
+    },
+    {
+      "id": "act-1790109338820-nrtz",
+      "timestamp": 1790109338820,
+      "type": "ANALYSIS",
+      "title": "30-MIN SCAN CANDIDATE: LONG AMZN [EQUITIES]",
+      "detail": "Score: 99/100 | R:R: 2.15:1 | MTF: ALIGNED | SMC: NONE BULL_OB. Submitting to Deterministic 20-Gate Risk Engine.",
+      "asset": "AMZN"
+    },
+    {
+      "id": "act-1790109338803-ln6z",
+      "timestamp": 1790109338803,
+      "type": "RISK_REJECT",
+      "title": "RISK ENGINE REJECTED: LONG MSFT",
+      "detail": "Gate failed: Total portfolio margin cap reached ($12452/$10699 USDT used across 1 positions). Margin headroom exhausted.. Trade aborted.",
+      "asset": "MSFT"
+    },
+    {
+      "id": "act-1790109338795-o925",
+      "timestamp": 1790109338795,
+      "type": "ANALYSIS",
+      "title": "30-MIN SCAN CANDIDATE: LONG MSFT [EQUITIES]",
+      "detail": "Score: 99/100 | R:R: 2.15:1 | MTF: ALIGNED | SMC: NONE BULL_OB. Submitting to Deterministic 20-Gate Risk Engine.",
+      "asset": "MSFT"
+    },
+    {
+      "id": "act-1790109338778-n7v4",
+      "timestamp": 1790109338778,
+      "type": "RISK_REJECT",
+      "title": "RISK ENGINE REJECTED: LONG AAPL",
+      "detail": "Gate failed: Total portfolio margin cap reached ($12452/$10699 USDT used across 1 positions). Margin headroom exhausted.. Trade aborted.",
+      "asset": "AAPL"
+    },
+    {
+      "id": "act-1790109338762-n4oa",
+      "timestamp": 1790109338762,
+      "type": "ANALYSIS",
+      "title": "30-MIN SCAN CANDIDATE: LONG AAPL [EQUITIES]",
+      "detail": "Score: 99/100 | R:R: 2.15:1 | MTF: ALIGNED | SMC: BOS_BULL BULL_OB. Submitting to Deterministic 20-Gate Risk Engine.",
+      "asset": "AAPL"
+    },
+    {
+      "id": "act-1790109332106-35j5",
+      "timestamp": 1790109332106,
+      "type": "EXIT",
+      "event": "POSITION CLOSED",
+      "tradeId": "TRD-MUAA6ASE-2QF8",
+      "asset": "BTC",
+      "status": "CLOSED",
+      "title": "POSITION CLOSED: LONG BTC (TAKE_PROFIT)",
+      "detail": "Exit Price: $85139.9 | Realized P&L: +$2263.04 (3.03R) | Opened: 2026-09-20 20:40:32 UTC | Closed: 2026-09-22 20:35:32 UTC | Duration: 47:55:00"
+    },
+    {
+      "id": "act-1790109332097-96bb",
+      "timestamp": 1790109332097,
+      "type": "ANALYSIS",
+      "title": "30-MIN CYCLE: TP EXTENDED: NVDA",
+      "detail": "Extended TP from $227.05 to $230.46 on strong continuation structure.",
+      "asset": "NVDA"
+    },
+    {
+      "id": "act-1790109332089-2zk4",
+      "timestamp": 1790109332089,
+      "type": "ANALYSIS",
+      "title": "30-MIN CYCLE: SL ADVANCED TO PROFIT: NVDA",
+      "detail": "Stop loss trailed upward to $225.59 based on technical support.",
+      "asset": "NVDA"
+    },
+    {
+      "id": "act-1790109332080-m8ty",
+      "timestamp": 1790109332080,
+      "type": "EXECUTE",
+      "event": "PARTIAL TP",
+      "tradeId": "TRD-MUAC0A47-WQ23",
+      "asset": "NVDA",
+      "status": "EXECUTED",
+      "title": "30-MIN CYCLE: PARTIAL PROFIT LOCKED: LONG NVDA",
+      "detail": "2026-09-22 20:35:32 UTC TP1 50% CLOSED @ $228.33 | Realized: +$1966.14 | Remaining: 281.2785 units | SL: Breakeven ($221.34)"
+    },
+    {
+      "id": "act-1790109331849-5ezg",
+      "timestamp": 1790109331849,
+      "type": "ANALYSIS",
+      "title": "30-MIN CYCLE: TP EXTENDED: BTC",
+      "detail": "Extended TP from $83881.67 to $85139.90 on strong continuation structure.",
+      "asset": "BTC"
+    },
+    {
+      "id": "act-1790109331840-vo10",
+      "timestamp": 1790109331840,
+      "type": "ANALYSIS",
+      "title": "30-MIN CYCLE: SL ADVANCED TO PROFIT: BTC",
+      "detail": "Stop loss trailed upward to $85256.79 based on technical support.",
+      "asset": "BTC"
+    },
+    {
+      "id": "act-1790109331831-6p7j",
+      "timestamp": 1790109331831,
+      "type": "EXECUTE",
+      "event": "PARTIAL TP",
+      "tradeId": "TRD-MUAA6ASE-2QF8",
+      "asset": "BTC",
+      "status": "EXECUTED",
+      "title": "30-MIN CYCLE: PARTIAL PROFIT LOCKED: LONG BTC",
+      "detail": "2026-09-22 20:35:31 UTC TP1 50% CLOSED @ $86292.30 | Realized: +$2997.14 | Remaining: 0.5764 units | SL: Breakeven ($81092.10)"
+    },
+    {
+      "id": "act-1790109330211-yzec",
+      "timestamp": 1790109330211,
+      "type": "MONITOR",
+      "title": "AUTONOMOUS ENGINE RECOVERY COMPLETED",
+      "detail": "Portfolio equity: $99760.09 | Active Positions: 2/5 | Scheduler: 30-Min Authoritative."
+    },
+    {
+      "id": "act-1790109329891-2fjz",
+      "timestamp": 1790109329891,
+      "type": "MONITOR",
+      "title": "AUTONOMOUS ENGINE RECOVERY INITIATED",
+      "detail": "Restoring 2 open positions, verifying Bitget live connection, and initializing 30-minute scheduler."
+    },
     {
       "id": "act-1789941231036-0a5x",
       "timestamp": 1789941231036,
@@ -4627,398 +5908,6 @@
       "type": "RISK_REJECT",
       "title": "RISK ENGINE REJECTED: LONG BNB",
       "detail": "Safety gate failed: Total portfolio exposure would reach $281407, exceeding cap $249273",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937636363-vlkd",
-      "timestamp": 1789937636364,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG BNB (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.15 | Submitting to 20-Gate Risk Engine.",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937614114-s6nj",
-      "timestamp": 1789937614114,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG LINK",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281394, exceeding cap $249273",
-      "asset": "LINK"
-    },
-    {
-      "id": "act-1789937614104-08jk",
-      "timestamp": 1789937614104,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG LINK (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.15 | Submitting to 20-Gate Risk Engine.",
-      "asset": "LINK"
-    },
-    {
-      "id": "act-1789937614084-r794",
-      "timestamp": 1789937614084,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG AVAX",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $280979, exceeding cap $249273",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937614073-689g",
-      "timestamp": 1789937614073,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG AVAX (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.11 | Submitting to 20-Gate Risk Engine.",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937614050-e8ue",
-      "timestamp": 1789937614050,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG BNB",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281407, exceeding cap $249273",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937614037-s13r",
-      "timestamp": 1789937614037,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG BNB (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.15 | Submitting to 20-Gate Risk Engine.",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937590540-42dy",
-      "timestamp": 1789937590540,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG AVAX",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281062, exceeding cap $249273",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937590531-om8f",
-      "timestamp": 1789937590531,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG AVAX (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.17 | Submitting to 20-Gate Risk Engine.",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937590513-i4e3",
-      "timestamp": 1789937590513,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG XRP",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $258212, exceeding cap $249273",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937590503-gtxt",
-      "timestamp": 1789937590503,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG XRP (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: NONE BULL_OB | R:R: 1.67 | Submitting to 20-Gate Risk Engine.",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937590480-s4j8",
-      "timestamp": 1789937590480,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG BNB",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281406, exceeding cap $249273",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937590469-otba",
-      "timestamp": 1789937590469,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG BNB (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.15 | Submitting to 20-Gate Risk Engine.",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937568494-fnbp",
-      "timestamp": 1789937568494,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG AVAX",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281062, exceeding cap $249273",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937568485-o689",
-      "timestamp": 1789937568485,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG AVAX (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.11 | Submitting to 20-Gate Risk Engine.",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937568466-a2eo",
-      "timestamp": 1789937568466,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG XRP",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $258212, exceeding cap $249273",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937568457-7q9e",
-      "timestamp": 1789937568457,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG XRP (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: NONE BULL_OB | R:R: 1.67 | Submitting to 20-Gate Risk Engine.",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937568439-j30r",
-      "timestamp": 1789937568439,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG BNB",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281415, exceeding cap $249273",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937568429-ycdz",
-      "timestamp": 1789937568429,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG BNB (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.15 | Submitting to 20-Gate Risk Engine.",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937548155-wmd7",
-      "timestamp": 1789937548155,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG AVAX",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281062, exceeding cap $249273",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937548146-vpil",
-      "timestamp": 1789937548146,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG AVAX (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.11 | Submitting to 20-Gate Risk Engine.",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937548125-tvod",
-      "timestamp": 1789937548125,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG XRP",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $258212, exceeding cap $249273",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937548115-7q7w",
-      "timestamp": 1789937548115,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG XRP (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: NONE BULL_OB | R:R: 1.67 | Submitting to 20-Gate Risk Engine.",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937548097-a7ew",
-      "timestamp": 1789937548097,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG BNB",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281409, exceeding cap $249273",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937548088-zv2q",
-      "timestamp": 1789937548088,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG BNB (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.15 | Submitting to 20-Gate Risk Engine.",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937526150-mi75",
-      "timestamp": 1789937526150,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG AVAX",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $286541, exceeding cap $249273",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937526142-whus",
-      "timestamp": 1789937526142,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG AVAX (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.29 | Submitting to 20-Gate Risk Engine.",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937526124-1qi1",
-      "timestamp": 1789937526124,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG XRP",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $293359, exceeding cap $249273",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937526115-9dxa",
-      "timestamp": 1789937526115,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG XRP (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: NONE BULL_OB | R:R: 2.5 | Submitting to 20-Gate Risk Engine.",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937526097-nurb",
-      "timestamp": 1789937526097,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG BNB",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281409, exceeding cap $249273",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937526087-h5js",
-      "timestamp": 1789937526087,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG BNB (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.15 | Submitting to 20-Gate Risk Engine.",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937504031-gezh",
-      "timestamp": 1789937504031,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG AVAX",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $286541, exceeding cap $249273",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937504023-xpof",
-      "timestamp": 1789937504023,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG AVAX (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.29 | Submitting to 20-Gate Risk Engine.",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937504004-z1re",
-      "timestamp": 1789937504004,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG XRP",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $293359, exceeding cap $249273",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937503994-3jkz",
-      "timestamp": 1789937503994,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG XRP (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: NONE BULL_OB | R:R: 2.5 | Submitting to 20-Gate Risk Engine.",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937503975-rsd7",
-      "timestamp": 1789937503975,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG BNB",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281379, exceeding cap $249273",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937503964-kpiq",
-      "timestamp": 1789937503964,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG BNB (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.15 | Submitting to 20-Gate Risk Engine.",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937483694-pf7i",
-      "timestamp": 1789937483694,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG AVAX",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281145, exceeding cap $249273",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937483684-ha4y",
-      "timestamp": 1789937483684,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG AVAX (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.11 | Submitting to 20-Gate Risk Engine.",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937483660-py0t",
-      "timestamp": 1789937483660,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG XRP",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $293359, exceeding cap $249273",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937483649-6p79",
-      "timestamp": 1789937483649,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG XRP (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: NONE BULL_OB | R:R: 2.5 | Submitting to 20-Gate Risk Engine.",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937483627-od0m",
-      "timestamp": 1789937483627,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG BNB",
-      "detail": "Safety gate failed: Total portfolio exposure would reach $281402, exceeding cap $249273",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937483614-boir",
-      "timestamp": 1789937483614,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG BNB (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.15 | Submitting to 20-Gate Risk Engine.",
-      "asset": "BNB"
-    },
-    {
-      "id": "act-1789937465974-4qd6",
-      "timestamp": 1789937465974,
-      "type": "EXECUTE",
-      "title": "PAPER ORDER EXECUTED: LONG NVDA",
-      "detail": "Filled 427.3253 @ $221 | SL: $217.5 | TP: $228.7 | Risk: $1496 (1.5%)",
-      "asset": "NVDA"
-    },
-    {
-      "id": "act-1789937462256-92f7",
-      "timestamp": 1789937462256,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG AVAX",
-      "detail": "Safety gate failed: Correlated CRYPTO exposure ($186623) exceeds limit ($149564)",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937462248-mnl8",
-      "timestamp": 1789937462248,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG AVAX (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: BOS_BULL BULL_OB | R:R: 2.11 | Submitting to 20-Gate Risk Engine.",
-      "asset": "AVAX"
-    },
-    {
-      "id": "act-1789937462231-o2me",
-      "timestamp": 1789937462231,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG XRP",
-      "detail": "Safety gate failed: Correlated CRYPTO exposure ($198920) exceeds limit ($149564)",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937462223-j2bc",
-      "timestamp": 1789937462223,
-      "type": "ANALYSIS",
-      "title": "TOP SCALP CANDIDATE: LONG XRP (Score 99/100)",
-      "detail": "MTF: ALIGNED | SMC: NONE BULL_OB | R:R: 2.5 | Submitting to 20-Gate Risk Engine.",
-      "asset": "XRP"
-    },
-    {
-      "id": "act-1789937462206-bmrx",
-      "timestamp": 1789937462206,
-      "type": "RISK_REJECT",
-      "title": "RISK ENGINE REJECTED: LONG BNB",
-      "detail": "Safety gate failed: Correlated CRYPTO exposure ($186986) exceeds limit ($149564)",
       "asset": "BNB"
     }
   ],
@@ -24396,6 +25285,8 @@
     "liveModeConfirmed": false,
     "maxDailyTrades": 5,
     "maxRiskPerTradePercent": 2,
+    "maxMarginPerTradePercent": 2,
+    "maxTotalMarginPercent": 10,
     "maxPortfolioExposurePercent": 250,
     "dailyLossLimitPercent": 4,
     "maxDrawdownLimitPercent": 10,
@@ -24412,13 +25303,13 @@
   "dataHealth": {},
   "agentState": {
     "state": "MONITORING",
-    "currentAsset": "AMD",
-    "lastCycleAt": 1789941230553,
+    "currentAsset": "TSLA",
+    "lastCycleAt": 1790110566124,
     "conviction": 88,
     "marketPressure": 42,
-    "engineStartedAt": 1789940146418,
-    "recoveryCount": 6,
-    "lastScanTimestamp": 1789941230553,
-    "nextScanTimestamp": 1789943030553
+    "engineStartedAt": 1790110554301,
+    "recoveryCount": 8,
+    "lastScanTimestamp": 1790110566124,
+    "nextScanTimestamp": 1790112366124
   }
 }

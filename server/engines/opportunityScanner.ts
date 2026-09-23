@@ -84,6 +84,11 @@ export async function scanAndRankOpportunities(): Promise<FullMarketScannerState
           (ct) => ct.asset === symbol && now - ct.closedAt < 180000 && ct.exitReason === 'STOP_LOSS'
         );
 
+        // Check recent manual close to enforce anti-churn cooldown (15 minutes)
+        const recentManualClose = closedTrades.find(
+          (ct) => ct.asset === symbol && now - ct.closedAt < 900000 && ct.exitReason === 'MANUAL_CLOSE'
+        );
+
         // Check if currently holding open position
         const activePos = openPositions.find((pos) => pos.asset === symbol);
 
@@ -194,6 +199,10 @@ export async function scanAndRankOpportunities(): Promise<FullMarketScannerState
         } else if (activeCount >= 5) {
           riskGateStatus = 'MAX_POSITIONS_REACHED';
           rejectionReason = 'Max 5 concurrent positions active. Waiting for exit to recycle slot.';
+          action = 'WAIT';
+        } else if (recentManualClose) {
+          riskGateStatus = 'COOLDOWN_PROTECTED';
+          rejectionReason = `Manually closed ${Math.round((now - recentManualClose.closedAt) / 1000)}s ago. 15-minute cooldown active.`;
           action = 'WAIT';
         } else if (recentStop && recentStop.direction === direction) {
           riskGateStatus = 'COOLDOWN_PROTECTED';

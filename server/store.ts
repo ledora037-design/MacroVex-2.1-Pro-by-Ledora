@@ -136,6 +136,247 @@ const DEFAULT_BACKTEST: BacktestRecord[] = [
 
 let state: AppState;
 
+/**
+ * Reconciles application state with deterministic trade lifecycle rules:
+ * 1. CLOSED TRADES ALWAYS WIN: Any trade present in closedTrades or with status === 'CLOSED' is permanently barred from openPositions.
+ * 2. Active positions are capped at max 5 concurrent slots.
+ * 3. Canonical timestamps and formatted dates are strictly preserved.
+ * 4. Portfolio margin, exposure, and open risk are synchronized authoritatively from active positions.
+ */
+export function reconcileAppState(raw: any): AppState {
+  const mergedPortfolio = { ...DEFAULT_PORTFOLIO, ...(raw?.portfolio || {}) };
+  if (
+    !mergedPortfolio.dailyPnlHistory ||
+    mergedPortfolio.dailyPnlHistory.length < 5 ||
+    !mergedPortfolio.dailyPnlHistory.some((d: any) => d.pnl !== 0)
+  ) {
+    mergedPortfolio.dailyPnlHistory = DEFAULT_PORTFOLIO.dailyPnlHistory;
+  }
+
+  // Deduplicate decisions & activities
+  const seenDecIds = new Set<string>();
+  const deduplicatedDecisions = (raw?.aiDecisions || []).filter((d: any) => {
+    if (!d?.id || seenDecIds.has(d.id)) return false;
+    seenDecIds.add(d.id);
+    return true;
+  });
+
+  const seenActIds = new Set<string>();
+  const deduplicatedActivities = (raw?.activities || []).filter((a: any) => {
+    if (!a?.id || seenActIds.has(a.id)) return false;
+    seenActIds.add(a.id);
+    return true;
+  });
+
+  // 1. Reconcile Closed Trades
+  const seenTradeKeys = new Set<string>();
+  const closedTradeIdSet = new Set<string>();
+  const deduplicatedTrades: ClosedTrade[] = [];
+
+  for (const t of raw?.closedTrades || []) {
+    const tradeId = t?.tradeId || (t?.id ? t.id.replace('closed-', '').replace('pos-', '') : null);
+    if (!tradeId) continue;
+
+    const primaryKey = `closed-${tradeId}`;
+    if (seenTradeKeys.has(primaryKey)) continue;
+    seenTradeKeys.add(primaryKey);
+
+    // Register all aliases in closedTradeIdSet
+    closedTradeIdSet.add(tradeId);
+    closedTradeIdSet.add(`closed-${tradeId}`);
+    closedTradeIdSet.add(`pos-${tradeId}`);
+    if (t.id) closedTradeIdSet.add(t.id);
+
+    const now = Date.now();
+    const openedAt = t.openedAt || t.openingTimestamp || now;
+    const closedAt = t.closedAt || t.closingTimestamp || now;
+
+    const closedItem: ClosedTrade = {
+      ...t,
+      id: primaryKey,
+      tradeId,
+      status: 'CLOSED',
+      openedAt,
+      openingTimestamp: openedAt,
+      openingTime: t.openingTime ? formatUTCDateTime(t.openingTime) : formatUTCDateTime(openedAt),
+      closedAt,
+      closingTimestamp: closedAt,
+      closingTime: t.closingTime ? formatUTCDateTime(t.closingTime) : formatUTCDateTime(closedAt),
+      exitReason: t.exitReason || 'MANUAL_CLOSE',
+      durationSeconds: t.durationSeconds !== undefined ? t.durationSeconds : Math.max(1, Math.round((closedAt - openedAt) / 1000)),
+      durationFormatted: t.durationFormatted || formatDuration(t.durationSeconds !== undefined ? t.durationSeconds : Math.max(1, Math.round((closedAt - openedAt) / 1000))),
+      pnl: typeof t.pnl === 'number' ? parseFloat(t.pnl.toFixed(2)) : 0,
+      rMultiple: typeof t.rMultiple === 'number' ? parseFloat(t.rMultiple.toFixed(2)) : 0,
+      entry: typeof t.entry === 'number' ? t.entry : 0,
+      exit: typeof t.exit === 'number' ? t.exit : (typeof t.currentPrice === 'number' ? t.currentPrice : t.entry || 0),
+      margin: t.marginUsed ?? t.margin ?? 800,
+      marginUsed: t.marginUsed ?? t.margin ?? 800,
+      positionNotional: t.positionNotional ?? t.notional ?? 4000,
+      capitalAtRisk: t.capitalAtRisk ?? t.risk ?? 60,
+    };
+
+    deduplicatedTrades.push(closedItem);
+  }
+
+  // 2. Reconcile Open Positions
+  // RULE: If trade is in closedTrades or status === 'CLOSED', it MUST NEVER be in openPositions
+  const seenPosKeys = new Set<string>();
+  const activePositions: Position[] = [];
+
+  for (const p of raw?.openPositions || []) {
+    const tradeId = p?.tradeId || (p?.id ? p.id.replace('pos-', '') : null);
+    if (!tradeId) continue;
+
+    // Check if this trade is already closed
+    const isClosed =
+      p.status === 'CLOSED' ||
+      closedTradeIdSet.has(tradeId) ||
+      (p.id && closedTradeIdSet.has(p.id)) ||
+      closedTradeIdSet.has(`pos-${tradeId}`) ||
+      closedTradeIdSet.has(`closed-${tradeId}`);
+
+    if (isClosed) {
+      // CLOSED TRADES WIN: If not already in deduplicatedTrades, archive it
+      if (!closedTradeIdSet.has(tradeId)) {
+        closedTradeIdSet.add(tradeId);
+        closedTradeIdSet.add(`closed-${tradeId}`);
+        closedTradeIdSet.add(`pos-${tradeId}`);
+        const now = Date.now();
+        const openedAt = p.openedAt || now;
+        deduplicatedTrades.unshift({
+          id: `closed-${tradeId}`,
+          tradeId,
+          asset: p.asset,
+          direction: p.direction,
+          entry: p.entry,
+          exit: p.currentPrice || p.entry,
+          quantity: p.quantity,
+          notional: p.notional,
+          leverage: p.leverage,
+          margin: p.marginUsed ?? p.margin ?? 800,
+          marginUsed: p.marginUsed ?? p.margin ?? 800,
+          positionNotional: p.positionNotional ?? p.notional ?? 4000,
+          capitalAtRisk: p.capitalAtRisk ?? p.riskAmount ?? 60,
+          risk: p.riskAmount || 60,
+          sl: p.stopLoss,
+          tp: p.takeProfit,
+          rr: p.rr || 2.15,
+          pnl: p.unrealizedPnl || 0,
+          rMultiple: 0,
+          fees: p.fees || 0,
+          funding: p.funding || 0,
+          slippage: p.slippage || 0,
+          durationSeconds: Math.max(1, Math.round((now - openedAt) / 1000)),
+          durationFormatted: formatDuration(Math.max(1, Math.round((now - openedAt) / 1000))),
+          strategy: p.strategyId || 'MACROVEX-EVENT-TA',
+          strategyVersion: p.strategyVersion || '2.1',
+          aiConfidence: p.aiDecision?.confidence || 85,
+          regime: 'RISK-ON',
+          catalyst: p.macroCatalyst || 'Autonomous Trade',
+          exitReason: 'MANUAL_CLOSE',
+          openedAt,
+          openingTime: formatUTCDateTime(openedAt),
+          closedAt: now,
+          closingTime: formatUTCDateTime(now),
+          status: 'CLOSED',
+        });
+      }
+      // Never admit to activePositions
+      continue;
+    }
+
+    const posKey = p.id || `pos-${tradeId}`;
+    if (seenPosKeys.has(posKey) || seenPosKeys.has(tradeId)) continue;
+    seenPosKeys.add(posKey);
+    seenPosKeys.add(tradeId);
+
+    const now = Date.now();
+    const openedAt = p.openedAt || p.openingTimestamp || now;
+
+    const normalizedPos: Position = {
+      ...p,
+      id: `pos-${tradeId}`,
+      tradeId,
+      status: p.status === 'PARTIALLY_CLOSED' ? 'PARTIALLY_CLOSED' : 'OPEN',
+      openedAt,
+      openingTimestamp: openedAt,
+      openingTime: p.openingTime ? formatUTCDateTime(p.openingTime) : formatUTCDateTime(openedAt),
+      entryExecutionTimestamp: p.entryExecutionTimestamp || openedAt,
+      lastCheckedAt: p.lastCheckedAt || now,
+      margin: p.marginUsed ?? p.margin ?? 800,
+      marginUsed: p.marginUsed ?? p.margin ?? 800,
+      positionNotional: p.positionNotional ?? p.notional ?? 4000,
+      capitalAtRisk: p.capitalAtRisk ?? p.riskAmount ?? 60,
+    };
+
+    activePositions.push(normalizedPos);
+  }
+
+  // Enforce max 5 concurrent positions limit
+  const finalActivePositions = activePositions.slice(0, 5);
+
+  // Synchronize Trade Journals
+  const journals: Record<string, TradeJournal> = raw?.tradeJournals || {};
+  for (const [tId, j] of Object.entries(journals)) {
+    if (j.openedAt && j.openedAt > 0) {
+      j.openingTime = formatUTCDateTime(j.openedAt);
+    }
+    if (j.closedAt && j.closedAt > 0) {
+      j.closingTime = formatUTCDateTime(j.closedAt);
+    }
+    if (closedTradeIdSet.has(tId) && !j.closedAt) {
+      const matchClosed = deduplicatedTrades.find((t) => t.tradeId === tId);
+      if (matchClosed) {
+        j.closedAt = matchClosed.closedAt;
+        j.closingTime = matchClosed.closingTime;
+        j.exitReason = matchClosed.exitReason;
+        j.resultPnl = matchClosed.pnl;
+        j.rMultiple = matchClosed.rMultiple;
+      }
+    }
+  }
+
+  // Recalculate Portfolio metrics based strictly on active positions
+  mergedPortfolio.openPositionsCount = finalActivePositions.length;
+  mergedPortfolio.usedMargin = parseFloat(
+    finalActivePositions.reduce((acc, p) => acc + (p.marginUsed ?? p.margin ?? 0), 0).toFixed(2)
+  );
+  mergedPortfolio.availableMargin = Math.max(
+    0,
+    parseFloat((mergedPortfolio.equity - mergedPortfolio.usedMargin).toFixed(2))
+  );
+  mergedPortfolio.exposureNotional = parseFloat(
+    finalActivePositions.reduce((acc, p) => acc + (p.positionNotional ?? p.notional ?? 0), 0).toFixed(2)
+  );
+  mergedPortfolio.openRiskAmount = parseFloat(
+    finalActivePositions.reduce((acc, p) => acc + (p.capitalAtRisk ?? p.riskAmount ?? 0), 0).toFixed(2)
+  );
+  mergedPortfolio.openRiskPercent =
+    mergedPortfolio.equity > 0
+      ? parseFloat(((mergedPortfolio.openRiskAmount / mergedPortfolio.equity) * 100).toFixed(2))
+      : 0;
+
+  return {
+    portfolio: mergedPortfolio,
+    openPositions: finalActivePositions,
+    closedTrades: deduplicatedTrades,
+    aiDecisions: deduplicatedDecisions,
+    tradeJournals: journals,
+    activities: deduplicatedActivities,
+    backtestRecords: raw?.backtestRecords || DEFAULT_BACKTEST,
+    historicalValidation: raw?.historicalValidation || null,
+    settings: { ...DEFAULT_SETTINGS, ...(raw?.settings || {}) },
+    dataHealth: raw?.dataHealth || {},
+    agentState: raw?.agentState || {
+      state: 'SCANNING',
+      currentAsset: null,
+      lastCycleAt: Date.now(),
+      conviction: 82,
+      marketPressure: 45,
+    },
+  };
+}
+
 function initStore(): AppState {
   try {
     if (!fs.existsSync(DATA_DIR)) {
@@ -144,125 +385,10 @@ function initStore(): AppState {
     if (fs.existsSync(STATE_FILE)) {
       const raw = fs.readFileSync(STATE_FILE, 'utf-8');
       const loaded = JSON.parse(raw);
-      const mergedPortfolio = { ...DEFAULT_PORTFOLIO, ...loaded.portfolio };
-      if (
-        !mergedPortfolio.dailyPnlHistory ||
-        mergedPortfolio.dailyPnlHistory.length < 5 ||
-        !mergedPortfolio.dailyPnlHistory.some((d: any) => d.pnl !== 0)
-      ) {
-        mergedPortfolio.dailyPnlHistory = DEFAULT_PORTFOLIO.dailyPnlHistory;
-      }
-      // Deduplicate arrays by unique ID to prevent any duplicate key errors
-      const seenDecIds = new Set<string>();
-      const deduplicatedDecisions = (loaded.aiDecisions || []).filter((d: any) => {
-        if (!d?.id || seenDecIds.has(d.id)) return false;
-        seenDecIds.add(d.id);
-        return true;
-      });
-
-      const seenActIds = new Set<string>();
-      const deduplicatedActivities = (loaded.activities || []).filter((a: any) => {
-        if (!a?.id || seenActIds.has(a.id)) return false;
-        seenActIds.add(a.id);
-        return true;
-      });
-
-      const seenPosIds = new Set<string>();
-      const deduplicatedPositions = (loaded.openPositions || []).filter((p: any) => {
-        if (!p?.id || seenPosIds.has(p.id)) return false;
-        seenPosIds.add(p.id);
-        return true;
-      });
-
-      const seenTradeIds = new Set<string>();
-      const deduplicatedTrades = (loaded.closedTrades || []).filter((t: any) => {
-        const id = t?.id || t?.tradeId;
-        if (!id || seenTradeIds.has(id)) return false;
-        seenTradeIds.add(id);
-        return true;
-      });
-
-      // Canonical lifecycle normalization (preserving true immutable timestamps)
-      for (const pos of deduplicatedPositions) {
-        pos.openingTimestamp = pos.openedAt;
-        pos.entryExecutionTimestamp = pos.entryExecutionTimestamp || pos.openedAt;
-        if (pos.openedAt && pos.openedAt > 0) {
-          pos.openingTime = formatUTCDateTime(pos.openedAt);
-        } else if (pos.openingTime) {
-          pos.openingTime = formatUTCDateTime(pos.openingTime);
-        } else {
-          pos.openingTime = 'TIMESTAMP UNAVAILABLE';
-        }
-        pos.status = 'OPEN';
-      }
-
-      for (const trade of deduplicatedTrades) {
-        trade.openingTimestamp = trade.openedAt;
-        trade.closingTimestamp = trade.closedAt;
-        if (trade.openedAt && trade.openedAt > 0) {
-          trade.openingTime = formatUTCDateTime(trade.openedAt);
-        } else if (trade.openingTime) {
-          trade.openingTime = formatUTCDateTime(trade.openingTime);
-        } else {
-          trade.openingTime = 'TIMESTAMP UNAVAILABLE';
-        }
-        if (trade.closedAt && trade.closedAt > 0) {
-          trade.closingTime = formatUTCDateTime(trade.closedAt);
-        } else if (trade.closingTime) {
-          trade.closingTime = formatUTCDateTime(trade.closingTime);
-        } else {
-          trade.closingTime = 'TIMESTAMP UNAVAILABLE';
-        }
-        if (!trade.durationFormatted && trade.durationSeconds !== undefined) {
-          trade.durationFormatted = formatDuration(trade.durationSeconds);
-        }
-        trade.status = 'CLOSED';
-      }
-
-      const journals = loaded.tradeJournals || {};
-      for (const j of Object.values(journals) as any[]) {
-        if (j.openedAt && j.openedAt > 0) {
-          j.openingTime = formatUTCDateTime(j.openedAt);
-        } else if (j.openingTime) {
-          j.openingTime = formatUTCDateTime(j.openingTime);
-        }
-        if (j.closedAt && j.closedAt > 0) {
-          j.closingTime = formatUTCDateTime(j.closedAt);
-        } else if (j.closingTime) {
-          j.closingTime = formatUTCDateTime(j.closingTime);
-        }
-        if (!j.durationFormatted && j.durationSeconds !== undefined) {
-          j.durationFormatted = formatDuration(j.durationSeconds);
-        }
-        if (Array.isArray(j.timeline)) {
-          for (const step of j.timeline) {
-            if (step.timestamp && step.timestamp > 0) {
-              step.timeFormatted = formatUTCDateTime(step.timestamp);
-            }
-          }
-        }
-      }
-
-      // Ensure merged defaults
-      return {
-        portfolio: mergedPortfolio,
-        openPositions: deduplicatedPositions,
-        closedTrades: deduplicatedTrades,
-        aiDecisions: deduplicatedDecisions,
-        tradeJournals: journals,
-        activities: deduplicatedActivities,
-        backtestRecords: loaded.backtestRecords || DEFAULT_BACKTEST,
-        historicalValidation: loaded.historicalValidation || null,
-        settings: { ...DEFAULT_SETTINGS, ...loaded.settings },
-        dataHealth: loaded.dataHealth || {},
-        agentState: loaded.agentState || {
-          state: 'SCANNING',
-          currentAsset: null,
-          lastCycleAt: Date.now(),
-          conviction: 82,
-          marketPressure: 45,
-        },
-      };
+      const reconciled = reconcileAppState(loaded);
+      // Persist the reconciled state immediately to keep disk completely clean
+      saveState(reconciled);
+      return reconciled;
     }
   } catch (err) {
     console.error('Failed to load store, initializing fresh default state:', err);
@@ -280,7 +406,7 @@ function initStore(): AppState {
         timestamp: Date.now(),
         type: 'SCAN',
         title: 'AGENT INITIALIZED',
-        detail: 'MacroMind 2.0 core services started in PAPER execution mode.',
+        detail: 'MACROVEX 2.1 PRO core services started in PAPER execution mode.',
       },
     ],
     backtestRecords: DEFAULT_BACKTEST,
@@ -298,16 +424,23 @@ function initStore(): AppState {
   return fresh;
 }
 
-export function saveState(s: AppState = state): void {
+export function saveState(s: AppState = state): boolean {
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
-    const tempFile = `${STATE_FILE}.tmp`;
-    fs.writeFileSync(tempFile, JSON.stringify(s, null, 2), 'utf-8');
+    // Reconcile before saving to guarantee zero dirty/resurrected state reaches disk
+    const reconciled = reconcileAppState(s);
+    state = reconciled;
+
+    const tempFile = `${STATE_FILE}.tmp.${Date.now()}.${Math.random().toString(36).slice(2, 6)}`;
+    const jsonStr = JSON.stringify(reconciled, null, 2);
+    fs.writeFileSync(tempFile, jsonStr, 'utf-8');
     fs.renameSync(tempFile, STATE_FILE);
+    return true;
   } catch (err) {
-    console.error('Error saving state to disk:', err);
+    console.error('[Store] Error saving state to disk:', err);
+    return false;
   }
 }
 

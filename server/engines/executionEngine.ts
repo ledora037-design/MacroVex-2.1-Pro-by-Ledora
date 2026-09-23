@@ -29,8 +29,25 @@ export async function executePaperTrade(
     throw new Error('Cannot execute trade without valid risk calculations.');
   }
 
+  // Enforce 5-position concurrency ceiling
+  if (state.openPositions.length >= 5) {
+    throw new Error('Maximum concurrency limit reached: 5 open positions active.');
+  }
+
+  // Prevent duplicate open position on the same asset
+  if (state.openPositions.some((p) => p.asset === decision.asset)) {
+    throw new Error(`Position on ${decision.asset} is already active.`);
+  }
+
   const tradeId = `TRD-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+  
+  // Guarantee this tradeId can never collide with or resurrect a closed trade
+  if (state.closedTrades.some((ct) => ct.tradeId === tradeId)) {
+    throw new Error('Generated tradeId already exists in closed history. Aborting.');
+  }
+
   const now = Date.now();
+  const openingTimeStr = formatUTCDateTime(now);
 
   const slippageFee = calc.notional * 0.0002; // 2 bps slippage
   const takerFee = calc.notional * 0.0005; // 5 bps taker fee
@@ -45,9 +62,9 @@ export async function executePaperTrade(
     stopLoss: decision.stop_loss,
     takeProfit: decision.take_profit,
     quantity: calc.quantity,
-    notional: calc.notional,
+    notional: calc.positionNotional ?? calc.notional,
     leverage: calc.leverage,
-    margin: calc.margin,
+    margin: calc.marginUsed ?? calc.margin,
     marginUsed: calc.marginUsed ?? calc.margin,
     positionNotional: calc.positionNotional ?? calc.notional,
     capitalAtRisk: calc.capitalAtRisk ?? calc.riskAmount,
@@ -60,11 +77,11 @@ export async function executePaperTrade(
     fees: takerFee,
     funding: 0,
     slippage: slippageFee,
-    strategyId: 'MACROMIND-EVENT-TA',
-    strategyVersion: '2.0',
+    strategyId: 'MACROVEX-EVENT-TA',
+    strategyVersion: '2.1',
     macroCatalyst,
     openedAt: now,
-    openingTime: formatUTCDateTime(now),
+    openingTime: openingTimeStr,
     openingTimestamp: now,
     entryExecutionTimestamp: now,
     lastCheckedAt: now,
@@ -97,17 +114,15 @@ export async function executePaperTrade(
 
   // Update Portfolio
   const p = state.portfolio;
-  p.usedMargin += calc.margin;
+  p.usedMargin += (position.marginUsed ?? position.margin);
   p.availableMargin = Math.max(0, p.equity - p.usedMargin);
-  p.openPositionsCount += 1;
+  p.openPositionsCount = state.openPositions.length + 1;
   p.todayTradesCount += 1;
-  p.exposureNotional += calc.notional;
-  p.openRiskAmount += calc.riskAmount;
-  p.openRiskPercent = (p.openRiskAmount / p.equity) * 100;
+  p.exposureNotional += (position.positionNotional ?? position.notional);
+  p.openRiskAmount += (position.capitalAtRisk ?? position.riskAmount);
+  p.openRiskPercent = p.equity > 0 ? (p.openRiskAmount / p.equity) * 100 : 0;
 
   state.openPositions.push(position);
-
-  const openingTimeStr = formatUTCDateTime(now);
 
   // Initialize Trade Journal with authoritative timestamps
   const journal: TradeJournal = {
@@ -132,7 +147,7 @@ export async function executePaperTrade(
     tp: decision.take_profit,
     leverage: calc.leverage,
     positionSize: calc.quantity,
-    margin: calc.margin,
+    margin: calc.marginUsed ?? calc.margin,
     marginUsed: calc.marginUsed ?? calc.margin,
     positionNotional: calc.positionNotional ?? calc.notional,
     capitalAtRisk: calc.capitalAtRisk ?? calc.riskAmount,
@@ -159,7 +174,7 @@ export async function executePaperTrade(
         label: 'Deterministic Risk Gate (20/20 Checks)',
         timestamp: now - 5000,
         timeFormatted: formatUTCDateTime(now - 5000),
-        detail: `Risk Engine approved $${calc.riskAmount.toFixed(0)} risk (${calc.riskPercent}%) at ${calc.leverage}x leverage.`,
+        detail: `Risk Engine approved $${calc.riskAmount.toFixed(0)} risk (${calc.riskPercent}%) at ${calc.leverage}x leverage. Margin: $${position.marginUsed} USDT.`,
         status: 'COMPLETED',
       },
       {
@@ -201,7 +216,7 @@ export async function executePaperTrade(
     asset: decision.asset,
     status: 'APPROVED',
     title: `RISK APPROVED: ${decision.direction} ${decision.asset}`,
-    detail: `Passed all 20 deterministic gates | Position Size: ${calc.quantity} | Leverage: ${calc.leverage}x | Risk: $${calc.riskAmount.toFixed(0)} (${calc.riskPercent}%)`,
+    detail: `Passed all 20 deterministic gates | Position Size: ${calc.quantity} | Leverage: ${calc.leverage}x | Risk: $${calc.riskAmount.toFixed(0)} (${calc.riskPercent}%) | Margin: $${position.marginUsed}`,
   });
 
   logActivity({
@@ -211,7 +226,7 @@ export async function executePaperTrade(
     asset: decision.asset,
     status: 'FILLED',
     title: `PAPER EXECUTED: ${decision.direction} ${decision.asset}`,
-    detail: `Order filled at $${decision.entry} | Qty: ${calc.quantity} | Notional: $${calc.notional.toFixed(2)} | Opening Time: ${openingTimeStr}`,
+    detail: `Order filled at $${decision.entry} | Qty: ${calc.quantity} | Notional: $${(position.positionNotional ?? calc.notional).toFixed(2)} | Opening Time: ${openingTimeStr}`,
   });
 
   logActivity({
@@ -224,7 +239,12 @@ export async function executePaperTrade(
     detail: `Entry: $${decision.entry} | SL: $${decision.stop_loss} | TP: $${decision.take_profit} | Opened: ${openingTimeStr}`,
   });
 
-  saveState(state);
+  // SYNCHRONOUS PERSISTENCE BEFORE RETURNING
+  const saved = saveState(state);
+  if (!saved) {
+    console.error('[Execution Engine] CRITICAL: Failed to write new position to disk!');
+  }
+
   return position;
 }
 
@@ -234,8 +254,36 @@ export async function closePosition(
   overrideExitPrice?: number
 ): Promise<ClosedTrade | null> {
   const state = getState();
-  const idx = state.openPositions.findIndex((p) => p.id === positionId);
-  if (idx === -1) return null;
+  const targetId = (positionId || '').trim();
+
+  // Robust ID matching: match by id, tradeId, pos- prefix, closed- prefix
+  const idx = state.openPositions.findIndex(
+    (p) =>
+      p.id === targetId ||
+      p.tradeId === targetId ||
+      p.id === `pos-${targetId}` ||
+      targetId === `pos-${p.tradeId}` ||
+      targetId.replace('pos-', '') === p.tradeId ||
+      targetId.replace('closed-', '') === p.tradeId
+  );
+
+  // If not found in open positions, check if it was ALREADY closed in closedTrades
+  if (idx === -1) {
+    const alreadyClosed = state.closedTrades.find(
+      (t) =>
+        t.id === targetId ||
+        t.tradeId === targetId ||
+        t.id === `closed-${targetId}` ||
+        targetId === `closed-${t.tradeId}` ||
+        targetId.replace('pos-', '') === t.tradeId ||
+        targetId.replace('closed-', '') === t.tradeId
+    );
+    if (alreadyClosed) {
+      console.log(`[Execution Engine] Trade ${targetId} is already marked CLOSED in database.`);
+      return alreadyClosed;
+    }
+    return null;
+  }
 
   const pos = state.openPositions[idx];
   const quote = await fetchLiveQuote(pos.asset);
@@ -244,7 +292,7 @@ export async function closePosition(
 
   const priceDiff = pos.direction === 'LONG' ? exitPrice - pos.entry : pos.entry - exitPrice;
   const grossPnl = priceDiff * pos.quantity;
-  const closeFee = pos.notional * 0.0005;
+  const closeFee = (pos.positionNotional ?? pos.notional) * 0.0005;
   const netPnl = grossPnl - pos.fees - closeFee;
   const rMultiple = pos.riskAmount > 0 ? parseFloat((netPnl / pos.riskAmount).toFixed(2)) : 0;
   const durationSec = Math.max(1, Math.round((now - pos.openedAt) / 1000));
@@ -260,7 +308,7 @@ export async function closePosition(
     entry: pos.entry,
     exit: parseFloat(exitPrice.toFixed(2)),
     quantity: pos.quantity,
-    notional: pos.notional,
+    notional: pos.positionNotional ?? pos.notional,
     leverage: pos.leverage,
     margin: pos.marginUsed ?? pos.margin,
     marginUsed: pos.marginUsed ?? pos.margin,
@@ -278,8 +326,8 @@ export async function closePosition(
     slippage: pos.slippage,
     durationSeconds: durationSec,
     durationFormatted,
-    strategy: pos.strategyId,
-    strategyVersion: pos.strategyVersion,
+    strategy: pos.strategyId || 'MACROVEX-EVENT-TA',
+    strategyVersion: pos.strategyVersion || '2.1',
     aiConfidence: pos.aiDecision?.confidence || 85,
     regime: 'RISK-ON',
     catalyst: pos.macroCatalyst,
@@ -304,21 +352,28 @@ export async function closePosition(
     },
   };
 
-  // Remove from open positions
-  state.openPositions.splice(idx, 1);
-  state.closedTrades.unshift(closedTrade);
+  // Remove from open positions: remove ALL instances matching tradeId or id
+  state.openPositions = state.openPositions.filter(
+    (p) => p.id !== pos.id && p.tradeId !== pos.tradeId && p.id !== `pos-${pos.tradeId}`
+  );
+
+  // Add to closed trades if not already present
+  const existsInClosed = state.closedTrades.some((ct) => ct.tradeId === pos.tradeId);
+  if (!existsInClosed) {
+    state.closedTrades.unshift(closedTrade);
+  }
 
   // Update Portfolio
   const p = state.portfolio;
-  p.usedMargin = Math.max(0, p.usedMargin - pos.margin);
+  p.usedMargin = Math.max(0, p.usedMargin - (pos.marginUsed ?? pos.margin));
   p.equity = parseFloat((p.equity + netPnl).toFixed(2));
   p.cash = parseFloat((p.cash + netPnl).toFixed(2));
   p.availableMargin = Math.max(0, p.equity - p.usedMargin);
   p.realizedPnl = parseFloat((p.realizedPnl + netPnl).toFixed(2));
   p.dailyPnl = parseFloat((p.dailyPnl + netPnl).toFixed(2));
   p.openPositionsCount = state.openPositions.length;
-  p.exposureNotional = Math.max(0, p.exposureNotional - pos.notional);
-  p.openRiskAmount = Math.max(0, p.openRiskAmount - pos.riskAmount);
+  p.exposureNotional = Math.max(0, p.exposureNotional - (pos.positionNotional ?? pos.notional));
+  p.openRiskAmount = Math.max(0, p.openRiskAmount - (pos.capitalAtRisk ?? pos.riskAmount));
   p.openRiskPercent = p.equity > 0 ? (p.openRiskAmount / p.equity) * 100 : 0;
 
   if (p.equity > p.peakEquity) {
@@ -389,17 +444,21 @@ export async function closePosition(
     detail: `Exit Price: $${exitPrice} | Realized P&L: ${netPnl >= 0 ? '+' : ''}$${netPnl.toFixed(2)} (${rMultiple}R) | Opened: ${openingTime} | Closed: ${closingTime} | Duration: ${durationFormatted}`,
   });
 
-  saveState(state);
+  // SYNCHRONOUS PERSISTENCE BEFORE RETURNING
+  const saved = saveState(state);
+  if (!saved) {
+    console.error('[Execution Engine] CRITICAL: Failed to save closed trade state to disk!');
+  }
 
-  // Instantly notify autonomous engine to recycle position slot
-  if (onPositionClosedHook) {
+  // Only trigger automatic recycling for algorithmic exits (TP/SL/TIMEOUT), NOT for manual closes!
+  if (exitReason !== 'MANUAL_CLOSE' && onPositionClosedHook) {
     setTimeout(() => {
       try {
         onPositionClosedHook?.();
       } catch (err) {
         console.error('[Execution Engine] Error in onPositionClosedHook:', err);
       }
-    }, 500);
+    }, 1500);
   }
 
   return closedTrade;

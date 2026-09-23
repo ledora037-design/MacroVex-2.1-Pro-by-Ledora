@@ -293,12 +293,17 @@ export default function App() {
 
   const handleClosePosition = async (id: string) => {
     try {
+      // Optimistic removal from client state immediately
+      setOpenPositions((prev) => prev.filter((p) => p.id !== id && p.tradeId !== id && `pos-${p.tradeId}` !== id));
       const res = await fetch(`/api/trades/close/${id}`, { method: 'POST' });
       if (res.ok) {
+        await fetchState();
+      } else {
         await fetchState();
       }
     } catch (err) {
       console.error('Error closing position:', err);
+      await fetchState();
     }
   };
 
