@@ -71,7 +71,7 @@ export const TradeLedger: React.FC<TradeLedgerProps> = ({
           >
             {totalNetPnl >= 0 ? '+' : ''}${totalNetPnl.toFixed(2)}
           </div>
-          <div className="text-[10px] font-mono text-slate-500">Includes taker fees & slippage</div>
+          <div className="text-[10px] font-mono text-slate-500">Includes Bitget MCP fees & slippage</div>
         </div>
 
         <div>

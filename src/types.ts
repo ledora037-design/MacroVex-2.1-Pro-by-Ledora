@@ -212,6 +212,34 @@ export interface AIDecision {
   };
 }
 
+export interface FeeExecutionDetail {
+  event: 'OPEN' | 'PARTIAL_TP' | 'CLOSE';
+  timestamp: number;
+  timeFormatted: string;
+  asset: string;
+  symbol: string;
+  category: string;
+  scope: 'maker' | 'taker';
+  rate: number;
+  rateSource: 'BITGET_ACCOUNT_API' | 'BITGET_CONTRACT_SPEC' | 'BITGET_SPOT_SPEC' | 'UNAVAILABLE';
+  executionPrice: number;
+  executionQty: number;
+  executionValue: number;
+  feeAmount: number;
+  feeCoin: string;
+  isSimulatedFill?: boolean;
+}
+
+export interface BitgetFeeSchedule {
+  symbol: string;
+  category: 'USDT-FUTURES' | 'COIN-FUTURES' | 'USDC-FUTURES' | 'SPOT' | 'MARGIN';
+  makerFeeRate: number;
+  takerFeeRate: number;
+  source: 'BITGET_ACCOUNT_API' | 'BITGET_CONTRACT_SPEC' | 'BITGET_SPOT_SPEC';
+  timestamp: number;
+  feeStatus: 'AVAILABLE' | 'FEE DATA UNAVAILABLE';
+}
+
 export interface PositionModification {
   id: string;
   timestamp: number;
@@ -226,6 +254,7 @@ export interface PositionModification {
   percentageClosed?: number;
   remainingQuantity?: number;
   realizedPnl?: number;
+  feeDetail?: FeeExecutionDetail;
 }
 
 export interface Position {
@@ -251,6 +280,8 @@ export interface Position {
   unrealizedPnl: number;
   unrealizedPnlPercent: number;
   fees: number;
+  feeStatus?: 'AVAILABLE' | 'FEE DATA UNAVAILABLE';
+  feeBreakdown?: FeeExecutionDetail[];
   funding: number;
   slippage: number;
   strategyId: string;
@@ -300,6 +331,8 @@ export interface ClosedTrade {
   pnl: number;
   rMultiple: number;
   fees: number;
+  feeStatus?: 'AVAILABLE' | 'FEE DATA UNAVAILABLE';
+  feeBreakdown?: FeeExecutionDetail[];
   funding: number;
   slippage: number;
   durationSeconds: number;
@@ -732,6 +765,14 @@ export interface BitgetTradingMcpVerification {
     executionPath: string;
     liveOrderPlacement: string;
   };
+  feeSchedule?: {
+    sourceOfTruth: string;
+    accountEndpoint: string;
+    publicSpecsLoaded: number;
+    accountFeeRatesActive: boolean;
+    status: 'LIVE' | 'DATA UNAVAILABLE';
+    sampleRates?: Record<string, { maker: string; taker: string; category: string }>;
+  };
   reconnectBehavior: string;
   staleDataBehavior: string;
   verifiedSymbols: string[];
@@ -838,6 +879,7 @@ export interface FullMarketScannerState {
 
 export interface AutonomousEngineStatus {
   isRunning: boolean;
+  isCycleRunning?: boolean;
   engineStartedAt: number;
   engineUptimeSeconds: number;
   lastScanTimestamp: number;

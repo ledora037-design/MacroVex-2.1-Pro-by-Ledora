@@ -90,6 +90,7 @@ export const AutonomousEngineBanner: React.FC<AutonomousEngineBannerProps> = ({
 
   const isRunning = status?.isRunning ?? true;
   const isStale = status?.isStaleOrDisconnected ?? false;
+  const isCycleActive = status?.isCycleRunning || isManualScanning || isTriggering;
 
   return (
     <div className="bg-[#080c12] border-b-2 border-slate-800 px-3.5 py-2 select-none">
@@ -232,15 +233,15 @@ export const AutonomousEngineBanner: React.FC<AutonomousEngineBannerProps> = ({
           <div className="flex items-center gap-2 pl-2 border-l border-slate-700/80">
             <button
               onClick={handleManualScan}
-              disabled={isManualScanning || isTriggering}
+              disabled={isCycleActive}
               id="btn-scan-now"
               className="px-3.5 py-1.5 bg-cyan-500 hover:bg-cyan-400 active:scale-95 text-black text-xs font-mono font-extrabold flex items-center gap-1.5 transition-all shadow-md disabled:opacity-50 cursor-pointer"
-              title="Execute immediate autonomous market scan cycle across all 24 instruments"
+              title={isCycleActive ? 'Autonomous scan cycle in progress' : 'Execute immediate autonomous market scan cycle across all instruments'}
             >
               <RefreshCw
-                className={`w-3.5 h-3.5 ${isManualScanning || isTriggering ? 'animate-spin' : ''}`}
+                className={`w-3.5 h-3.5 ${isCycleActive ? 'animate-spin' : ''}`}
               />
-              <span>SCAN NOW</span>
+              <span>{isCycleActive ? 'SCANNING...' : 'SCAN NOW'}</span>
             </button>
 
             <button

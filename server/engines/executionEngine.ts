@@ -1,6 +1,7 @@
 import {
   AIDecision,
   ClosedTrade,
+  FeeExecutionDetail,
   InstrumentId,
   Position,
   PositionModification,
@@ -9,9 +10,15 @@ import {
 import { getState, logActivity, saveState } from '../store.js';
 import { ProposedTrade, RiskCheckResult } from './riskEngine.js';
 import { fetchLiveQuote, getAssetIntelligence } from '../providers/marketData.js';
+import { calculateExecutionFee } from '../providers/bitgetMcp.js';
 import { formatUTCDateTime, format24HourTime, formatDuration } from '../../src/utils/timeFormat.js';
 
 let onPositionClosedHook: (() => void) | null = null;
+let isExecutingTrade = false;
+
+export function isTradeExecutionLocked(): boolean {
+  return isExecutingTrade;
+}
 
 export function registerPositionClosedHook(cb: () => void): void {
   onPositionClosedHook = cb;
@@ -23,8 +30,14 @@ export async function executePaperTrade(
   macroCatalyst = 'Autonomous Macro & Technical Setup',
   aiReasoning = 'Multi-timeframe technical alignment with macro transmission support'
 ): Promise<Position> {
-  const state = getState();
-  const calc = riskResult.calculatedSize;
+  if (isExecutingTrade) {
+    throw new Error('Trade execution currently in progress. Concurrency lock active.');
+  }
+
+  isExecutingTrade = true;
+  try {
+    const state = getState();
+    const calc = riskResult.calculatedSize;
   if (!calc) {
     throw new Error('Cannot execute trade without valid risk calculations.');
   }
@@ -50,7 +63,16 @@ export async function executePaperTrade(
   const openingTimeStr = formatUTCDateTime(now);
 
   const slippageFee = calc.notional * 0.0002; // 2 bps slippage
-  const takerFee = calc.notional * 0.0005; // 5 bps taker fee
+  
+  // Calculate OPEN fee event using authoritative Bitget fee schedule
+  const entryFeeResult = await calculateExecutionFee({
+    event: 'OPEN',
+    asset: decision.asset,
+    executionPrice: decision.entry,
+    executionQty: calc.quantity,
+    tradeScope: 'taker',
+  });
+  const entryFee = entryFeeResult.feeAmount;
 
   const position: Position = {
     id: `pos-${tradeId}`,
@@ -74,7 +96,9 @@ export async function executePaperTrade(
     rr: calc.rr,
     unrealizedPnl: 0,
     unrealizedPnlPercent: 0,
-    fees: takerFee,
+    fees: entryFee,
+    feeStatus: entryFeeResult.feeStatus,
+    feeBreakdown: entryFeeResult.feeDetail ? [entryFeeResult.feeDetail] : [],
     funding: 0,
     slippage: slippageFee,
     strategyId: 'MACROVEX-EVENT-TA',
@@ -246,6 +270,9 @@ export async function executePaperTrade(
   }
 
   return position;
+  } finally {
+    isExecutingTrade = false;
+  }
 }
 
 export async function closePosition(
@@ -292,7 +319,26 @@ export async function closePosition(
 
   const priceDiff = pos.direction === 'LONG' ? exitPrice - pos.entry : pos.entry - exitPrice;
   const grossPnl = priceDiff * pos.quantity;
-  const closeFee = (pos.positionNotional ?? pos.notional) * 0.0005;
+
+  // Calculate CLOSE fee event using authoritative Bitget fee schedule
+  const closeFeeResult = await calculateExecutionFee({
+    event: 'CLOSE',
+    asset: pos.asset,
+    executionPrice: exitPrice,
+    executionQty: pos.quantity,
+    tradeScope: 'taker',
+  });
+  const closeFee = closeFeeResult.feeAmount;
+  const totalTradeFees = parseFloat((pos.fees + closeFee).toFixed(2));
+  const feeStatus = (pos.feeStatus === 'FEE DATA UNAVAILABLE' || closeFeeResult.feeStatus === 'FEE DATA UNAVAILABLE')
+    ? 'FEE DATA UNAVAILABLE'
+    : 'AVAILABLE';
+
+  const feeBreakdown = [...(pos.feeBreakdown || [])];
+  if (closeFeeResult.feeDetail) {
+    feeBreakdown.push(closeFeeResult.feeDetail);
+  }
+
   const netPnl = grossPnl - pos.fees - closeFee;
   const rMultiple = pos.riskAmount > 0 ? parseFloat((netPnl / pos.riskAmount).toFixed(2)) : 0;
   const durationSec = Math.max(1, Math.round((now - pos.openedAt) / 1000));
@@ -321,7 +367,9 @@ export async function closePosition(
     rr: pos.rr,
     pnl: parseFloat(netPnl.toFixed(2)),
     rMultiple,
-    fees: parseFloat((pos.fees + closeFee).toFixed(2)),
+    fees: totalTradeFees,
+    feeStatus,
+    feeBreakdown,
     funding: pos.funding || 0,
     slippage: pos.slippage,
     durationSeconds: durationSec,
@@ -501,13 +549,32 @@ export async function monitorOpenPositions(): Promise<void> {
       if (!pos.partialProfitTaken && (isHalfwayToTp || pos.unrealizedPnlPercent >= 6)) {
         const halfQty = pos.quantity * 0.5;
         const halfMargin = pos.margin * 0.5;
-        const realizedPnlHalf = parseFloat((priceDiff * halfQty).toFixed(2));
+        const grossPnlHalf = priceDiff * halfQty;
+
+        // Calculate PARTIAL_TP fee event using authoritative Bitget fee schedule
+        const ptpFeeResult = await calculateExecutionFee({
+          event: 'PARTIAL_TP',
+          asset: pos.asset,
+          executionPrice: quote.price,
+          executionQty: halfQty,
+          tradeScope: 'taker',
+        });
+        const ptpFee = ptpFeeResult.feeAmount;
+        const realizedPnlHalf = parseFloat((grossPnlHalf - ptpFee).toFixed(2));
         const oldSl = pos.stopLoss;
 
         pos.quantity = parseFloat(halfQty.toFixed(4));
         pos.margin = parseFloat(halfMargin.toFixed(2));
         pos.notional = parseFloat((pos.notional * 0.5).toFixed(2));
         pos.riskAmount = parseFloat((pos.riskAmount * 0.5).toFixed(2));
+        pos.fees = parseFloat((pos.fees + ptpFee).toFixed(2));
+        if (ptpFeeResult.feeStatus === 'FEE DATA UNAVAILABLE') {
+          pos.feeStatus = 'FEE DATA UNAVAILABLE';
+        }
+        if (ptpFeeResult.feeDetail) {
+          pos.feeBreakdown = pos.feeBreakdown || [];
+          pos.feeBreakdown.push(ptpFeeResult.feeDetail);
+        }
         pos.partialProfitTaken = true;
 
         // Move SL to breakeven (entry price) - never widen!
@@ -531,7 +598,8 @@ export async function monitorOpenPositions(): Promise<void> {
           percentageClosed: 50,
           remainingQuantity: pos.quantity,
           realizedPnl: realizedPnlHalf,
-          reason: `Partial Take Profit: 50% closed at ${ptpTimeFormatted} @ $${quote.price.toFixed(2)}. Realized: +$${realizedPnlHalf.toFixed(2)}. Remaining: ${pos.quantity} units.`,
+          reason: `Partial Take Profit: 50% closed at ${ptpTimeFormatted} @ $${quote.price.toFixed(2)}. Realized: +$${realizedPnlHalf.toFixed(2)} (Bitget Fee: $${ptpFee.toFixed(2)}). Remaining: ${pos.quantity} units.`,
+          feeDetail: ptpFeeResult.feeDetail,
         });
         pos.modifications.push({
           id: `mod-${ptpTime}-be`,
@@ -719,13 +787,32 @@ export async function evaluateAndManageOpenPositions(isScheduled30MinCycle = tru
       if (!pos.partialProfitTaken && (isHalfwayToTp || pos.unrealizedPnlPercent >= 5)) {
         const halfQty = pos.quantity * 0.5;
         const halfMargin = pos.margin * 0.5;
-        const realizedPnlHalf = parseFloat((priceDiff * halfQty).toFixed(2));
+        const grossPnlHalf = priceDiff * halfQty;
+
+        // Calculate PARTIAL_TP fee event using authoritative Bitget fee schedule
+        const ptpFeeResult = await calculateExecutionFee({
+          event: 'PARTIAL_TP',
+          asset: pos.asset,
+          executionPrice: quote.price,
+          executionQty: halfQty,
+          tradeScope: 'taker',
+        });
+        const ptpFee = ptpFeeResult.feeAmount;
+        const realizedPnlHalf = parseFloat((grossPnlHalf - ptpFee).toFixed(2));
         const oldSl = pos.stopLoss;
 
         pos.quantity = parseFloat(halfQty.toFixed(4));
         pos.margin = parseFloat(halfMargin.toFixed(2));
         pos.notional = parseFloat((pos.notional * 0.5).toFixed(2));
         pos.riskAmount = parseFloat((pos.riskAmount * 0.5).toFixed(2));
+        pos.fees = parseFloat((pos.fees + ptpFee).toFixed(2));
+        if (ptpFeeResult.feeStatus === 'FEE DATA UNAVAILABLE') {
+          pos.feeStatus = 'FEE DATA UNAVAILABLE';
+        }
+        if (ptpFeeResult.feeDetail) {
+          pos.feeBreakdown = pos.feeBreakdown || [];
+          pos.feeBreakdown.push(ptpFeeResult.feeDetail);
+        }
         pos.partialProfitTaken = true;
         pos.stopLoss = pos.entry; // Move SL to breakeven
 
@@ -746,7 +833,8 @@ export async function evaluateAndManageOpenPositions(isScheduled30MinCycle = tru
           percentageClosed: 50,
           remainingQuantity: pos.quantity,
           realizedPnl: realizedPnlHalf,
-          reason: `30-Minute Cycle: Position achieved +${pos.unrealizedPnlPercent}% profit. Locked in 50% gain (+$${realizedPnlHalf.toFixed(2)}) at ${ptpTimeFormatted}. Remaining: ${pos.quantity} units.`,
+          reason: `30-Minute Cycle: Position achieved +${pos.unrealizedPnlPercent}% profit. Locked in 50% gain (+$${realizedPnlHalf.toFixed(2)}, Bitget Fee: $${ptpFee.toFixed(2)}) at ${ptpTimeFormatted}. Remaining: ${pos.quantity} units.`,
+          feeDetail: ptpFeeResult.feeDetail,
         });
         pos.modifications.push({
           id: `mod-${ptpTime}-30m-be`,

@@ -28,6 +28,13 @@ let lastActionTimestamp = Date.now();
 let scanSchedulerTimeout: NodeJS.Timeout | null = null;
 let positionMonitorInterval: NodeJS.Timeout | null = null;
 
+// Concurrency Mutex: Guarantees only one autonomous cycle/scan executes at any given time
+let isCycleRunning = false;
+
+export function isAutonomousCycleRunning(): boolean {
+  return isCycleRunning;
+}
+
 // Register dynamic position recycling hook:
 // When an open position closes, immediately recycle the slot without waiting 30 minutes
 registerPositionClosedHook(() => {
@@ -215,8 +222,15 @@ function scheduleNext30MinScan(delayMs: number): void {
  * → PARTIAL TP → EXIT → JOURNAL → RESCAN
  */
 export async function run30MinAutonomousCycle(): Promise<void> {
-  const now = Date.now();
-  const state = getState();
+  if (isCycleRunning) {
+    console.log('[AUTONOMOUS AGENT] Autonomous cycle is already running. Skipping duplicate invocation.');
+    return;
+  }
+
+  isCycleRunning = true;
+  try {
+    const now = Date.now();
+    const state = getState();
 
   // Authoritative timestamps saved immediately
   state.agentState.lastScanTimestamp = now;
@@ -417,6 +431,16 @@ export async function run30MinAutonomousCycle(): Promise<void> {
   state.agentState.conviction = 88;
   saveState(state);
   console.log(`[AUTONOMOUS AGENT] 30-Minute Cycle completed. Next scheduled scan at: ${new Date(state.agentState.nextScanTimestamp).toISOString()}`);
+  } catch (err: any) {
+    console.error('[AUTONOMOUS AGENT] Error during 30-minute autonomous cycle:', err);
+    logActivity({
+      type: 'MONITOR',
+      title: 'CYCLE EXECUTION ERROR',
+      detail: `Autonomous cycle encountered an error: ${err?.message || err}. Mutex released and state preserved.`,
+    });
+  } finally {
+    isCycleRunning = false;
+  }
 }
 
 /**
@@ -424,69 +448,81 @@ export async function run30MinAutonomousCycle(): Promise<void> {
  * Triggered immediately when any open position closes, recycling the slot instantly.
  */
 async function triggerDynamicRecyclingScan(): Promise<void> {
-  const state = getState();
-  const availableSlots = Math.max(0, 5 - state.openPositions.length);
-  if (availableSlots <= 0) return;
-
-  console.log(`[AUTONOMOUS AGENT] Executing dynamic slot recycling scan (available slots: ${availableSlots}/5)...`);
-  const scannerState = await scanAndRankOpportunities();
-
-  const nowTs = Date.now();
-  const actionable = scannerState.rankedOpportunities.filter((opp) => {
-    if (opp.action === 'WAIT' || opp.rankScore < 70 || opp.rr < 1.5) return false;
-    // Cannot already be held
-    if (state.openPositions.some((p) => p.asset === opp.asset)) return false;
-    // Anti-churn cooldown: Never immediately re-enter an asset manually closed within 15 minutes
-    const recentManualClose = state.closedTrades.find(
-      (ct) => ct.asset === opp.asset && ct.exitReason === 'MANUAL_CLOSE' && nowTs - ct.closedAt < 900000
-    );
-    if (recentManualClose) return false;
-    // Anti-revenge cooldown: 3 minutes after stop out
-    const recentStop = state.closedTrades.find(
-      (ct) => ct.asset === opp.asset && ct.exitReason === 'STOP_LOSS' && nowTs - ct.closedAt < 180000
-    );
-    if (recentStop) return false;
-    return true;
-  });
-
-  if (actionable.length === 0) {
-    console.log('[AUTONOMOUS AGENT] Dynamic recycling scan found no setups meeting threshold. Waiting for next 30-min cycle.');
+  if (isCycleRunning) {
+    console.log('[AUTONOMOUS AGENT] Autonomous cycle is currently running. Skipping recycling scan.');
     return;
   }
 
-  const topCandidate = actionable[0];
-  const riskResult = await evaluateRisk({
-    asset: topCandidate.asset,
-    direction: topCandidate.direction,
-    action: topCandidate.action === 'BUY' ? 'BUY' : 'SELL',
-    entry: topCandidate.entry,
-    stop_loss: topCandidate.sl,
-    take_profit: topCandidate.tp,
-    leverage: topCandidate.category === 'CRYPTO' ? 8 : 5,
-    risk_percent: 1.5,
-    confidence: topCandidate.confidence,
-    isManual: false,
-  });
+  isCycleRunning = true;
+  try {
+    const state = getState();
+    const availableSlots = Math.max(0, 5 - state.openPositions.length);
+    if (availableSlots <= 0) return;
 
-  if (riskResult.approved && state.openPositions.length < 5) {
-    await executePaperTrade(
-      {
-        asset: topCandidate.asset,
-        direction: topCandidate.direction,
-        action: topCandidate.action === 'BUY' ? 'BUY' : 'SELL',
-        entry: topCandidate.entry,
-        stop_loss: topCandidate.sl,
-        take_profit: topCandidate.tp,
-        leverage: topCandidate.category === 'CRYPTO' ? 8 : 5,
-        risk_percent: 1.5,
-        confidence: topCandidate.confidence,
-      },
-      riskResult,
-      `Dynamic Recycled Scalp: ${topCandidate.category} Opportunity`,
-      `Instantly recycled position slot upon trade close. R:R: ${topCandidate.rr}:1.`
-    );
-    lastAction = `RECYCLED_${topCandidate.direction}_${topCandidate.asset}`;
-    lastActionTimestamp = Date.now();
+    console.log(`[AUTONOMOUS AGENT] Executing dynamic slot recycling scan (available slots: ${availableSlots}/5)...`);
+    const scannerState = await scanAndRankOpportunities();
+
+    const nowTs = Date.now();
+    const actionable = scannerState.rankedOpportunities.filter((opp) => {
+      if (opp.action === 'WAIT' || opp.rankScore < 70 || opp.rr < 1.5) return false;
+      // Cannot already be held
+      if (state.openPositions.some((p) => p.asset === opp.asset)) return false;
+      // Anti-churn cooldown: Never immediately re-enter an asset manually closed within 15 minutes
+      const recentManualClose = state.closedTrades.find(
+        (ct) => ct.asset === opp.asset && ct.exitReason === 'MANUAL_CLOSE' && nowTs - ct.closedAt < 900000
+      );
+      if (recentManualClose) return false;
+      // Anti-revenge cooldown: 3 minutes after stop out
+      const recentStop = state.closedTrades.find(
+        (ct) => ct.asset === opp.asset && ct.exitReason === 'STOP_LOSS' && nowTs - ct.closedAt < 180000
+      );
+      if (recentStop) return false;
+      return true;
+    });
+
+    if (actionable.length === 0) {
+      console.log('[AUTONOMOUS AGENT] Dynamic recycling scan found no setups meeting threshold. Waiting for next 30-min cycle.');
+      return;
+    }
+
+    const topCandidate = actionable[0];
+    const riskResult = await evaluateRisk({
+      asset: topCandidate.asset,
+      direction: topCandidate.direction,
+      action: topCandidate.action === 'BUY' ? 'BUY' : 'SELL',
+      entry: topCandidate.entry,
+      stop_loss: topCandidate.sl,
+      take_profit: topCandidate.tp,
+      leverage: topCandidate.category === 'CRYPTO' ? 8 : 5,
+      risk_percent: 1.5,
+      confidence: topCandidate.confidence,
+      isManual: false,
+    });
+
+    if (riskResult.approved && state.openPositions.length < 5) {
+      await executePaperTrade(
+        {
+          asset: topCandidate.asset,
+          direction: topCandidate.direction,
+          action: topCandidate.action === 'BUY' ? 'BUY' : 'SELL',
+          entry: topCandidate.entry,
+          stop_loss: topCandidate.sl,
+          take_profit: topCandidate.tp,
+          leverage: topCandidate.category === 'CRYPTO' ? 8 : 5,
+          risk_percent: 1.5,
+          confidence: topCandidate.confidence,
+        },
+        riskResult,
+        `Dynamic Recycled Scalp: ${topCandidate.category} Opportunity`,
+        `Instantly recycled position slot upon trade close. R:R: ${topCandidate.rr}:1.`
+      );
+      lastAction = `RECYCLED_${topCandidate.direction}_${topCandidate.asset}`;
+      lastActionTimestamp = Date.now();
+    }
+  } catch (err: any) {
+    console.error('[AUTONOMOUS AGENT] Error in dynamic recycling scan:', err);
+  } finally {
+    isCycleRunning = false;
   }
 }
 
@@ -506,6 +542,7 @@ export async function getAutonomousEngineStatus(): Promise<AutonomousEngineStatu
 
   return {
     isRunning,
+    isCycleRunning,
     engineStartedAt,
     engineUptimeSeconds: uptimeSeconds,
     lastScanTimestamp: lastScan,

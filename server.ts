@@ -17,6 +17,7 @@ import {
   fetchBitgetFundingAndOI,
   fetchBitgetContracts,
   resolveBitgetInstrument,
+  getBitgetFeeSchedule,
 } from './server/providers/bitgetMcp.js';
 import { fetchMacroEvents, fetchLiveNewsFeed, refreshLiveNewsFeed } from './server/providers/newsEngine.js';
 import { determineMarketRegime } from './server/engines/regimeEngine.js';
@@ -26,6 +27,7 @@ import { evaluateRisk } from './server/engines/riskEngine.js';
 import { closePosition, executePaperTrade } from './server/engines/executionEngine.js';
 import {
   getAutonomousEngineStatus,
+  isAutonomousCycleRunning,
   run30MinAutonomousCycle,
   startAutonomousAgent,
   stopAutonomousAgent,
@@ -162,6 +164,16 @@ app.get('/api/bitget-mcp/contracts', async (req, res) => {
 app.get('/api/bitget-mcp/resolve/:symbol', (req, res) => {
   const resolution = resolveBitgetInstrument(req.params.symbol);
   res.json(resolution);
+});
+
+// 1g. Bitget Authoritative Fee Schedule (MCP / Account / Product Spec)
+app.get('/api/bitget-mcp/fee-rate/:asset', async (req, res) => {
+  try {
+    const feeSchedule = await getBitgetFeeSchedule(req.params.asset);
+    res.json(feeSchedule);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message, feeStatus: 'FEE DATA UNAVAILABLE' });
+  }
 });
 
 // 2. Full State Snapshot
@@ -541,6 +553,13 @@ app.post('/api/scanner/scan-now', async (req, res) => {
 
 // 15. Autonomous Agent Trigger
 app.post('/api/agent/trigger-cycle', async (req, res) => {
+  if (isAutonomousCycleRunning()) {
+    res.status(409).json({
+      success: false,
+      reason: 'Autonomous cycle is already running.',
+    });
+    return;
+  }
   try {
     await run30MinAutonomousCycle();
     const state = getState();
@@ -583,6 +602,13 @@ app.get('/api/agent/status', async (req, res) => {
 
 // 16c. Trigger Manual 30-Minute Cycle On Demand
 app.post('/api/agent/scan-now', async (req, res) => {
+  if (isAutonomousCycleRunning()) {
+    res.status(409).json({
+      success: false,
+      reason: 'Autonomous cycle is already running.',
+    });
+    return;
+  }
   try {
     await run30MinAutonomousCycle();
     const status = await getAutonomousEngineStatus();

@@ -6,6 +6,7 @@ import {
 } from '../../src/types.js';
 import { getState, saveState } from '../store.js';
 import { INSTRUMENTS, calculateIndicators, detectSmartMoneyConcepts } from '../providers/marketData.js';
+import { calculateExecutionFee } from '../providers/bitgetMcp.js';
 
 interface RawTradeSimulation {
   asset: InstrumentId;
@@ -259,10 +260,24 @@ export async function executeHistoricalValidationRun(): Promise<HistoricalValida
         const priceDiff = pos.direction === 'LONG' ? (exitPrice - pos.entryPrice) : (pos.entryPrice - exitPrice);
         const grossPnl = pos.quantity * priceDiff;
 
-        // Fees: 0.04% maker/taker + 0.01% slippage
+        // Authoritative Bitget fee calculation for OPEN and CLOSE events
+        const entryFeeRes = await calculateExecutionFee({
+          event: 'OPEN',
+          asset: pos.asset,
+          executionPrice: pos.entryPrice,
+          executionQty: pos.quantity,
+          tradeScope: 'taker',
+        });
+        const exitFeeRes = await calculateExecutionFee({
+          event: 'CLOSE',
+          asset: pos.asset,
+          executionPrice: exitPrice,
+          executionQty: pos.quantity,
+          tradeScope: 'taker',
+        });
         const entryNotional = pos.quantity * pos.entryPrice;
-        const exitNotional = pos.quantity * exitPrice;
-        const feesPaid = (entryNotional + exitNotional) * 0.0004 + (entryNotional * 0.0001);
+        const slippageCost = entryNotional * 0.0001; // 1 bps slippage
+        const feesPaid = entryFeeRes.feeAmount + exitFeeRes.feeAmount + slippageCost;
         const netPnl = parseFloat((grossPnl - feesPaid).toFixed(2));
         const returnPercent = parseFloat(((netPnl / (entryNotional / pos.leverage)) * 100).toFixed(2));
 

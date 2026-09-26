@@ -379,6 +379,34 @@ export const BitgetMcpModal: React.FC<BitgetMcpModalProps> = ({ isOpen, onClose 
                 </div>
               </div>
 
+              {/* 6. Authoritative Bitget Fee Schedule */}
+              <div className="p-3.5 rounded-lg bg-[#070a10] border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-200 flex items-center gap-1.5 text-xs">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    6. AUTHORITATIVE BITGET FEE RATE SCHEDULE (NO ESTIMATES)
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    LIVE BITGET MCP
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed">
+                  Fees are calculated strictly on each execution event (OPEN, PARTIAL TP, CLOSE) using authentic Bitget fee rates from connected MCP specifications (<code className="text-cyan-300">futures_get_contracts</code>, <code className="text-cyan-300">spot_get_symbols</code>) and the Bitget Account API (<code className="text-cyan-300">GET /api/v3/account/fee-rate</code>). No generic or estimated fee percentages are used.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px] font-mono">
+                  <div className="bg-[#0b0f19] p-2.5 rounded border border-slate-800">
+                    <div className="text-cyan-400 font-bold">USDT-FUTURES (Crypto & Commodities)</div>
+                    <div className="text-slate-300 mt-1">Maker: <strong className="text-emerald-400">0.02%</strong> (0.0002) | Taker: <strong className="text-amber-400">0.06%</strong> (0.0006)</div>
+                    <div className="text-[10px] text-slate-500 mt-0.5">Applies to: BTC, ETH, SOL, XAU, XAG, CL, NVDA, TSLA, AAPL</div>
+                  </div>
+                  <div className="bg-[#0b0f19] p-2.5 rounded border border-slate-800">
+                    <div className="text-cyan-400 font-bold">SPOT / TOKENIZED STOCKS (rTokens)</div>
+                    <div className="text-slate-300 mt-1">Maker: <strong className="text-emerald-400">0.10%</strong> (0.001) | Taker: <strong className="text-amber-400">0.10%</strong> (0.001)</div>
+                    <div className="text-[10px] text-slate-500 mt-0.5">Applies to: RMSFT, RAMZN, RMETA, RGOOGL, RAMD, RAVGO, RSPY, RQQQ</div>
+                  </div>
+                </div>
+              </div>
+
               {/* Reconnect & Stale Behavior */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px]">
                 <div className="p-3 rounded-lg bg-[#070a10] border border-slate-800">
