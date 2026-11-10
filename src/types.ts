@@ -875,6 +875,9 @@ export interface FullMarketScannerState {
   dailyLimitRule: string;
   antiOvertradingActive: boolean;
   rankedOpportunities: MarketOpportunity[];
+  todayTradesCount: number;
+  maxDailyTrades: number;
+  dailyTradesRemaining: number;
 }
 
 export interface AutonomousEngineStatus {
@@ -892,6 +895,9 @@ export interface AutonomousEngineStatus {
   realizedPnl: number;
   unrealizedPnl: number;
   totalTradesExecuted: number;
+  todayTradesCount: number;
+  maxDailyTrades: number;
+  dailyTradesRemaining: number;
   mcpStatus: string;
   isStaleOrDisconnected: boolean;
   priorityOrder: string[];

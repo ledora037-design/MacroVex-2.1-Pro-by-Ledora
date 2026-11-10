@@ -150,6 +150,20 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
             })}
           </div>
 
+          {/* Persistent Backend Scheduling & Hosting Transparency */}
+          <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 text-[11px] space-y-1.5">
+            <div className="font-bold text-emerald-400 flex items-center gap-1.5">
+              <Server className="w-3.5 h-3.5 text-emerald-400" />
+              PERSISTENT BACKEND SCHEDULING &amp; AUTOMATIC RESTART RECOVERY
+            </div>
+            <p className="text-slate-300 leading-relaxed">
+              The autonomous paper trading engine runs on persistent Node.js timers (<span className="text-cyan-300">10s position monitor</span> and <span className="text-cyan-300">30m market scan</span>) and continues executing even when your browser tab is closed or you go offline.
+            </p>
+            <p className="text-slate-400 text-[10px] leading-relaxed border-t border-slate-800/80 pt-1">
+              <strong className="text-amber-400">Hosting Requirement Disclosure:</strong> Automatic recovery restores all open positions and resumes scheduling immediately on server reboot. Continuous 24/7 autonomous execution requires the backend server process to remain deployed on an always-on host or cloud container.
+            </p>
+          </div>
+
           {/* Environment Secrets Notice */}
           <div className="p-3 rounded-xl bg-cyan-950/20 border border-cyan-500/30 text-slate-300 text-[11px] space-y-1">
             <div className="font-bold text-cyan-300 flex items-center gap-1.5">

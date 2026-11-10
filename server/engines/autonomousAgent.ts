@@ -153,6 +153,24 @@ async function recoverAndResumeEngine(): Promise<void> {
 }
 
 /**
+ * Synchronizes daily trade count strictly to the current UTC calendar day.
+ * Resets counter automatically when UTC midnight passes.
+ */
+function checkAndResetDailyTradesIfNewDay(): void {
+  const s = getState();
+  const now = new Date();
+  const startOfTodayUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const tradesToday =
+    s.openPositions.filter((p) => (p.openedAt || p.openingTimestamp || 0) >= startOfTodayUTC).length +
+    s.closedTrades.filter((t) => (t.openedAt || t.openingTimestamp || 0) >= startOfTodayUTC).length;
+  if (s.portfolio.todayTradesCount !== tradesToday) {
+    s.portfolio.todayTradesCount = tradesToday;
+    s.portfolio.maxDailyTrades = 10;
+    saveState(s);
+  }
+}
+
+/**
  * Starts the high-frequency position monitoring loop (every 10 seconds).
  * Guarantees real-time TP/SL hits and dynamic profit protection independent of the 30-min scan.
  */
@@ -162,6 +180,7 @@ function startPositionMonitoringLoop(): void {
   positionMonitorInterval = setInterval(async () => {
     if (!isRunning) return;
     try {
+      checkAndResetDailyTradesIfNewDay();
       await monitorOpenPositions();
     } catch (err) {
       console.error('[AUTONOMOUS AGENT] Error in position monitoring loop:', err);
@@ -277,6 +296,8 @@ export async function run30MinAutonomousCycle(): Promise<void> {
     return;
   }
 
+  checkAndResetDailyTradesIfNewDay();
+
   // ---------------------------------------------------------------------------
   // STEP 2: CONCURRENCY CEILING CHECK (Requirement 5)
   // Maximum simultaneous open paper positions = 5.
@@ -297,8 +318,27 @@ export async function run30MinAutonomousCycle(): Promise<void> {
   }
 
   // ---------------------------------------------------------------------------
+  // STEP 2B: STRICT DAILY TRADE CEILING CHECK (Requirement: Max 10 trades per day)
+  // ---------------------------------------------------------------------------
+  const todayTradesCount = state.portfolio.todayTradesCount || 0;
+  const maxDailyTrades = state.settings.maxDailyTrades || 10;
+  const dailyTradesRemaining = Math.max(0, maxDailyTrades - todayTradesCount);
+
+  if (dailyTradesRemaining <= 0) {
+    state.agentState.state = 'MONITORING';
+    state.agentState.conviction = 85;
+    saveState(state);
+    logActivity({
+      type: 'SCAN',
+      title: `DAILY TRADE LIMIT REACHED (${todayTradesCount}/${maxDailyTrades} TRADES TODAY)`,
+      detail: 'Strict maximum 10 trades per day quota reached for this UTC calendar day. New trade entries halted until next UTC day to protect capital. Deep position monitoring and TP/SL management remain active.',
+    });
+    return;
+  }
+
+  // ---------------------------------------------------------------------------
   // STEP 3: FULL MARKET SCAN & PRIORITY OPPORTUNITY RANKING (Requirements 2 & 4)
-  // Priority: Stocks / Stock Tokens first -> Crypto second -> Gold / Silver / Oil afterward
+  // Priority: Stocks first -> Crypto second -> Gold (XAU) & Crude Oil (CL USDT) third -> Other commodities
   // ---------------------------------------------------------------------------
   state.agentState.state = 'SCANNING';
   saveState(state);
@@ -336,7 +376,7 @@ export async function run30MinAutonomousCycle(): Promise<void> {
     logActivity({
       type: 'SCAN',
       title: `30-MIN SCAN COMPLETE: ${scannerState.assetsScannedCount} ASSETS SCANNED`,
-      detail: `Available slots: ${availableSlots}/5. Zero forced trades: No candidate currently satisfies strict entry criteria (Score >= 70, R:R >= 1.5). WAITING for high-conviction structure.`,
+      detail: `Available slots: ${availableSlots}/5 | Daily trades remaining: ${dailyTradesRemaining}/${maxDailyTrades}. Zero forced trades: No candidate currently satisfies strict entry criteria (Score >= 70, R:R >= 1.5). WAITING for high-conviction structure.`,
       asset: 'BTC',
     });
     return;
@@ -348,11 +388,17 @@ export async function run30MinAutonomousCycle(): Promise<void> {
   state.agentState.state = 'CROSS-CHECKING';
   saveState(state);
 
-  const candidatesToEvaluate = actionableCandidates.slice(0, availableSlots);
+  // Allocate according to available slots and remaining daily trades quota
+  const allowedNewTrades = Math.min(availableSlots, dailyTradesRemaining);
+  const candidatesToEvaluate = actionableCandidates.slice(0, allowedNewTrades);
 
   for (const candidate of candidatesToEvaluate) {
-    // Check concurrency again before each trade execution
+    // Check concurrency and daily limits again before each trade execution
     if (state.openPositions.length >= 5) break;
+    if (state.portfolio.todayTradesCount >= maxDailyTrades) {
+      console.log(`[AUTONOMOUS AGENT] Daily trade quota reached (${state.portfolio.todayTradesCount}/${maxDailyTrades}). Halting new trades for today.`);
+      break;
+    }
 
     state.agentState.currentAsset = candidate.asset;
     state.agentState.state = 'RISK CHECK';
@@ -455,11 +501,20 @@ async function triggerDynamicRecyclingScan(): Promise<void> {
 
   isCycleRunning = true;
   try {
+    checkAndResetDailyTradesIfNewDay();
     const state = getState();
     const availableSlots = Math.max(0, 5 - state.openPositions.length);
-    if (availableSlots <= 0) return;
+    const todayTrades = state.portfolio.todayTradesCount || 0;
+    const maxDaily = state.settings.maxDailyTrades || 10;
 
-    console.log(`[AUTONOMOUS AGENT] Executing dynamic slot recycling scan (available slots: ${availableSlots}/5)...`);
+    if (availableSlots <= 0 || todayTrades >= maxDaily) {
+      if (todayTrades >= maxDaily) {
+        console.log(`[AUTONOMOUS AGENT] Dynamic slot recycling paused: daily trade quota reached (${todayTrades}/${maxDaily}).`);
+      }
+      return;
+    }
+
+    console.log(`[AUTONOMOUS AGENT] Executing dynamic slot recycling scan (available slots: ${availableSlots}/5, daily remaining: ${maxDaily - todayTrades})...`);
     const scannerState = await scanAndRankOpportunities();
 
     const nowTs = Date.now();
@@ -499,7 +554,7 @@ async function triggerDynamicRecyclingScan(): Promise<void> {
       isManual: false,
     });
 
-    if (riskResult.approved && state.openPositions.length < 5) {
+    if (riskResult.approved && state.openPositions.length < 5 && state.portfolio.todayTradesCount < maxDaily) {
       await executePaperTrade(
         {
           asset: topCandidate.asset,
@@ -539,6 +594,8 @@ export async function getAutonomousEngineStatus(): Promise<AutonomousEngineStatu
   const nextScan = state.agentState.nextScanTimestamp || lastScan + SCAN_CYCLE_INTERVAL_MS;
 
   const totalUnrealized = state.openPositions.reduce((acc, p) => acc + (p.unrealizedPnl || 0), 0);
+  const todayTrades = state.portfolio.todayTradesCount || 0;
+  const maxDaily = state.settings.maxDailyTrades || 10;
 
   return {
     isRunning,
@@ -555,12 +612,16 @@ export async function getAutonomousEngineStatus(): Promise<AutonomousEngineStatu
     realizedPnl: state.portfolio.realizedPnl,
     unrealizedPnl: parseFloat(totalUnrealized.toFixed(2)),
     totalTradesExecuted: state.closedTrades.length + state.openPositions.length,
+    todayTradesCount: todayTrades,
+    maxDailyTrades: maxDaily,
+    dailyTradesRemaining: Math.max(0, maxDaily - todayTrades),
     mcpStatus: mcp.status,
     isStaleOrDisconnected: mcp.status !== 'LIVE',
     priorityOrder: [
-      '1. Stocks / Stock Tokens (EQUITIES)',
-      '2. Crypto (CRYPTO)',
-      '3. Gold / Silver / Oil (COMMODITIES)',
+      '1. Stocks (EQUITIES: NVDA, TSLA, AAPL, MSFT, AMZN, META, GOOGL, AMD, AVGO, QQQ, SPY)',
+      '2. Crypto (CRYPTO: BTC, ETH, SOL, BNB, XRP, DOGE, AVAX, LINK, SUI, ADA, PEPE, NEAR, APT, ARB, OP, TIA, INJ, RENDER, FET, TON, SEI, DOT)',
+      '3. Gold (XAU) & Crude Oil (CL USDT)',
+      '4. Other Commodities (XAG)',
     ],
     lastAction,
     lastActionTimestamp,

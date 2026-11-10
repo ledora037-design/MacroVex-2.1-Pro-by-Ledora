@@ -123,8 +123,8 @@ export const PortfolioStats: React.FC<PortfolioStatsProps> = ({
           </span>
         </div>
         <div className="text-[10px] flex items-center justify-between text-slate-400">
-          <span>Daily Cap</span>
-          <span className="text-amber-400 font-bold">4.0% MAX</span>
+          <span>Trades Today</span>
+          <span className="text-emerald-400 font-bold">{portfolio.todayTradesCount ?? 0} / 10</span>
         </div>
       </div>
 

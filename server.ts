@@ -622,7 +622,7 @@ app.post('/api/agent/scan-now', async (req, res) => {
 app.post('/api/settings', (req, res) => {
   const state = getState();
   const allowed = [
-    'tradingMode', 'liveModeConfirmed', 'maxDailyTrades', 'maxRiskPerTradePercent',
+    'tradingMode', 'liveModeConfirmed', 'maxRiskPerTradePercent',
     'maxPortfolioExposurePercent', 'dailyLossLimitPercent', 'maxDrawdownLimitPercent',
     'minRiskReward', 'preferredRiskReward', 'autonomousCycleSeconds', 'bitgetMode'
   ];
@@ -631,6 +631,12 @@ app.post('/api/settings', (req, res) => {
     if (req.body[key] !== undefined) {
       (state.settings as any)[key] = req.body[key];
     }
+  }
+
+  if (req.body.maxDailyTrades !== undefined) {
+    const val = Math.min(10, Math.max(1, parseInt(req.body.maxDailyTrades, 10) || 10));
+    state.settings.maxDailyTrades = val;
+    state.portfolio.maxDailyTrades = val;
   }
 
   saveState(state);
@@ -659,6 +665,7 @@ app.post('/api/settings/reset-portfolio', (req, res) => {
   state.portfolio.openRiskPercent = 0;
   state.portfolio.openPositionsCount = 0;
   state.portfolio.todayTradesCount = 0;
+  state.portfolio.maxDailyTrades = 10;
   state.portfolio.equityHistory = [
     { timestamp: Date.now() - 86400000 * 2, equity: 100000, cash: 100000 },
     { timestamp: Date.now(), equity: 100000, cash: 100000 },
@@ -669,7 +676,7 @@ app.post('/api/settings/reset-portfolio', (req, res) => {
     timestamp: Date.now(),
     type: 'SCAN',
     title: 'PORTFOLIO RESET',
-    detail: 'Paper portfolio reset to $100,000 baseline cash balance.',
+    detail: 'Paper portfolio reset to $100,000 baseline cash balance with 10 trades/day quota.',
   });
   saveState(state);
   res.json({ success: true, portfolio: state.portfolio });
@@ -692,12 +699,12 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[MACROMIND 2.0] Trading desk server running on http://0.0.0.0:${PORT}`);
+    console.log(`[MACROVEX 2.1 PRO] Trading desk server running on http://0.0.0.0:${PORT}`);
     // Initialize official Bitget Agent Hub MCP server in safe read-only mode
     initBitgetMcp().catch((err) => {
       console.warn('[BITGET MCP] Startup initialization error (will retry safely):', err);
     });
-    // Start background autonomous loop
+    // Start background autonomous loop with persistent scheduling & auto-recovery
     startAutonomousAgent();
   });
 }

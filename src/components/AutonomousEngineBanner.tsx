@@ -117,10 +117,13 @@ export const AutonomousEngineBanner: React.FC<AutonomousEngineBannerProps> = ({
             </span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 text-[11px] font-mono text-slate-300 bg-[#0b0f17] px-2.5 py-1.5 border border-slate-700/80">
+          <div
+            className="hidden sm:flex items-center gap-1.5 text-[11px] font-mono text-slate-300 bg-[#0b0f17] px-2.5 py-1.5 border border-slate-700/80 cursor-help"
+            title="Trading Priority: 1. Stocks > 2. Crypto > 3. Gold (XAU) & Crude Oil (CL USDT). Persistent backend loop runs offline. Continuous 24/7 execution requires an always-on server host."
+          >
             <Server className="w-3.5 h-3.5 text-cyan-400" />
             <span className="text-slate-400">Priority:</span>
-            <span className="text-cyan-300 font-bold">Stocks &gt; Crypto &gt; Commodities</span>
+            <span className="text-cyan-300 font-bold">Stocks &gt; Crypto &gt; XAU / CL</span>
           </div>
 
           {isStale && (
@@ -156,6 +159,15 @@ export const AutonomousEngineBanner: React.FC<AutonomousEngineBannerProps> = ({
             <div className="flex items-center gap-1">
               <span className="text-white font-extrabold text-xs">{status?.openPositionsCount ?? 0}</span>
               <span className="text-slate-400 text-[10px] font-bold">/ 5 MAX</span>
+            </div>
+          </div>
+
+          {/* 3b. Daily Trades Quota (Max 10/day) */}
+          <div className="px-2.5 py-1 bg-[#0b0f17] border border-slate-800 flex flex-col justify-center min-w-[80px]" title="Maximum 10 executed trades per UTC day">
+            <span className="text-[9px] font-bold text-emerald-400 tracking-wider">DAILY TRADES</span>
+            <div className="flex items-center gap-1">
+              <span className="text-emerald-300 font-extrabold text-xs">{status?.todayTradesCount ?? 0}</span>
+              <span className="text-slate-400 text-[10px] font-bold">/ 10 MAX</span>
             </div>
           </div>
 

@@ -167,10 +167,11 @@ export async function evaluateRisk(proposed: ProposedTrade): Promise<RiskCheckRe
   checks['19_stop_distance_validation'] = true;
   checks['16_volatility_spread_safety'] = true;
 
-  // 13. Dynamic Position Recycling & Anti-Overtrading Gate
-  if (openPositions.length >= 5) {
+  // 13. Daily Trade Limit Gate (Strict Max 10 trades per UTC day) & Anti-Revenge Protection
+  const maxDailyTrades = settings.maxDailyTrades || 10;
+  if (portfolio.todayTradesCount >= maxDailyTrades) {
     return createRejectedResult(
-      `Maximum concurrent open positions reached (${openPositions.length}/5). No new scalp authorized until an existing trade closes.`
+      `Daily trade quota reached (${portfolio.todayTradesCount}/${maxDailyTrades} trades today). Strict maximum 10 trades per day limit enforced.`
     );
   }
 
@@ -189,9 +190,9 @@ export async function evaluateRisk(proposed: ProposedTrade): Promise<RiskCheckRe
 
   checks['13_daily_trade_limit'] = true;
 
-  // 12. Max open positions
+  // 12. Max open positions (Hard ceiling: 5)
   if (openPositions.length >= 5) {
-    return createRejectedResult(`Maximum concurrent positions reached (${openPositions.length}/5)`);
+    return createRejectedResult(`Maximum concurrent open positions reached (${openPositions.length}/5). No new scalp authorized until an existing trade closes.`);
   }
   checks['12_max_open_positions'] = true;
 

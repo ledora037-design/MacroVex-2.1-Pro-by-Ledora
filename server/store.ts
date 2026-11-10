@@ -44,7 +44,7 @@ export interface AppState {
 const DEFAULT_SETTINGS: AppSettings = {
   tradingMode: 'PAPER',
   liveModeConfirmed: false,
-  maxDailyTrades: 5,
+  maxDailyTrades: 10,
   maxRiskPerTradePercent: 2.0,
   maxMarginPerTradePercent: 2.0,
   maxTotalMarginPercent: 10.0,
@@ -81,7 +81,7 @@ const DEFAULT_PORTFOLIO: PortfolioState = {
   openRiskPercent: 0,
   openPositionsCount: 0,
   todayTradesCount: 0,
-  maxDailyTrades: 5,
+  maxDailyTrades: 10,
   equityHistory: [
     { timestamp: Date.now() - 86400000 * 3, equity: 100000, cash: 100000 },
     { timestamp: Date.now() - 86400000 * 2, equity: 100000, cash: 100000 },
@@ -356,6 +356,19 @@ export function reconcileAppState(raw: any): AppState {
       ? parseFloat(((mergedPortfolio.openRiskAmount / mergedPortfolio.equity) * 100).toFixed(2))
       : 0;
 
+  // Authoritative Daily Trade Count Reconciliation (UTC calendar day)
+  const now = new Date();
+  const startOfTodayUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const positionsOpenedToday = finalActivePositions.filter(
+    (p) => (p.openedAt || p.openingTimestamp || 0) >= startOfTodayUTC
+  ).length;
+  const closedOpenedToday = deduplicatedTrades.filter(
+    (t) => (t.openedAt || t.openingTimestamp || 0) >= startOfTodayUTC
+  ).length;
+  const computedTodayTrades = positionsOpenedToday + closedOpenedToday;
+  mergedPortfolio.todayTradesCount = Math.min(10, computedTodayTrades);
+  mergedPortfolio.maxDailyTrades = 10;
+
   return {
     portfolio: mergedPortfolio,
     openPositions: finalActivePositions,
@@ -365,7 +378,7 @@ export function reconcileAppState(raw: any): AppState {
     activities: deduplicatedActivities,
     backtestRecords: raw?.backtestRecords || DEFAULT_BACKTEST,
     historicalValidation: raw?.historicalValidation || null,
-    settings: { ...DEFAULT_SETTINGS, ...(raw?.settings || {}) },
+    settings: { ...DEFAULT_SETTINGS, ...(raw?.settings || {}), maxDailyTrades: 10 },
     dataHealth: raw?.dataHealth || {},
     agentState: raw?.agentState || {
       state: 'SCANNING',

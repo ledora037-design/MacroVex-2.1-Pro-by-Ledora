@@ -172,15 +172,26 @@ export const OpportunityScannerDeck: React.FC<OpportunityScannerDeckProps> = ({
           </div>
           <div className="p-2 rounded bg-black/40 border border-slate-800 flex items-center justify-between">
             <span className="text-slate-400">DAILY TRADE CAP:</span>
-            <span className="text-emerald-400 font-bold">UNLIMITED (0 CAP)</span>
+            <span className="text-emerald-400 font-bold">MAX 10 / DAY (UTC)</span>
           </div>
           <div className="p-2 rounded bg-black/40 border border-slate-800 flex items-center justify-between">
-            <span className="text-slate-400">POSITION RECYCLING:</span>
-            <span className="text-cyan-300 font-bold">ACTIVE (INSTANT)</span>
+            <span className="text-slate-400">HIERARCHY PRIORITY:</span>
+            <span className="text-cyan-300 font-bold">STOCKS &gt; CRYPTO &gt; XAU/CL</span>
           </div>
           <div className="p-2 rounded bg-black/40 border border-slate-800 flex items-center justify-between">
-            <span className="text-slate-400">ANTI-OVERTRADING:</span>
-            <span className="text-amber-400 font-bold">ANTI-REVENGE ON</span>
+            <span className="text-slate-400">BACKEND SCHEDULER:</span>
+            <span className="text-emerald-400 font-bold">PERSISTENT (OFFLINE OK)</span>
+          </div>
+        </div>
+
+        {/* Server Runtime & Hosting Disclosure */}
+        <div className="mt-2.5 px-3 py-1.5 rounded bg-slate-900/60 border border-slate-800/80 text-[11px] font-mono text-slate-400 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+          <div>
+            <span className="text-cyan-400 font-bold">Trading Priority Order:</span>{' '}
+            <span>1. Stocks (Equities) &rarr; 2. Crypto &rarr; 3. Gold (XAU) &amp; Crude Oil (CL USDT) &rarr; 4. Commodities</span>
+          </div>
+          <div className="text-slate-500 text-[10px]">
+            Continues running when browser closes. 24/7 continuous trading requires an always-on server host.
           </div>
         </div>
       </div>
@@ -212,7 +223,7 @@ export const OpportunityScannerDeck: React.FC<OpportunityScannerDeckProps> = ({
           <div className="text-xl font-bold font-mono text-white mt-1">
             {scannerData?.assetsScannedCount || 36}
           </div>
-          <div className="text-[10px] text-slate-500 font-mono mt-0.5">22 Crypto + 14 Macro</div>
+          <div className="text-[10px] text-slate-500 font-mono mt-0.5">Stocks, Crypto, Gold, Oil</div>
         </div>
 
         <div className="p-3 rounded-lg bg-[#0e1422] border border-slate-800">
@@ -224,21 +235,23 @@ export const OpportunityScannerDeck: React.FC<OpportunityScannerDeckProps> = ({
         </div>
 
         <div className="p-3 rounded-lg bg-[#0e1422] border border-slate-800">
-          <div className="text-[10px] font-mono text-slate-400">AVAILABLE SLOTS</div>
+          <div className="text-[10px] font-mono text-slate-400">DAILY TRADES QUOTA</div>
+          <div className="text-xl font-bold font-mono text-emerald-400 mt-1">
+            {scannerData?.todayTradesCount ?? 0} <span className="text-xs text-slate-400 font-normal">/ 10 MAX</span>
+          </div>
+          <div className="text-[10px] text-slate-500 font-mono mt-0.5">
+            {scannerData?.dailyTradesRemaining ?? (10 - (scannerData?.todayTradesCount ?? 0))} remaining today
+          </div>
+        </div>
+
+        <div className="p-3 rounded-lg bg-[#0e1422] border border-slate-800">
+          <div className="text-[10px] font-mono text-slate-400">AVAILABLE POSITION SLOTS</div>
           <div className={`text-xl font-bold font-mono mt-1 ${availableSlots > 0 ? 'text-emerald-400' : 'text-amber-400'}`}>
             {availableSlots} <span className="text-xs text-slate-400 font-normal">SLOTS FREE</span>
           </div>
           <div className="text-[10px] text-slate-500 font-mono mt-0.5">
             {availableSlots > 0 ? 'Ready to allocate' : 'Wait for exit to recycle'}
           </div>
-        </div>
-
-        <div className="p-3 rounded-lg bg-[#0e1422] border border-slate-800">
-          <div className="text-[10px] font-mono text-slate-400">VALID OPPORTUNITIES</div>
-          <div className="text-xl font-bold font-mono text-cyan-300 mt-1">
-            {scannerData?.validSignalsCount || 0}
-          </div>
-          <div className="text-[10px] text-slate-500 font-mono mt-0.5">Passed Quality Filter</div>
         </div>
 
         <div className="p-3 rounded-lg bg-[#0e1422] border border-slate-800">

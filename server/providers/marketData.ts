@@ -62,9 +62,9 @@ export const INSTRUMENTS: Record<InstrumentId, InstrumentConfig> = {
   QQQ: { symbol: 'QQQ', name: 'Invesco QQQ Trust', category: 'EQUITIES', yahooSymbol: 'QQQ', contractSize: 1, maxLeverage: 5, baseMargin: 0.2 },
   SPY: { symbol: 'SPY', name: 'SPDR S&P 500 ETF', category: 'EQUITIES', yahooSymbol: 'SPY', contractSize: 1, maxLeverage: 5, baseMargin: 0.2 },
 
-  XAU: { symbol: 'XAU', name: 'Gold Spot / Futures', category: 'COMMODITIES', yahooSymbol: 'GC=F', contractSize: 1, maxLeverage: 10, baseMargin: 0.1 },
-  XAG: { symbol: 'XAG', name: 'Silver Spot / Futures', category: 'COMMODITIES', yahooSymbol: 'SI=F', contractSize: 10, maxLeverage: 8, baseMargin: 0.12 },
-  CL: { symbol: 'CL', name: 'Crude Oil WTI', category: 'COMMODITIES', yahooSymbol: 'CL=F', contractSize: 10, maxLeverage: 8, baseMargin: 0.12 },
+  XAU: { symbol: 'XAU', name: 'Gold Spot / Futures', category: 'COMMODITIES', bitgetSymbol: 'XAUUSDT', yahooSymbol: 'GC=F', contractSize: 1, maxLeverage: 10, baseMargin: 0.1 },
+  XAG: { symbol: 'XAG', name: 'Silver Spot / Futures', category: 'COMMODITIES', bitgetSymbol: 'XAGUSDT', yahooSymbol: 'SI=F', contractSize: 10, maxLeverage: 8, baseMargin: 0.12 },
+  CL: { symbol: 'CL', name: 'Crude Oil WTI', category: 'COMMODITIES', bitgetSymbol: 'CLUSDT', yahooSymbol: 'CL=F', contractSize: 10, maxLeverage: 8, baseMargin: 0.12 },
 };
 
 // Candle cache: symbol -> timeframe -> { candles: Candle[], timestamp: number }

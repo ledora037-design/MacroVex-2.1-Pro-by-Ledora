@@ -153,8 +153,23 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 <label className="text-[11px] text-slate-400">MAX CONCURRENT OPEN POSITIONS (HARD CAP)</label>
                 <div className="w-full mt-1 p-2 rounded bg-slate-900 border border-slate-800 text-cyan-400 font-mono font-bold flex items-center justify-between text-xs">
                   <span>5 POSITIONS</span>
-                  <span className="text-[10px] text-emerald-400 font-normal">UNLIMITED DAILY TRADES</span>
+                  <span className="text-[10px] text-emerald-400 font-normal">MAX 10 TRADES/DAY (UTC)</span>
                 </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] text-slate-400">MAX DAILY TRADES ({form.maxDailyTrades || 10}/10 MAX)</label>
+                <input
+                  type="number"
+                  min="1"
+                  max="10"
+                  value={form.maxDailyTrades || 10}
+                  onChange={(e) => {
+                    const val = Math.min(10, Math.max(1, parseInt(e.target.value, 10) || 10));
+                    setForm({ ...form, maxDailyTrades: val });
+                  }}
+                  className="w-full mt-1 p-2 rounded bg-slate-900 border border-slate-800 text-emerald-400 font-bold focus:border-cyan-500 focus:outline-none"
+                />
               </div>
 
               <div>

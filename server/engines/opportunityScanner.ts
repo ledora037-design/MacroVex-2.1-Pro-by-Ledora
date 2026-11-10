@@ -17,9 +17,12 @@ let latestScannerState: FullMarketScannerState = {
   activePositionsCount: 0,
   maxOpenPositions: 5,
   availableSlots: 5,
-  dailyLimitRule: 'UNLIMITED_TRADES_MAX_5_CONCURRENT',
+  dailyLimitRule: 'MAX_10_DAILY_TRADES_MAX_5_CONCURRENT',
   antiOvertradingActive: true,
   rankedOpportunities: [],
+  todayTradesCount: 0,
+  maxDailyTrades: 10,
+  dailyTradesRemaining: 10,
 };
 
 // Scan throttle cache (to keep scanner responsive without hammering Bitget)
@@ -29,8 +32,13 @@ const SCAN_CACHE_TTL_MS = 6000; // 6 seconds
 export function getLatestScannerState(): FullMarketScannerState {
   const state = getState();
   const activeCount = state.openPositions.length;
+  const todayTrades = state.portfolio.todayTradesCount || 0;
+  const maxDaily = state.settings.maxDailyTrades || 10;
   latestScannerState.activePositionsCount = activeCount;
   latestScannerState.availableSlots = Math.max(0, 5 - activeCount);
+  latestScannerState.todayTradesCount = todayTrades;
+  latestScannerState.maxDailyTrades = maxDaily;
+  latestScannerState.dailyTradesRemaining = Math.max(0, maxDaily - todayTrades);
   return latestScannerState;
 }
 
@@ -192,7 +200,16 @@ export async function scanAndRankOpportunities(): Promise<FullMarketScannerState
         let riskGateStatus: MarketOpportunity['riskGateStatus'] = 'APPROVED';
         let rejectionReason: string | undefined;
 
-        if (activePos) {
+        // Daily trade quota check (Strict max 10 trades per UTC day)
+        const todayTrades = state.portfolio.todayTradesCount || 0;
+        const maxDaily = state.settings.maxDailyTrades || 10;
+        const dailyLimitReached = todayTrades >= maxDaily;
+
+        if (dailyLimitReached) {
+          riskGateStatus = 'REJECTED';
+          rejectionReason = `Daily trade limit reached (${todayTrades}/${maxDaily} trades executed today). Strict maximum 10 trades per day rule active.`;
+          action = 'WAIT';
+        } else if (activePos) {
           riskGateStatus = 'MAX_POSITIONS_REACHED';
           rejectionReason = `Already active in ${activePos.direction} ${symbol}`;
           action = 'WAIT';
@@ -256,33 +273,36 @@ export async function scanAndRankOpportunities(): Promise<FullMarketScannerState
       }
     }
 
-    // Helper: Category Priority (Requirement 4: Stocks / stock tokens first, Crypto second, Gold / Silver / Oil afterward)
-    const getCategoryPriority = (category: string): number => {
-      if (category === 'EQUITIES') return 1; // Stocks / stock tokens FIRST
-      if (category === 'CRYPTO') return 2;   // Crypto SECOND
-      if (category === 'COMMODITIES') return 3; // Gold / Silver / Oil AFTERWARD
-      return 4;
+    // Hierarchical Trading Logic: Stocks first -> Crypto second -> Gold (XAU) & Crude Oil (CL USDT) third -> Other commodities
+    const getAssetPriority = (asset: InstrumentId, category: string): number => {
+      if (category === 'EQUITIES') return 1; // 1. Stocks / stock tokens first
+      if (category === 'CRYPTO') return 2;   // 2. Crypto second
+      if (asset === 'XAU' || asset === 'CL') return 3; // 3. Gold (XAU) & Crude Oil (CL USDT) third
+      if (category === 'COMMODITIES') return 4; // 4. Other commodities (XAG)
+      return 5;
     };
 
     // Sort opportunities:
     // 1. Actionable setups first (action !== 'WAIT')
-    // 2. Strict category priority (Stocks -> Crypto -> Commodities)
-    // 3. Rank score descending (Highest conviction within class)
+    // 2. Strict hierarchical priority (Stocks -> Crypto -> Gold & Crude Oil -> Others)
+    // 3. Rank score descending (Highest conviction within tier)
     opportunities.sort((a, b) => {
       const aActionable = a.action !== 'WAIT';
       const bActionable = b.action !== 'WAIT';
       if (aActionable && !bActionable) return -1;
       if (!aActionable && bActionable) return 1;
 
-      // Both actionable or both waiting: apply strict category priority
-      const catDiff = getCategoryPriority(a.category) - getCategoryPriority(b.category);
-      if (catDiff !== 0) return catDiff;
+      // Both actionable or both waiting: apply strict hierarchical priority
+      const prioDiff = getAssetPriority(a.asset, a.category) - getAssetPriority(b.asset, b.category);
+      if (prioDiff !== 0) return prioDiff;
 
       return b.rankScore - a.rankScore;
     });
 
     const validSignals = opportunities.filter((o) => o.action !== 'WAIT');
     const riskApproved = opportunities.filter((o) => o.riskGateStatus === 'APPROVED');
+    const currentTodayTrades = state.portfolio.todayTradesCount || 0;
+    const currentMaxDaily = state.settings.maxDailyTrades || 10;
 
     latestScannerState = {
       isScanning: false,
@@ -293,9 +313,12 @@ export async function scanAndRankOpportunities(): Promise<FullMarketScannerState
       activePositionsCount: activeCount,
       maxOpenPositions: 5,
       availableSlots,
-      dailyLimitRule: 'UNLIMITED_TRADES_MAX_5_CONCURRENT',
+      dailyLimitRule: 'MAX_10_DAILY_TRADES_MAX_5_CONCURRENT',
       antiOvertradingActive: true,
       rankedOpportunities: opportunities,
+      todayTradesCount: currentTodayTrades,
+      maxDailyTrades: currentMaxDaily,
+      dailyTradesRemaining: Math.max(0, currentMaxDaily - currentTodayTrades),
     };
 
     lastFullScanTime = now;
